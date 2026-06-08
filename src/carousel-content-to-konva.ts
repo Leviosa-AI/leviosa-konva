@@ -47,6 +47,11 @@ export function rectContentToKonva(content: RectContent) {
         fillLinearGradientStartPoint: content.fill_linear_gradient.start,
         fillLinearGradientEndPoint: content.fill_linear_gradient.end,
         fillLinearGradientColorStops: content.fill_linear_gradient.color_stops.flatMap((stop) => [stop.offset, stop.color]),
+        // Konva defaults fillPriority to "color", so a solid `fill` (e.g. #000000)
+        // would win over the gradient and render an opaque rect, covering the slide
+        // image (black-slide regression). Force the gradient to take priority when
+        // present; `fill` stays only as a fallback for engines that ignore it.
+        fillPriority: "linear-gradient" as const,
       }
     : {};
   return {

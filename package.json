@@ -1,6 +1,6 @@
 {
   "name": "@leviosa-ai/konva",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Shared carousel block→react-konva render core. Single source of truth for the editor (leviosa-frontend) and the headless renderer (leviosa-rendering-server) so the editor is pixel-identical to published output.",
   "type": "module",
   "license": "UNLICENSED",
@@ -29,6 +29,7 @@
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
+    "test": "vitest run",
     "prepare": "tsup"
   },
   "peerDependencies": {
@@ -45,6 +46,7 @@
     "react-dom": "19.2.3",
     "react-konva": "19.2.3",
     "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^2.1.9"
   }
 }

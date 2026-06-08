@@ -36,4 +36,4 @@ export * from "./font-coverage.js";
 // lucide icon → data-URI
 export * from "./lucide-icons.js";
 
-export const LEVIOSA_KONVA_VERSION = "0.2.1";
+export const LEVIOSA_KONVA_VERSION = "0.2.2";
