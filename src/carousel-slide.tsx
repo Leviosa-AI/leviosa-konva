@@ -51,11 +51,19 @@ export function fontSampleForValue(value: string): string {
   return rawSample || "가Aa1";
 }
 
+function isNumberingBlock(
+  blockName: string | null | undefined,
+  content: { role?: string | null; source?: string | null },
+): boolean {
+  return blockName === "content_number" || content.role === "content_number" || content.source === "slide.number";
+}
+
 export function resolvedText(
   content: { text?: string | null; role?: string | null; source?: string | null },
   input: CarouselSlideRenderInput,
+  blockName?: string | null,
 ): string {
-  if (content.role === "content_number" || content.source === "slide.number") {
+  if (isNumberingBlock(blockName, content)) {
     return resolveSlideNumberText(content.text ?? "", {
       slide_number: input.slide_number,
       slide_count: input.slide_count,
@@ -134,7 +142,7 @@ function VideoPlaceholder({ block, canvasBackground }: { block: MediaBlock; canv
 }
 
 function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSlideRenderInput }) {
-  const props = textContentToKonva(block.content, resolvedText(block.content, input));
+  const props = textContentToKonva(block.content, resolvedText(block.content, input, block.name));
   const textNode = textRequiresEmojiFont(resolveFontFamily(block.content.font_family), props.text) ? (
     <Shape
       width={block.w}
@@ -204,7 +212,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
 
 function RenderRectBlock({ block, input }: { block: RectBlock; input: CarouselSlideRenderInput }) {
   const props = rectContentToKonva(block.content);
-  const text = (block.content.role === "content_number" || block.content.source === "slide.number")
+  const text = isNumberingBlock(block.name, block.content)
     ? resolveSlideNumberText(block.content.text ?? "", {
         slide_number: input.slide_number,
         slide_count: input.slide_count,
@@ -288,7 +296,7 @@ function RenderEmojiBlock({ block, onReady }: { block: EmojiBlock; onReady: () =
 }
 
 function RenderLabelBlock({ block, input }: { block: LabelBlock; input: CarouselSlideRenderInput }) {
-  const props = labelContentToKonva(block.content, resolvedText(block.content, input));
+  const props = labelContentToKonva(block.content, resolvedText(block.content, input, block.name));
   const paddingX = props.padding?.x ?? 8;
   const w = numberValue(block.w, 0);
   const h = numberValue(block.h, 0);
