@@ -1,0 +1,40 @@
+name: publish
+
+# Publishes @leviosa-ai/konva to GitHub Packages when a version tag is pushed.
+#   git tag v0.1.0 && git push origin v0.1.0
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          registry-url: "https://npm.pkg.github.com"
+          scope: "@leviosa-ai"
+
+      - run: npm install --no-save
+
+      - run: npm run build
+
+      # Fails loudly if package.json version != the pushed tag (vX.Y.Z).
+      - name: Verify tag matches package version
+        run: |
+          PKG=$(node -p "require('./package.json').version")
+          TAG=${GITHUB_REF_NAME#v}
+          if [ "$PKG" != "$TAG" ]; then
+            echo "::error::package.json version ($PKG) != tag ($TAG)"; exit 1
+          fi
+
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

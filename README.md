@@ -67,17 +67,34 @@ npm run build      # tsup → dist/ (ESM + .d.ts)
 npm run typecheck
 ```
 
-## Consuming (git dependency)
+## Publishing
 
-No registry. Both consumers install from git, pinned to a tag/commit:
+GitHub Packages (private, org-scoped `@leviosa-ai`). Publish by pushing a version tag —
+`.github/workflows/publish.yml` builds and publishes:
+
+```bash
+# bump version in package.json first, then:
+git tag v0.1.0 && git push origin v0.1.0
+```
+
+## Consuming (GitHub Packages)
+
+Both consumers add a scope→registry mapping and a read token, then depend on a pinned
+version:
+
+```ini
+# leviosa-frontend/.npmrc and leviosa-rendering-server/.npmrc
+@leviosa-ai:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+```
 
 ```jsonc
-// leviosa-frontend/package.json and leviosa-rendering-server/package.json
+// package.json
 "dependencies": {
-  "leviosa-konva": "github:Leviosa-AI/leviosa-konva#v0.1.0"
+  "@leviosa-ai/konva": "0.1.0"
 }
 ```
 
-Private repo → consumer CI needs read access (deploy key or PAT). The `prepare` script
-builds on install; if install-time builds are undesirable, switch to committed `dist/`
-or GitHub Packages (see repo setup checklist).
+`NODE_AUTH_TOKEN` = a GitHub token with `read:packages` (a classic PAT for local dev; in
+CI, a repo secret). The package must grant those consumer repos read access (Package
+settings → Manage Actions access).
