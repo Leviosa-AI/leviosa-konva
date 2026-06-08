@@ -80,15 +80,57 @@ export function emojiContentToKonva(content: EmojiContent) {
   };
 }
 
+function parseHexColor(value: string | null | undefined): { r: number; g: number; b: number } | null {
+  if (!value) return null;
+  const trimmed = value.trim();
+  const match = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(trimmed);
+  if (!match) return null;
+  const hex = match[1];
+  const normalized = hex.length === 3
+    ? hex.split("").map((char) => `${char}${char}`).join("")
+    : hex;
+  return {
+    r: Number.parseInt(normalized.slice(0, 2), 16),
+    g: Number.parseInt(normalized.slice(2, 4), 16),
+    b: Number.parseInt(normalized.slice(4, 6), 16),
+  };
+}
+
+function relativeLuminance(color: { r: number; g: number; b: number }): number {
+  const channel = (value: number) => {
+    const scaled = value / 255;
+    return scaled <= 0.03928 ? scaled / 12.92 : ((scaled + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * channel(color.r) + 0.7152 * channel(color.g) + 0.0722 * channel(color.b);
+}
+
+function contrastRatio(a: { r: number; g: number; b: number }, b: { r: number; g: number; b: number }): number {
+  const lighter = Math.max(relativeLuminance(a), relativeLuminance(b));
+  const darker = Math.min(relativeLuminance(a), relativeLuminance(b));
+  return (lighter + 0.05) / (darker + 0.05);
+}
+
+function readableLabelFill(color: string | null | undefined, background: string | null | undefined): string {
+  const foregroundColor = color ?? "#FFFFFF";
+  const foreground = parseHexColor(foregroundColor);
+  const bg = parseHexColor(background);
+  if (!foreground || !bg || contrastRatio(foreground, bg) >= 2) return foregroundColor;
+  const white = parseHexColor("#FFFFFF")!;
+  const black = parseHexColor("#000000")!;
+  return contrastRatio(white, bg) >= contrastRatio(black, bg) ? "#FFFFFF" : "#000000";
+}
+
 export function labelContentToKonva(content: LabelContent, resolvedText: string) {
   const fontFamily = resolveFontFamily(content.font_family);
+  const fill = readableLabelFill(content.color, content.background);
+  const hasUnreadableConfiguredFill = fill !== (content.color ?? "#FFFFFF");
   return {
     text: resolvedText,
     fontSize: content.font_size ?? 18,
     fontFamily,
     fontStyle: normalizeKonvaFontStyle(content.font_weight ?? "700", fontFamily),
-    fill: content.color ?? "#FFFFFF",
-    align: content.align ?? "left",
+    fill,
+    align: hasUnreadableConfiguredFill ? "center" : content.align ?? "left",
     letterSpacing: content.letter_spacing ?? 0,
     background: content.background ?? undefined,
     stroke: content.stroke ?? undefined,
