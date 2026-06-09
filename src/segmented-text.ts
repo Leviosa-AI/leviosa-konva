@@ -6,6 +6,19 @@ export interface SegmentedTextLine {
 }
 
 type StyledChar = { char: string; fill: string; fontWeight?: string };
+type FontResolver = (char: string, fontWeight: string | undefined, originalFont: string) => string;
+
+const graphemeSegmenter = typeof Intl !== "undefined" && "Segmenter" in Intl
+  ? new Intl.Segmenter(undefined, { granularity: "grapheme" })
+  : null;
+
+export function splitGraphemes(text: string): string[] {
+  if (!text) return [];
+  if (graphemeSegmenter) {
+    return Array.from(graphemeSegmenter.segment(text), (segment) => segment.segment);
+  }
+  return Array.from(text);
+}
 
 function fontWithWeight(font: string, fontWeight?: string): string {
   if (!fontWeight) return font;
@@ -34,13 +47,18 @@ function measureSegmentChars(
   ctx: CanvasRenderingContext2D,
   chars: StyledChar[],
   letterSpacing: number,
+  resolveFont?: FontResolver,
 ): number {
   let width = 0;
   const originalFont = ctx.font;
-  for (const ch of chars) {
-    ctx.font = fontWithWeight(originalFont, ch.fontWeight);
+  for (let i = 0; i < chars.length; i += 1) {
+    const ch = chars[i];
+    ctx.font = resolveFont
+      ? resolveFont(ch.char, ch.fontWeight, originalFont)
+      : fontWithWeight(originalFont, ch.fontWeight);
     width += ctx.measureText(ch.char).width + letterSpacing;
   }
+  if (chars.length > 0) width -= letterSpacing;
   ctx.font = originalFont;
   return width;
 }
@@ -52,31 +70,35 @@ export function buildSegmentedLines(
   defaultFill: string,
   containerWidth: number,
   letterSpacing: number,
+  resolveFont?: FontResolver,
 ): SegmentedTextLine[] {
+  const displayChars = splitGraphemes(displayText);
   const segmentText = segments.map((segment) => segment.text).join("");
+  const segmentChars = splitGraphemes(segmentText);
   const charFills: string[] = [];
   const charFontWeights: Array<string | undefined> = [];
   let segmentCharIndex = 0;
 
-  for (let i = 0; i < displayText.length; i += 1) {
-    if (displayText[i] === "\n") {
+  for (const char of displayChars) {
+    if (char === "\n") {
       charFills.push(defaultFill);
       charFontWeights.push(undefined);
       segmentCharIndex += 1;
       continue;
     }
 
-    if (segmentCharIndex < segmentText.length) {
+    if (segmentCharIndex < segmentChars.length) {
       let cumulativeLength = 0;
       let fill = defaultFill;
       let fontWeight: string | undefined;
       for (const segment of segments) {
-        if (segmentCharIndex < cumulativeLength + segment.text.length) {
+        const segmentLength = splitGraphemes(segment.text).length;
+        if (segmentCharIndex < cumulativeLength + segmentLength) {
           fill = segment.color ?? defaultFill;
           fontWeight = segment.font_weight ?? undefined;
           break;
         }
-        cumulativeLength += segment.text.length;
+        cumulativeLength += segmentLength;
       }
       charFills.push(fill);
       charFontWeights.push(fontWeight);
@@ -88,12 +110,12 @@ export function buildSegmentedLines(
   }
 
   const hardLines: StyledChar[][] = [[]];
-  for (let i = 0; i < displayText.length; i += 1) {
-    if (displayText[i] === "\n") {
+  for (let i = 0; i < displayChars.length; i += 1) {
+    if (displayChars[i] === "\n") {
       hardLines.push([]);
     } else {
       hardLines[hardLines.length - 1].push({
-        char: displayText[i],
+        char: displayChars[i],
         fill: charFills[i],
         fontWeight: charFontWeights[i],
       });
@@ -105,7 +127,7 @@ export function buildSegmentedLines(
     if (!containerWidth || containerWidth <= 0) {
       result.push({
         segments: mergeAdjacentSegments(hardLine),
-        width: measureSegmentChars(ctx, hardLine, letterSpacing),
+        width: measureSegmentChars(ctx, hardLine, letterSpacing, resolveFont),
       });
       continue;
     }
@@ -132,12 +154,14 @@ export function buildSegmentedLines(
     };
 
     for (const ch of hardLine) {
-      ctx.font = fontWithWeight(originalFont, ch.fontWeight);
-      const charWidth = ctx.measureText(ch.char).width + letterSpacing;
+      ctx.font = resolveFont
+        ? resolveFont(ch.char, ch.fontWeight, originalFont)
+        : fontWithWeight(originalFont, ch.fontWeight);
+      const charWidth = ctx.measureText(ch.char).width + (wordBuffer.length > 0 ? letterSpacing : 0);
       if (ch.char === " ") {
         flushWord();
         currentLine.push(ch);
-        currentWidth += charWidth;
+        currentWidth += (currentLine.length > 1 ? letterSpacing : 0) + ctx.measureText(ch.char).width;
       } else {
         wordBuffer.push(ch);
         wordWidth += charWidth;

@@ -32,7 +32,7 @@ import {
 } from "./konva-render-helpers.js";
 import { iconToDataUri } from "./lucide-icons.js";
 import { resolveFontFamily, shouldUseEmojiFontForChar, textRequiresEmojiFont } from "./font-coverage.js";
-import { buildSegmentedLines } from "./segmented-text.js";
+import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
 
 export type AnyBlock = Omit<Block, "type" | "content"> & { type: string; content: Record<string, any> };
 
@@ -98,6 +98,26 @@ function estimateLabelBox(
   return {
     width: Math.max(1, Math.ceil(textWidth + padding * 2)),
     height: Math.max(1, Math.ceil(fontSize * lineHeight * lineCount + padding * 2)),
+  };
+}
+
+function containRect(
+  sourceWidth: number,
+  sourceHeight: number,
+  targetWidth: number,
+  targetHeight: number,
+): { x: number; y: number; width: number; height: number } {
+  if (sourceWidth <= 0 || sourceHeight <= 0 || targetWidth <= 0 || targetHeight <= 0) {
+    return { x: 0, y: 0, width: targetWidth, height: targetHeight };
+  }
+  const scale = Math.min(targetWidth / sourceWidth, targetHeight / sourceHeight);
+  const width = sourceWidth * scale;
+  const height = sourceHeight * scale;
+  return {
+    x: (targetWidth - width) / 2,
+    y: (targetHeight - height) / 2,
+    width,
+    height,
   };
 }
 
@@ -194,8 +214,12 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
       sceneFunc={(ctx) => {
         const canvas = ctx._context as CanvasRenderingContext2D;
         const sourceFontFamily = resolveFontFamily(block.content.font_family);
+        const fontForChar = (char: string, fontWeight: string | undefined = block.content.font_weight ?? "700") => {
+          const segmentFontStyle = normalizeKonvaFontStyle(fontWeight, sourceFontFamily);
+          const family = shouldUseEmojiFontForChar(sourceFontFamily, char) ? EMOJI_TEXT_FONT_FAMILY : sourceFontFamily;
+          return `${segmentFontStyle} ${props.fontSize}px ${family}`;
+        };
         const textFont = `${props.fontStyle} ${props.fontSize}px ${sourceFontFamily}`;
-        const emojiFont = `${props.fontStyle} ${props.fontSize}px ${EMOJI_TEXT_FONT_FAMILY}`;
         canvas.textBaseline = "top";
         canvas.fillStyle = props.fill;
         if (props.shadow?.color) {
@@ -214,6 +238,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             props.fill,
             block.w,
             props.letterSpacing,
+            (char, fontWeight) => fontForChar(char, fontWeight),
           );
           for (let i = 0; i < lines.length; i += 1) {
             const line = lines[i];
@@ -225,11 +250,8 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             }
             for (const segment of line.segments) {
               canvas.fillStyle = segment.fill;
-              const segmentFontStyle = normalizeKonvaFontStyle(segment.fontWeight ?? block.content.font_weight ?? "700", sourceFontFamily);
-              const segmentTextFont = `${segmentFontStyle} ${props.fontSize}px ${sourceFontFamily}`;
-              const segmentEmojiFont = `${segmentFontStyle} ${props.fontSize}px ${EMOJI_TEXT_FONT_FAMILY}`;
-              for (const ch of segment.text) {
-                canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? segmentEmojiFont : segmentTextFont;
+              for (const ch of splitGraphemes(segment.text)) {
+                canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
                 canvas.fillText(ch, x, y);
                 x += canvas.measureText(ch).width + props.letterSpacing;
               }
@@ -244,6 +266,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             props.fill,
             block.w,
             props.letterSpacing,
+            (char, fontWeight) => fontForChar(char, fontWeight),
           );
           for (let i = 0; i < lines.length; i += 1) {
             const line = lines[i];
@@ -255,11 +278,8 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             }
             for (const segment of line.segments) {
               canvas.fillStyle = segment.fill;
-              const segmentFontStyle = normalizeKonvaFontStyle(segment.fontWeight ?? block.content.font_weight ?? "700", sourceFontFamily);
-              const segmentTextFont = `${segmentFontStyle} ${props.fontSize}px ${sourceFontFamily}`;
-              const segmentEmojiFont = `${segmentFontStyle} ${props.fontSize}px ${EMOJI_TEXT_FONT_FAMILY}`;
-              for (const ch of segment.text) {
-                canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? segmentEmojiFont : segmentTextFont;
+              for (const ch of splitGraphemes(segment.text)) {
+                canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
                 canvas.fillText(ch, x, y);
                 x += canvas.measureText(ch).width + props.letterSpacing;
               }
@@ -342,6 +362,31 @@ function RenderImageBlock({ block, input, onReady }: { block: MediaBlock; input:
         if (!image) return <EmptyMediaBlock block={block} />;
         const width = numberValue(block.w, image.naturalWidth || image.width || 0);
         const height = numberValue(block.h, image.naturalHeight || image.height || 0);
+        if (props.fit === "contain") {
+          const contained = containRect(image.naturalWidth || image.width || 0, image.naturalHeight || image.height || 0, width, height);
+          return (
+            <Group
+              name={block.id}
+              x={numberValue(block.x, 0)}
+              y={numberValue(block.y, 0)}
+              width={width}
+              height={height}
+              rotation={numberValue(block.rotation, 0)}
+              opacity={props.opacity}
+            >
+              <Rect width={width} height={height} fill="rgba(0,0,0,0)" cornerRadius={props.cornerRadius} listening={false} />
+              <KImage
+                x={contained.x}
+                y={contained.y}
+                width={contained.width}
+                height={contained.height}
+                image={image}
+                cornerRadius={props.cornerRadius}
+                listening={false}
+              />
+            </Group>
+          );
+        }
         const crop = coverCrop(image, width, height, props.focalX, props.focalY);
         return (
           <KImage

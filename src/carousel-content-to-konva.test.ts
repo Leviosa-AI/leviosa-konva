@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { emojiContentToKonva, labelContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
 import type { RectContent, Slide } from "./carousel-types.js";
-import { buildSegmentedLines } from "./segmented-text.js";
+import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
 
 describe("rectContentToKonva", () => {
   it("forces linear-gradient fillPriority so a gradient overlay is not hidden by a solid fill", () => {
@@ -137,5 +137,35 @@ describe("buildSegmentedLines", () => {
         ],
       },
     ]);
+  });
+
+  it("keeps emoji grapheme clusters intact for centered line width calculations", () => {
+    const widths: Record<string, number> = {
+      "✔": 18,
+      " ": 4,
+      "빅": 20,
+      "키": 20,
+      "워": 20,
+      "드": 20,
+      "물": 20,
+      "빵": 20,
+    };
+    const ctx = {
+      font: "700 20px Noto Sans KR",
+      measureText: (value: string) => ({ width: widths[value] ?? 10 }),
+    } as unknown as CanvasRenderingContext2D;
+
+    const lines = buildSegmentedLines(
+      ctx,
+      "✔ 빅키워드 물빵",
+      [{ text: "✔ 빅키워드 물빵" }],
+      "#FFFFFF",
+      300,
+      0,
+    );
+
+    expect(splitGraphemes("✔ 빅키워드 물빵")).toEqual(["✔", " ", "빅", "키", "워", "드", " ", "물", "빵"]);
+    expect(lines[0].segments[0].text).toBe("✔ 빅키워드 물빵");
+    expect(lines[0].width).toBe(146);
   });
 });
