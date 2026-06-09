@@ -36,4 +36,7 @@ export * from "./font-coverage.js";
 // lucide icon → data-URI
 export * from "./lucide-icons.js";
 
-export const LEVIOSA_KONVA_VERSION = "0.2.2";
+// segmented text rendering
+export * from "./segmented-text.js";
+
+export const LEVIOSA_KONVA_VERSION = "0.2.3";

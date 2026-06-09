@@ -58,7 +58,7 @@ export function rectContentToKonva(content: RectContent) {
     fill: content.fill ?? undefined,
     ...fillLinearGradient,
     opacity: content.alpha ?? undefined,
-    stroke: content.stroke ?? undefined,
+    stroke: content.stroke ?? (content.stroke_width != null ? "#FFFFFF" : undefined),
     strokeWidth: content.stroke_width ?? undefined,
     cornerRadius: content.corner_radius ?? 0,
   };
@@ -75,13 +75,13 @@ export function mediaContentToKonva(content: MediaContent) {
   };
 }
 
-export function emojiContentToKonva(content: EmojiContent) {
+export function emojiContentToKonva(content: Partial<EmojiContent> = {}) {
   return {
     fontSize: content.font_size ?? 80,
     color: content.color ?? "#FFFFFF",
     opacity: content.opacity ?? undefined,
     kind: content.kind ?? "emoji",
-    value: content.value,
+    value: content.value ?? "",
   };
 }
 

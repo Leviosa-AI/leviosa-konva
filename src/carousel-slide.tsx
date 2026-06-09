@@ -32,6 +32,7 @@ import {
 } from "./konva-render-helpers.js";
 import { iconToDataUri } from "./lucide-icons.js";
 import { resolveFontFamily, shouldUseEmojiFontForChar, textRequiresEmojiFont } from "./font-coverage.js";
+import { buildSegmentedLines } from "./segmented-text.js";
 
 export type AnyBlock = Omit<Block, "type" | "content"> & { type: string; content: Record<string, any> };
 
@@ -143,7 +144,8 @@ function VideoPlaceholder({ block, canvasBackground }: { block: MediaBlock; canv
 
 function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSlideRenderInput }) {
   const props = textContentToKonva(block.content, resolvedText(block.content, input, block.name));
-  const textNode = textRequiresEmojiFont(resolveFontFamily(block.content.font_family), props.text) ? (
+  const hasSegments = !!block.content.segments?.length;
+  const textNode = hasSegments || textRequiresEmojiFont(resolveFontFamily(block.content.font_family), props.text) ? (
     <Shape
       width={block.w}
       height={block.h}
@@ -160,23 +162,55 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
           canvas.shadowOffsetX = 0;
           canvas.shadowOffsetY = props.shadow.offsetY ?? 0;
         }
-        let x = 0;
-        let y = 0;
         const lineHeightPx = props.fontSize * props.lineHeight;
-        for (const ch of props.text) {
-          if (ch === "\n") {
-            x = 0;
-            y += lineHeightPx;
-            continue;
+        if (hasSegments) {
+          canvas.font = textFont;
+          const lines = buildSegmentedLines(
+            canvas,
+            props.text,
+            block.content.segments ?? [],
+            props.fill,
+            block.w,
+            props.letterSpacing,
+          );
+          for (let i = 0; i < lines.length; i += 1) {
+            const line = lines[i];
+            const y = i * lineHeightPx;
+            let x = 0;
+            if (block.w > 0) {
+              if (props.align === "center") x = (block.w - line.width) / 2;
+              else if (props.align === "right") x = block.w - line.width;
+            }
+            for (const segment of line.segments) {
+              canvas.fillStyle = segment.fill;
+              const segmentFontStyle = normalizeKonvaFontStyle(segment.fontWeight ?? block.content.font_weight ?? "700", sourceFontFamily);
+              const segmentTextFont = `${segmentFontStyle} ${props.fontSize}px ${sourceFontFamily}`;
+              const segmentEmojiFont = `${segmentFontStyle} ${props.fontSize}px ${EMOJI_TEXT_FONT_FAMILY}`;
+              for (const ch of segment.text) {
+                canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? segmentEmojiFont : segmentTextFont;
+                canvas.fillText(ch, x, y);
+                x += canvas.measureText(ch).width + props.letterSpacing;
+              }
+            }
           }
-          canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? emojiFont : textFont;
-          const width = canvas.measureText(ch).width + props.letterSpacing;
-          if (block.w > 0 && x > 0 && x + width > block.w && ch !== " ") {
-            x = 0;
-            y += lineHeightPx;
+        } else {
+          let x = 0;
+          let y = 0;
+          for (const ch of props.text) {
+            if (ch === "\n") {
+              x = 0;
+              y += lineHeightPx;
+              continue;
+            }
+            canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? emojiFont : textFont;
+            const width = canvas.measureText(ch).width + props.letterSpacing;
+            if (block.w > 0 && x > 0 && x + width > block.w && ch !== " ") {
+              x = 0;
+              y += lineHeightPx;
+            }
+            canvas.fillText(ch, x, y);
+            x += width;
           }
-          canvas.fillText(ch, x, y);
-          x += width;
         }
       }}
       listening={false}
@@ -367,7 +401,8 @@ export function assetBlockCount(input: CarouselSlideRenderInput, blocks: AnyBloc
     if (block.type === "emoji") {
       const content = block.content as EmojiBlock["content"];
       if ((content.kind ?? "emoji") === "icon") {
-        const iconName = content.value.startsWith("lucide:") ? content.value.slice(7) : content.value;
+        const value = content.value ?? "";
+        const iconName = value.startsWith("lucide:") ? value.slice(7) : value;
         return !!iconToDataUri(iconName, content.color ?? "#FFFFFF", 2, content.font_size ?? 80);
       }
       return true;

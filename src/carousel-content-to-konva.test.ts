@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { rectContentToKonva } from "./carousel-content-to-konva.js";
+import { emojiContentToKonva, rectContentToKonva } from "./carousel-content-to-konva.js";
 import type { RectContent } from "./carousel-types.js";
+import { buildSegmentedLines } from "./segmented-text.js";
 
 describe("rectContentToKonva", () => {
   it("forces linear-gradient fillPriority so a gradient overlay is not hidden by a solid fill", () => {
@@ -38,5 +39,52 @@ describe("rectContentToKonva", () => {
     expect(props.fill).toBe("#FF0000");
     expect((props as Record<string, unknown>).fillPriority).toBeUndefined();
     expect((props as Record<string, unknown>).fillLinearGradientColorStops).toBeUndefined();
+  });
+
+  it("uses the editor white-stroke fallback when strokeWidth exists without a stroke color", () => {
+    const props = rectContentToKonva({ fill: "rgba(0,0,0,0.5)", stroke_width: 3 });
+
+    expect(props.stroke).toBe("#FFFFFF");
+    expect(props.strokeWidth).toBe(3);
+  });
+});
+
+describe("emojiContentToKonva", () => {
+  it("defaults missing runtime emoji values to an empty string", () => {
+    const props = emojiContentToKonva({ kind: "icon" });
+
+    expect(props.value).toBe("");
+    expect(props.kind).toBe("icon");
+  });
+});
+
+describe("buildSegmentedLines", () => {
+  it("maps carousel content segments to per-segment fills and font weights", () => {
+    const ctx = {
+      font: "700 24px Pretendard",
+      measureText: (value: string) => ({ width: value === " " ? 4 : 10 }),
+    } as unknown as CanvasRenderingContext2D;
+
+    const lines = buildSegmentedLines(
+      ctx,
+      "Hello AI",
+      [
+        { text: "Hello " },
+        { text: "AI", color: "#FF0000", font_weight: "900" },
+      ],
+      "#FFFFFF",
+      200,
+      0,
+    );
+
+    expect(lines).toEqual([
+      {
+        width: 74,
+        segments: [
+          { text: "Hello ", fill: "#FFFFFF", fontWeight: undefined },
+          { text: "AI", fill: "#FF0000", fontWeight: "900" },
+        ],
+      },
+    ]);
   });
 });
