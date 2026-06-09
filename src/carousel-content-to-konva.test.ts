@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emojiContentToKonva, labelContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
+import { resolveSlideNumberText } from "./carousel-template-vars.js";
 import type { RectContent, Slide } from "./carousel-types.js";
 import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
 
@@ -73,6 +74,14 @@ describe("labelContentToKonva", () => {
 });
 
 describe("carousel slide render input", () => {
+  it("keeps generated body-relative content_number text instead of replacing it with absolute slide_number", () => {
+    expect(resolveSlideNumberText("1", { slide_number: 2, slide_count: 6 })).toBe("1");
+  });
+
+  it("falls back to runtime slide_number only when no content_number text is stored", () => {
+    expect(resolveSlideNumberText("", { slide_number: 2, slide_count: 6 })).toBe("2");
+  });
+
   it("accepts and ignores optional slide_type_key while rendering blocks", () => {
     const slide: Slide = {
       id: "slide-1",

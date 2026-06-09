@@ -31,13 +31,9 @@ export function resolveSlideNumberText(
   storedText: string | undefined,
   slideContext?: SlideVarContext | null,
 ): string {
+  if (storedText != null && storedText !== "") return storedText;
   const slideNumber = Number(slideContext?.slide_number);
   if (!Number.isFinite(slideNumber) || slideNumber <= 0) return storedText ?? "";
-  const slideCount = Number(slideContext?.slide_count);
-  const text = storedText ?? "";
-  if (text.includes("/") && Number.isFinite(slideCount) && slideCount > 0) {
-    return `${slideNumber}/${slideCount}`;
-  }
   return String(slideNumber);
 }
 
