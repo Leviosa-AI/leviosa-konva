@@ -71,6 +71,25 @@ describe("labelContentToKonva", () => {
     expect(props.fill).not.toBe("#111111");
     expect(props.align).toBe("right");
   });
+
+  it("preserves label background gradients as the rect fill priority", () => {
+    const props = labelContentToKonva({
+      text: "NEW",
+      color: "#FFFFFF",
+      background: "#111111",
+      fill_linear_gradient: {
+        start: { x: 0, y: 0 },
+        end: { x: 72, y: 0 },
+        color_stops: [
+          { offset: 0, color: "#111111" },
+          { offset: 1, color: "#333333" },
+        ],
+      },
+    }, "NEW");
+
+    expect(props.fillPriority).toBe("linear-gradient");
+    expect(props.fillLinearGradientColorStops).toEqual([0, "#111111", 1, "#333333"]);
+  });
 });
 
 describe("carousel slide render input", () => {

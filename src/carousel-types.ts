@@ -99,6 +99,7 @@ export interface LabelContent {
   letter_spacing?: number; // default 0
   align?: Align; // default "left"
   background?: string | null;
+  fill_linear_gradient?: FillLinearGradient | null;
   stroke?: string | null;
   stroke_width?: number | null;
   corner_radius?: number; // default 0

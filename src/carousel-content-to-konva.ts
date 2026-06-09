@@ -128,6 +128,14 @@ function readableLabelFill(color: string | null | undefined, background: string 
 export function labelContentToKonva(content: LabelContent, resolvedText: string) {
   const fontFamily = resolveFontFamily(content.font_family);
   const fill = readableLabelFill(content.color, content.background);
+  const fillLinearGradient = content.fill_linear_gradient
+    ? {
+        fillLinearGradientStartPoint: content.fill_linear_gradient.start,
+        fillLinearGradientEndPoint: content.fill_linear_gradient.end,
+        fillLinearGradientColorStops: content.fill_linear_gradient.color_stops.flatMap((stop) => [stop.offset, stop.color]),
+        fillPriority: "linear-gradient" as const,
+      }
+    : {};
   return {
     text: resolvedText,
     fontSize: content.font_size ?? 18,
@@ -137,6 +145,7 @@ export function labelContentToKonva(content: LabelContent, resolvedText: string)
     align: content.align ?? "left",
     letterSpacing: content.letter_spacing ?? 0,
     background: content.background ?? undefined,
+    ...fillLinearGradient,
     stroke: content.stroke ?? undefined,
     strokeWidth: content.stroke_width ?? undefined,
     cornerRadius: content.corner_radius ?? 0,

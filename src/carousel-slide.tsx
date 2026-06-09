@@ -453,6 +453,10 @@ function RenderLabelBlock({ block, input }: { block: LabelBlock; input: Carousel
         width={w}
         height={h}
         fill={props.background || "transparent"}
+        fillLinearGradientStartPoint={props.fillLinearGradientStartPoint}
+        fillLinearGradientEndPoint={props.fillLinearGradientEndPoint}
+        fillLinearGradientColorStops={props.fillLinearGradientColorStops}
+        fillPriority={props.fillPriority}
         stroke={props.stroke}
         strokeWidth={props.strokeWidth}
         cornerRadius={props.cornerRadius}
