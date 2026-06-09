@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emojiContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
+import { emojiContentToKonva, labelContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
 import type { RectContent, Slide } from "./carousel-types.js";
 import { buildSegmentedLines } from "./segmented-text.js";
 
@@ -55,6 +55,20 @@ describe("emojiContentToKonva", () => {
 
     expect(props.value).toBe("");
     expect(props.kind).toBe("icon");
+  });
+});
+
+describe("labelContentToKonva", () => {
+  it("keeps content.align as the source of truth when contrast fallback changes fill", () => {
+    const props = labelContentToKonva({
+      text: "CTA",
+      color: "#111111",
+      background: "#111111",
+      align: "right",
+    }, "CTA");
+
+    expect(props.fill).not.toBe("#111111");
+    expect(props.align).toBe("right");
   });
 });
 

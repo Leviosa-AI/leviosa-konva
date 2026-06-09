@@ -128,14 +128,13 @@ function readableLabelFill(color: string | null | undefined, background: string 
 export function labelContentToKonva(content: LabelContent, resolvedText: string) {
   const fontFamily = resolveFontFamily(content.font_family);
   const fill = readableLabelFill(content.color, content.background);
-  const hasUnreadableConfiguredFill = fill !== (content.color ?? "#FFFFFF");
   return {
     text: resolvedText,
     fontSize: content.font_size ?? 18,
     fontFamily,
     fontStyle: normalizeKonvaFontStyle(content.font_weight ?? "700", fontFamily),
     fill,
-    align: hasUnreadableConfiguredFill ? "center" : content.align ?? "left",
+    align: content.align ?? "left",
     letterSpacing: content.letter_spacing ?? 0,
     background: content.background ?? undefined,
     stroke: content.stroke ?? undefined,

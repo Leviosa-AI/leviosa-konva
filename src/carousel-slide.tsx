@@ -59,6 +59,48 @@ function isNumberingBlock(
   return blockName === "content_number" || content.role === "content_number" || content.source === "slide.number";
 }
 
+function isPositiveNumber(value: number | undefined): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value > 0;
+}
+
+function estimateTextLineWidth(text: string, fontSize: number, fontStyle: string, fontFamily: string, letterSpacing: number): number {
+  if (typeof document !== "undefined") {
+    const canvas = document.createElement("canvas");
+    const context = canvas.getContext("2d");
+    if (context) {
+      context.font = `${fontStyle} ${fontSize}px ${fontFamily}`;
+      return context.measureText(text).width + Math.max(0, text.length - 1) * letterSpacing;
+    }
+  }
+
+  let width = 0;
+  for (const char of text) {
+    if (char === " ") width += fontSize * 0.33;
+    else if (/[\u1100-\u11FF\u3130-\u318F\uAC00-\uD7AF\u3000-\u9FFF]/u.test(char)) width += fontSize;
+    else if (/[A-Z0-9]/u.test(char)) width += fontSize * 0.62;
+    else width += fontSize * 0.54;
+  }
+  return width + Math.max(0, Array.from(text).length - 1) * letterSpacing;
+}
+
+function estimateLabelBox(
+  text: string,
+  fontSize: number,
+  fontStyle: string,
+  fontFamily: string,
+  lineHeight: number,
+  letterSpacing: number,
+  padding: number,
+): { width: number; height: number } {
+  const lines = text.replace(/\\n/g, "\n").split("\n");
+  const textWidth = Math.max(0, ...lines.map((line) => estimateTextLineWidth(line, fontSize, fontStyle, fontFamily, letterSpacing)));
+  const lineCount = Math.max(1, lines.length);
+  return {
+    width: Math.max(1, Math.ceil(textWidth + padding * 2)),
+    height: Math.max(1, Math.ceil(fontSize * lineHeight * lineCount + padding * 2)),
+  };
+}
+
 export function resolvedText(
   content: { text?: string | null; role?: string | null; source?: string | null },
   input: CarouselSlideRenderInput,
@@ -194,22 +236,34 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             }
           }
         } else {
-          let x = 0;
-          let y = 0;
-          for (const ch of props.text) {
-            if (ch === "\n") {
-              x = 0;
-              y += lineHeightPx;
-              continue;
+          canvas.font = textFont;
+          const lines = buildSegmentedLines(
+            canvas,
+            props.text,
+            [{ text: props.text }],
+            props.fill,
+            block.w,
+            props.letterSpacing,
+          );
+          for (let i = 0; i < lines.length; i += 1) {
+            const line = lines[i];
+            const y = i * lineHeightPx;
+            let x = 0;
+            if (block.w > 0) {
+              if (props.align === "center") x = (block.w - line.width) / 2;
+              else if (props.align === "right") x = block.w - line.width;
             }
-            canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? emojiFont : textFont;
-            const width = canvas.measureText(ch).width + props.letterSpacing;
-            if (block.w > 0 && x > 0 && x + width > block.w && ch !== " ") {
-              x = 0;
-              y += lineHeightPx;
+            for (const segment of line.segments) {
+              canvas.fillStyle = segment.fill;
+              const segmentFontStyle = normalizeKonvaFontStyle(segment.fontWeight ?? block.content.font_weight ?? "700", sourceFontFamily);
+              const segmentTextFont = `${segmentFontStyle} ${props.fontSize}px ${sourceFontFamily}`;
+              const segmentEmojiFont = `${segmentFontStyle} ${props.fontSize}px ${EMOJI_TEXT_FONT_FAMILY}`;
+              for (const ch of segment.text) {
+                canvas.font = shouldUseEmojiFontForChar(sourceFontFamily, ch) ? segmentEmojiFont : segmentTextFont;
+                canvas.fillText(ch, x, y);
+                x += canvas.measureText(ch).width + props.letterSpacing;
+              }
             }
-            canvas.fillText(ch, x, y);
-            x += width;
           }
         }
       }}
@@ -258,7 +312,7 @@ function RenderRectBlock({ block, input }: { block: RectBlock; input: CarouselSl
   return (
     <Group name={block.id} x={numberValue(block.x, 0)} y={numberValue(block.y, 0)} width={width} height={height} rotation={numberValue(block.rotation, 0)} opacity={props.opacity}>
       <Rect width={width} height={height} listening={false} {...props} opacity={undefined} />
-      {text && (
+      {text !== "" && (
         <Text
           width={width}
           height={height}
@@ -332,8 +386,20 @@ function RenderEmojiBlock({ block, onReady }: { block: EmojiBlock; onReady: () =
 function RenderLabelBlock({ block, input }: { block: LabelBlock; input: CarouselSlideRenderInput }) {
   const props = labelContentToKonva(block.content, resolvedText(block.content, input, block.name));
   const paddingX = props.padding?.x ?? 8;
-  const w = numberValue(block.w, 0);
-  const h = numberValue(block.h, 0);
+  const lineHeight = block.content.line_height ?? 1.2;
+  const fallbackBox = estimateLabelBox(
+    props.text,
+    props.fontSize,
+    props.fontStyle,
+    props.fontFamily,
+    lineHeight,
+    props.letterSpacing,
+    paddingX,
+  );
+  const storedW = numberValue(block.w, 0);
+  const storedH = numberValue(block.h, 0);
+  const w = isPositiveNumber(storedW) ? storedW : fallbackBox.width;
+  const h = isPositiveNumber(storedH) ? storedH : fallbackBox.height;
   // 충실 렌더: 저장된 font_size·corner_radius를 그대로 쓴다(크기·모서리는 생성 시 worker가 구움).
   // verticalAlign만 순수 primitive로 — 박스 안 세로중앙(위치/크기를 바꾸지 않음).
   return (
@@ -357,7 +423,7 @@ function RenderLabelBlock({ block, input }: { block: LabelBlock; input: Carousel
         fill={props.fill}
         align={props.align}
         verticalAlign="middle"
-        lineHeight={block.content.line_height ?? 1.2}
+        lineHeight={lineHeight}
         letterSpacing={props.letterSpacing}
         padding={paddingX}
         listening={false}
