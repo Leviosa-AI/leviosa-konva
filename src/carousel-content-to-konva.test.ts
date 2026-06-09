@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { emojiContentToKonva, rectContentToKonva } from "./carousel-content-to-konva.js";
-import type { RectContent } from "./carousel-types.js";
+import { emojiContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
+import type { RectContent, Slide } from "./carousel-types.js";
 import { buildSegmentedLines } from "./segmented-text.js";
 
 describe("rectContentToKonva", () => {
@@ -55,6 +55,43 @@ describe("emojiContentToKonva", () => {
 
     expect(props.value).toBe("");
     expect(props.kind).toBe("icon");
+  });
+});
+
+describe("carousel slide render input", () => {
+  it("accepts and ignores optional slide_type_key while rendering blocks", () => {
+    const slide: Slide = {
+      id: "slide-1",
+      slide_type_key: "content_card",
+      blocks: [
+        {
+          id: "text-1",
+          type: "text",
+          z: 2,
+          x: 0,
+          y: 0,
+          w: 100,
+          h: 40,
+          rotation: 0,
+          locked: false,
+          content: { text: "본문" },
+        },
+        {
+          id: "rect-1",
+          type: "rect",
+          z: 1,
+          x: 0,
+          y: 0,
+          w: 100,
+          h: 40,
+          rotation: 0,
+          locked: false,
+          content: { fill: "#000000" },
+        },
+      ],
+    };
+
+    expect(sortBlocksByZ(slide.blocks).map((block) => block.id)).toEqual(["rect-1", "text-1"]);
   });
 });
 

@@ -148,6 +148,7 @@ export type Block = TextBlock | MediaBlock | RectBlock | EmojiBlock | LabelBlock
 
 export interface Slide {
   id: string;
+  slide_type_key?: string | null;
   blocks: Block[];
 }
 
