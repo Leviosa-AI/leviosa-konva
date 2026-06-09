@@ -38,12 +38,41 @@ export function resolveSlideNumberText(
 }
 
 function resolveThemeKey(brandConfig: BrandConfigDict, key: string): string {
+  const logoUrl = firstString(
+    brandConfig.logo_url,
+    brandConfig.brand_logo_url,
+    brandConfig.brand_image_url,
+    brandConfig.logo,
+  );
+  const account = firstString(
+    brandConfig.account,
+    brandConfig.brand_handle,
+    brandConfig.handle,
+    brandConfig.ig_handle,
+  );
+  const brandName = firstString(brandConfig.brand_name, brandConfig.name);
+  const brandTagline = firstString(brandConfig.brand_tagline, brandConfig.tagline);
   const mapping: Record<string, string> = {
-    logo_url: brandConfig.logo_url || "",
-    account: brandConfig.account || "",
-    brand_name: brandConfig.brand_name || "",
-    brand_tagline: brandConfig.brand_tagline || "",
+    logo_url: logoUrl,
+    logo: logoUrl,
+    brand_logo_url: logoUrl,
+    brand_image_url: logoUrl,
+    account,
+    handle: account,
+    brand_handle: account,
+    ig_handle: account,
+    brand_name: brandName,
+    name: brandName,
+    brand_tagline: brandTagline,
+    tagline: brandTagline,
     cta_text: brandConfig.cta_text || "",
   };
   return mapping[key] ?? "";
+}
+
+function firstString(...values: Array<string | null | undefined>): string {
+  for (const value of values) {
+    if (typeof value === "string" && value.trim()) return value;
+  }
+  return "";
 }

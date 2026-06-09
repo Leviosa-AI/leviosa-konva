@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { emojiContentToKonva, labelContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
-import { resolveSlideNumberText } from "./carousel-template-vars.js";
+import { resolveSlideNumberText, resolveTemplateVars } from "./carousel-template-vars.js";
 import type { RectContent, Slide } from "./carousel-types.js";
 import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
 
@@ -93,6 +93,25 @@ describe("labelContentToKonva", () => {
 });
 
 describe("carousel slide render input", () => {
+  it("resolves legacy and semantic brand aliases used by templates", () => {
+    const brandConfig = {
+      name: "Leviosa",
+      ig_handle: "leviosa.ai",
+      brand_logo_url: "https://cdn.example.com/logo.png",
+      tagline: "AI marketing",
+      cta_text: "Visit",
+    };
+
+    expect(resolveTemplateVars("{{theme.brand_name}}", brandConfig)).toBe("Leviosa");
+    expect(resolveTemplateVars("{{theme.name}}", brandConfig)).toBe("Leviosa");
+    expect(resolveTemplateVars("{{theme.account}}", brandConfig)).toBe("leviosa.ai");
+    expect(resolveTemplateVars("{{theme.brand_handle}}", brandConfig)).toBe("leviosa.ai");
+    expect(resolveTemplateVars("{{theme.logo_url}}", brandConfig)).toBe("https://cdn.example.com/logo.png");
+    expect(resolveTemplateVars("{{theme.brand_image_url}}", brandConfig)).toBe("https://cdn.example.com/logo.png");
+    expect(resolveTemplateVars("{{theme.brand_tagline}}", brandConfig)).toBe("AI marketing");
+    expect(resolveTemplateVars("{{theme.tagline}}", brandConfig)).toBe("AI marketing");
+  });
+
   it("keeps generated body-relative content_number text instead of replacing it with absolute slide_number", () => {
     expect(resolveSlideNumberText("1", { slide_number: 2, slide_count: 6 })).toBe("1");
   });

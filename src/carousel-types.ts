@@ -155,9 +155,17 @@ export interface Slide {
 
 export interface BrandConfigDict {
   logo_url?: string | null;
+  logo?: string | null;
+  brand_logo_url?: string | null;
+  brand_image_url?: string | null;
   account?: string | null;
+  handle?: string | null;
+  brand_handle?: string | null;
+  ig_handle?: string | null;
   brand_name?: string | null;
+  name?: string | null;
   brand_tagline?: string | null;
+  tagline?: string | null;
   cta_text?: string | null;
 }
 
