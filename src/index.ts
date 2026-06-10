@@ -14,6 +14,7 @@ export {
   CarouselSlide,
   CarouselBlockNode,
   AssetImage,
+  PresetKImage,
   resolvedText,
   fontSampleForValue,
   numberValue,
@@ -39,4 +40,7 @@ export * from "./lucide-icons.js";
 // segmented text rendering
 export * from "./segmented-text.js";
 
-export const LEVIOSA_KONVA_VERSION = "0.2.4";
+// image filter presets (editor preview == publish render)
+export * from "./image-presets.js";
+
+export const LEVIOSA_KONVA_VERSION = "0.3.0";

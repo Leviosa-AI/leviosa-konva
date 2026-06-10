@@ -4,8 +4,10 @@
 // harness (font preload, createRoot mount, Stage→PNG export, window global) stays
 // in leviosa-rendering-server and imports CarouselSlide from this package.
 
+import Konva from "konva";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Group, Image as KImage, Layer, Line, Rect, Shape, Stage, Text } from "react-konva";
+import { imagePresetValues } from "./image-presets.js";
 import {
   emojiContentToKonva,
   labelContentToKonva,
@@ -351,6 +353,54 @@ function RenderRectBlock({ block, input }: { block: RectBlock; input: CarouselSl
   );
 }
 
+type PresetKImageProps = React.ComponentProps<typeof KImage> & { preset?: string | null };
+
+// KImage + image_preset 필터. Konva 필터는 node.cache()가 있어야 적용되므로
+// 프리셋이 있을 때만 캐시를 잡고, 프리셋이 빠지면 캐시를 풀어 일반 경로로
+// 되돌린다. 이미지는 AssetImage가 crossOrigin="anonymous"로 로드해 캔버스
+// 오염(taint) 없이 캐시 가능하다.
+export function PresetKImage({ preset, ...props }: PresetKImageProps) {
+  const nodeRef = useRef<Konva.Image>(null);
+  const values = imagePresetValues(preset);
+  const crop = props.crop as { x: number; y: number; width: number; height: number } | undefined;
+  useEffect(() => {
+    const node = nodeRef.current;
+    if (!node) return;
+    if (values && props.image) {
+      node.cache();
+    } else if (node.isCached()) {
+      node.clearCache();
+    }
+    node.getLayer()?.batchDraw();
+  }, [
+    values?.brightness,
+    values?.contrast,
+    values?.saturation,
+    values?.hue,
+    values?.luminance,
+    props.image,
+    props.width,
+    props.height,
+    crop?.x,
+    crop?.y,
+    crop?.width,
+    crop?.height,
+  ]);
+  if (!values) return <KImage {...props} />;
+  return (
+    <KImage
+      ref={nodeRef}
+      {...props}
+      filters={[Konva.Filters.Brighten, Konva.Filters.Contrast, Konva.Filters.HSL]}
+      brightness={values.brightness}
+      contrast={values.contrast}
+      saturation={values.saturation}
+      hue={values.hue ?? 0}
+      luminance={values.luminance ?? 0}
+    />
+  );
+}
+
 function RenderImageBlock({ block, input, onReady }: { block: MediaBlock; input: CarouselSlideRenderInput; onReady: () => void }) {
   const src = resolveTemplateVars(block.content.src ?? "", input.brand_config, input.asset_map);
   const props = mediaContentToKonva(block.content);
@@ -374,7 +424,8 @@ function RenderImageBlock({ block, input, onReady }: { block: MediaBlock; input:
               opacity={props.opacity}
             >
               <Rect width={width} height={height} fill="rgba(0,0,0,0)" cornerRadius={props.cornerRadius} listening={false} />
-              <KImage
+              <PresetKImage
+                preset={block.content.image_preset}
                 x={contained.x}
                 y={contained.y}
                 width={contained.width}
@@ -388,7 +439,8 @@ function RenderImageBlock({ block, input, onReady }: { block: MediaBlock; input:
         }
         const crop = coverCrop(image, width, height, props.focalX, props.focalY);
         return (
-          <KImage
+          <PresetKImage
+            preset={block.content.image_preset}
             name={block.id}
             x={numberValue(block.x, 0)}
             y={numberValue(block.y, 0)}
