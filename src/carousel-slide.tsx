@@ -16,7 +16,7 @@ import {
   sortBlocksByZ,
   textContentToKonva,
 } from "./carousel-content-to-konva.js";
-import { resolveSlideNumberText, resolveTemplateVars } from "./carousel-template-vars.js";
+import { resolveContentText, resolveTemplateVars } from "./carousel-template-vars.js";
 import type {
   Block,
   CarouselSlideRenderInput,
@@ -52,13 +52,6 @@ export function numberValue(value: unknown, fallback: number): number {
 export function fontSampleForValue(value: string): string {
   const rawSample = value.replace(/\\n/g, "\n").trim();
   return rawSample || "가Aa1";
-}
-
-function isNumberingBlock(
-  blockName: string | null | undefined,
-  content: { role?: string | null; source?: string | null },
-): boolean {
-  return blockName === "content_number" || content.role === "content_number" || content.source === "slide.number";
 }
 
 function isPositiveNumber(value: number | undefined): value is number {
@@ -128,13 +121,7 @@ export function resolvedText(
   input: CarouselSlideRenderInput,
   blockName?: string | null,
 ): string {
-  if (isNumberingBlock(blockName, content)) {
-    return resolveSlideNumberText(content.text ?? "", {
-      slide_number: input.slide_number,
-      slide_count: input.slide_count,
-    });
-  }
-  return resolveTemplateVars(content.text ?? "", input.brand_config, input.asset_map);
+  return resolveContentText(content, input.brand_config, input.asset_map, blockName);
 }
 
 export function AssetImage({ src, onReady, children }: AssetImageProps) {
@@ -321,12 +308,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
 
 function RenderRectBlock({ block, input }: { block: RectBlock; input: CarouselSlideRenderInput }) {
   const props = rectContentToKonva(block.content);
-  const text = isNumberingBlock(block.name, block.content)
-    ? resolveSlideNumberText(block.content.text ?? "", {
-        slide_number: input.slide_number,
-        slide_count: input.slide_count,
-      })
-    : block.content.text ?? "";
+  const text = resolvedText(block.content, input, block.name);
   const width = numberValue(block.w, 0);
   const height = numberValue(block.h, 0);
   const fontFamily = resolveFontFamily(block.content.font_family);

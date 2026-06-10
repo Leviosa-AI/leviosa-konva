@@ -2,11 +2,6 @@ import type { BrandConfigDict } from "./carousel-types.js";
 
 const TEMPLATE_VAR_PATTERN = /\{\{(theme|asset)\.([a-zA-Z_][a-zA-Z0-9_]*)\}\}/g;
 
-export interface SlideVarContext {
-  slide_number?: number | null;
-  slide_count?: number | null;
-}
-
 export function resolveTemplateVars(
   s: string,
   brandConfig?: BrandConfigDict | null,
@@ -27,14 +22,31 @@ export function resolveTemplateVars(
   });
 }
 
-export function resolveSlideNumberText(
-  storedText: string | undefined,
-  slideContext?: SlideVarContext | null,
+// Numbering badges render their stored text as-is. Deriving a fallback from
+// the slide index is wrong: numbering counts body slides only (cover excluded),
+// so slide index 2 must still show "1" on the first body slide. The body
+// sequence is baked into content.text at generation/backfill time.
+export function resolveSlideNumberText(storedText: string | undefined): string {
+  return storedText ?? "";
+}
+
+function isNumberingBlock(
+  blockName: string | null | undefined,
+  content: { role?: string | null; source?: string | null },
+): boolean {
+  return blockName === "content_number" || content.role === "content_number" || content.source === "slide.number";
+}
+
+export function resolveContentText(
+  content: { text?: string | null; role?: string | null; source?: string | null },
+  brandConfig?: BrandConfigDict | null,
+  assetMap?: Record<string, string> | null,
+  blockName?: string | null,
 ): string {
-  if (storedText != null && storedText !== "") return storedText;
-  const slideNumber = Number(slideContext?.slide_number);
-  if (!Number.isFinite(slideNumber) || slideNumber <= 0) return storedText ?? "";
-  return String(slideNumber);
+  if (isNumberingBlock(blockName, content)) {
+    return resolveSlideNumberText(content.text ?? "");
+  }
+  return resolveTemplateVars(content.text ?? "", brandConfig, assetMap);
 }
 
 function resolveThemeKey(brandConfig: BrandConfigDict, key: string): string {
