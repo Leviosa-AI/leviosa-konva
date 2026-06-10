@@ -292,7 +292,6 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
   ) : (
     <Text
       width={block.w}
-      height={block.h}
       text={props.text}
       fontSize={props.fontSize}
       fontFamily={props.fontFamily}
