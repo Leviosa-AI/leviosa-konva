@@ -223,4 +223,55 @@ describe("buildSegmentedLines", () => {
     expect(lines[0].segments[0].text).toBe("✔ 빅키워드 물빵");
     expect(lines[0].width).toBe(146);
   });
+
+  it("preserves consecutive hard line breaks as empty visual lines", () => {
+    const ctx = {
+      font: "700 20px Noto Sans KR",
+      measureText: (value: string) => ({ width: value === " " ? 4 : 10 }),
+    } as unknown as CanvasRenderingContext2D;
+
+    const lines = buildSegmentedLines(
+      ctx,
+      "첫 줄\n\n✅ 둘째 항목\n",
+      [{ text: "첫 줄\n\n✅ 둘째 항목\n" }],
+      "#FFFFFF",
+      300,
+      0,
+    );
+
+    expect(lines).toHaveLength(4);
+    expect(lines[0].segments[0].text).toBe("첫 줄");
+    expect(lines[1]).toEqual({ segments: [], width: 0 });
+    expect(lines[2].segments[0].text).toBe("✅ 둘째 항목");
+    expect(lines[3]).toEqual({ segments: [], width: 0 });
+  });
+
+  it("keeps checklist markers attached to the following word when wrapping", () => {
+    const widths: Record<string, number> = {
+      "앞": 20,
+      " ": 4,
+      "✓": 12,
+      "D": 14,
+      "+": 8,
+      "1": 10,
+      ":": 4,
+      "검": 20,
+      "색": 20,
+    };
+    const ctx = {
+      font: "700 20px Noto Sans KR",
+      measureText: (value: string) => ({ width: widths[value] ?? 10 }),
+    } as unknown as CanvasRenderingContext2D;
+
+    const lines = buildSegmentedLines(
+      ctx,
+      "앞 ✓ D+1: 검색",
+      [{ text: "앞 ✓ D+1: 검색" }],
+      "#FFFFFF",
+      32,
+      0,
+    );
+
+    expect(lines.map((line) => line.segments.map((segment) => segment.text).join(""))).toEqual(["앞", "✓ D+1:", "검색"]);
+  });
 });

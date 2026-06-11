@@ -23,11 +23,11 @@ export interface ImagePresetValues {
 }
 
 export const IMAGE_PRESET_VALUES: Record<Exclude<ImagePreset, "none">, ImagePresetValues> = {
-  bright: { brightness: 0.1, contrast: 6, saturation: 0.12, luminance: 0.04 },
-  vivid: { brightness: 0.03, contrast: 24, saturation: 0.32 },
-  muted: { brightness: -0.02, contrast: 10, saturation: -0.22, luminance: -0.02 },
-  warm: { brightness: 0.04, contrast: 8, saturation: 0.16, hue: 6, luminance: 0.03 },
-  mono: { brightness: 0, contrast: 18, saturation: -10 },
+  bright: { brightness: 0.05, contrast: 3, saturation: 0.06, luminance: 0.02 },
+  vivid: { brightness: 0.015, contrast: 12, saturation: 0.16 },
+  muted: { brightness: -0.01, contrast: 0, saturation: -0.11, luminance: -0.01 },
+  warm: { brightness: 0.02, contrast: 4, saturation: 0.08, hue: 3, luminance: 0.015 },
+  mono: { brightness: 0, contrast: 8, saturation: -10 },
 };
 
 export const IMAGE_PRESET_KEYS: ImagePreset[] = ["none", "bright", "vivid", "muted", "warm", "mono"];

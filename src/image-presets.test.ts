@@ -32,12 +32,25 @@ describe("image-presets", () => {
   // 써야 픽셀 동일성이 유지된다 — 값이 바뀌면 양쪽을 같이 바꿀 것.
   it("keeps the editor-known preset numbers", () => {
     expect(IMAGE_PRESET_VALUES.bright).toEqual({
-      brightness: 0.1,
-      contrast: 6,
-      saturation: 0.12,
-      luminance: 0.04,
+      brightness: 0.05,
+      contrast: 3,
+      saturation: 0.06,
+      luminance: 0.02,
     });
-    expect(IMAGE_PRESET_VALUES.vivid).toEqual({ brightness: 0.03, contrast: 24, saturation: 0.32 });
-    expect(IMAGE_PRESET_VALUES.mono).toEqual({ brightness: 0, contrast: 18, saturation: -10 });
+    expect(IMAGE_PRESET_VALUES.vivid).toEqual({ brightness: 0.015, contrast: 12, saturation: 0.16 });
+    expect(IMAGE_PRESET_VALUES.muted).toEqual({
+      brightness: -0.01,
+      contrast: 0,
+      saturation: -0.11,
+      luminance: -0.01,
+    });
+    expect(IMAGE_PRESET_VALUES.warm).toEqual({
+      brightness: 0.02,
+      contrast: 4,
+      saturation: 0.08,
+      hue: 3,
+      luminance: 0.015,
+    });
+    expect(IMAGE_PRESET_VALUES.mono).toEqual({ brightness: 0, contrast: 8, saturation: -10 });
   });
 });

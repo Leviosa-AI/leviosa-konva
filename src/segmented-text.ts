@@ -7,6 +7,7 @@ export interface SegmentedTextLine {
 
 type StyledChar = { char: string; fill: string; fontWeight?: string };
 type FontResolver = (char: string, fontWeight: string | undefined, originalFont: string) => string;
+const NON_ORPHAN_PREFIX_MARKERS = new Set(["✓", "✔", "✅", "☑", "☑️", "•"]);
 
 const graphemeSegmenter = typeof Intl !== "undefined" && "Segmenter" in Intl
   ? new Intl.Segmenter(undefined, { granularity: "grapheme" })
@@ -41,6 +42,10 @@ function mergeAdjacentSegments(chars: StyledChar[]): SegmentedTextLine["segments
   }
   result.push(current);
   return result;
+}
+
+function isMarkerOnlyLine(chars: StyledChar[]): boolean {
+  return NON_ORPHAN_PREFIX_MARKERS.has(chars.map((ch) => ch.char).join("").trim());
 }
 
 function measureSegmentChars(
@@ -124,6 +129,11 @@ export function buildSegmentedLines(
 
   const result: SegmentedTextLine[] = [];
   for (const hardLine of hardLines) {
+    if (hardLine.length === 0) {
+      result.push({ segments: [], width: 0 });
+      continue;
+    }
+
     if (!containerWidth || containerWidth <= 0) {
       result.push({
         segments: mergeAdjacentSegments(hardLine),
@@ -137,14 +147,26 @@ export function buildSegmentedLines(
     let wordBuffer: StyledChar[] = [];
     let wordWidth = 0;
     const originalFont = ctx.font;
+    const pushCurrentLine = () => {
+      while (currentLine.at(-1)?.char === " ") currentLine.pop();
+      result.push({
+        segments: mergeAdjacentSegments(currentLine),
+        width: measureSegmentChars(ctx, currentLine, letterSpacing, resolveFont),
+      });
+    };
 
     const flushWord = () => {
       if (wordBuffer.length === 0) return;
       const testWidth = currentLine.length > 0 ? currentWidth + wordWidth : wordWidth;
       if (currentLine.length > 0 && testWidth > containerWidth) {
-        result.push({ segments: mergeAdjacentSegments(currentLine), width: currentWidth });
-        currentLine = [...wordBuffer];
-        currentWidth = wordWidth;
+        if (isMarkerOnlyLine(currentLine)) {
+          currentLine.push(...wordBuffer);
+          currentWidth = testWidth;
+        } else {
+          pushCurrentLine();
+          currentLine = [...wordBuffer];
+          currentWidth = wordWidth;
+        }
       } else {
         currentLine.push(...wordBuffer);
         currentWidth = testWidth;
@@ -159,9 +181,14 @@ export function buildSegmentedLines(
         : fontWithWeight(originalFont, ch.fontWeight);
       const charWidth = ctx.measureText(ch.char).width + (wordBuffer.length > 0 ? letterSpacing : 0);
       if (ch.char === " ") {
-        flushWord();
-        currentLine.push(ch);
-        currentWidth += (currentLine.length > 1 ? letterSpacing : 0) + ctx.measureText(ch.char).width;
+        if (isMarkerOnlyLine(wordBuffer)) {
+          wordBuffer.push(ch);
+          wordWidth += charWidth;
+        } else {
+          flushWord();
+          currentLine.push(ch);
+          currentWidth += (currentLine.length > 1 ? letterSpacing : 0) + ctx.measureText(ch.char).width;
+        }
       } else {
         wordBuffer.push(ch);
         wordWidth += charWidth;
@@ -170,8 +197,8 @@ export function buildSegmentedLines(
     ctx.font = originalFont;
     flushWord();
 
-    if (currentLine.length > 0 || result.length === 0) {
-      result.push({ segments: mergeAdjacentSegments(currentLine), width: currentWidth });
+    if (currentLine.length > 0) {
+      pushCurrentLine();
     }
   }
 
