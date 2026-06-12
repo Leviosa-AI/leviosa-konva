@@ -45,8 +45,12 @@ interface AssetImageProps {
 }
 
 const MAX_ASSET_IMAGE_CACHE_SIZE = 256;
+const MAX_TEXT_MEASURE_CACHE_SIZE = 4096;
 const assetImageCache = new Map<string, HTMLImageElement>();
 const assetImageRequests = new Map<string, Promise<HTMLImageElement>>();
+let textMeasureCanvas: HTMLCanvasElement | null = null;
+let textMeasureContext: CanvasRenderingContext2D | null = null;
+const textMeasureCache = new Map<string, number>();
 
 export function numberValue(value: unknown, fallback: number): number {
   const next = Number(value);
@@ -104,14 +108,41 @@ function loadAssetImage(src: string): Promise<HTMLImageElement> {
   return request;
 }
 
+function rememberTextMeasurement(key: string, width: number): number {
+  textMeasureCache.delete(key);
+  textMeasureCache.set(key, width);
+  while (textMeasureCache.size > MAX_TEXT_MEASURE_CACHE_SIZE) {
+    const oldest = textMeasureCache.keys().next().value;
+    if (oldest === undefined) break;
+    textMeasureCache.delete(oldest);
+  }
+  return width;
+}
+
+function getTextMeasureContext(): CanvasRenderingContext2D | null {
+  if (typeof document === "undefined") return null;
+  if (!textMeasureContext) {
+    textMeasureCanvas = textMeasureCanvas || document.createElement("canvas");
+    textMeasureContext = textMeasureCanvas.getContext("2d");
+  }
+  return textMeasureContext;
+}
+
 function estimateTextLineWidth(text: string, fontSize: number, fontStyle: string, fontFamily: string, letterSpacing: number): number {
-  if (typeof document !== "undefined") {
-    const canvas = document.createElement("canvas");
-    const context = canvas.getContext("2d");
-    if (context) {
-      context.font = `${fontStyle} ${fontSize}px ${fontFamily}`;
-      return context.measureText(text).width + Math.max(0, text.length - 1) * letterSpacing;
-    }
+  const spacing = Math.max(0, Array.from(text).length - 1) * letterSpacing;
+  const font = `${fontStyle} ${fontSize}px ${fontFamily}`;
+  const cacheKey = `${font}\u0000${letterSpacing}\u0000${text}`;
+  const cached = textMeasureCache.get(cacheKey);
+  if (cached !== undefined) {
+    textMeasureCache.delete(cacheKey);
+    textMeasureCache.set(cacheKey, cached);
+    return cached;
+  }
+
+  const context = getTextMeasureContext();
+  if (context) {
+    context.font = font;
+    return rememberTextMeasurement(cacheKey, context.measureText(text).width + spacing);
   }
 
   let width = 0;
@@ -121,7 +152,7 @@ function estimateTextLineWidth(text: string, fontSize: number, fontStyle: string
     else if (/[A-Z0-9]/u.test(char)) width += fontSize * 0.62;
     else width += fontSize * 0.54;
   }
-  return width + Math.max(0, Array.from(text).length - 1) * letterSpacing;
+  return rememberTextMeasurement(cacheKey, width + spacing);
 }
 
 function estimateLabelBox(

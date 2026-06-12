@@ -43,4 +43,4 @@ export * from "./segmented-text.js";
 // image filter presets (editor preview == publish render)
 export * from "./image-presets.js";
 
-export const LEVIOSA_KONVA_VERSION = "0.3.0";
+export const LEVIOSA_KONVA_VERSION = "0.3.4";

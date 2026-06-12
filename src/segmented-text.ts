@@ -53,19 +53,65 @@ function measureSegmentChars(
   chars: StyledChar[],
   letterSpacing: number,
   resolveFont?: FontResolver,
+  measureCache?: Map<string, number>,
 ): number {
   let width = 0;
   const originalFont = ctx.font;
   for (let i = 0; i < chars.length; i += 1) {
     const ch = chars[i];
-    ctx.font = resolveFont
+    const font = resolveFont
       ? resolveFont(ch.char, ch.fontWeight, originalFont)
       : fontWithWeight(originalFont, ch.fontWeight);
-    width += ctx.measureText(ch.char).width + letterSpacing;
+    const cacheKey = `${font}\u0000${ch.char}`;
+    let measured = measureCache?.get(cacheKey);
+    if (measured === undefined) {
+      ctx.font = font;
+      measured = ctx.measureText(ch.char).width;
+      measureCache?.set(cacheKey, measured);
+    }
+    width += measured + letterSpacing;
   }
   if (chars.length > 0) width -= letterSpacing;
   ctx.font = originalFont;
   return width;
+}
+
+function segmentStyles(
+  displayChars: string[],
+  segments: TextSegment[],
+  defaultFill: string,
+): { fills: string[]; fontWeights: Array<string | undefined> } {
+  const fills: string[] = [];
+  const fontWeights: Array<string | undefined> = [];
+  const segmentRanges = segments.map((segment) => ({
+    length: splitGraphemes(segment.text).length,
+    fill: segment.color ?? defaultFill,
+    fontWeight: segment.font_weight ?? undefined,
+  }));
+  let segmentIndex = 0;
+  let segmentOffset = 0;
+
+  for (const char of displayChars) {
+    if (char === "\n") {
+      fills.push(defaultFill);
+      fontWeights.push(undefined);
+      segmentOffset += 1;
+    } else if (segmentIndex < segmentRanges.length) {
+      while (segmentIndex < segmentRanges.length && segmentOffset >= segmentRanges[segmentIndex].length) {
+        segmentOffset = 0;
+        segmentIndex += 1;
+      }
+      const range = segmentRanges[segmentIndex];
+      fills.push(range?.fill ?? defaultFill);
+      fontWeights.push(range?.fontWeight);
+      segmentOffset += 1;
+    } else {
+      fills.push(defaultFill);
+      fontWeights.push(undefined);
+    }
+  }
+
+  return { fills, fontWeights };
 }
 
 export function buildSegmentedLines(
@@ -78,41 +124,8 @@ export function buildSegmentedLines(
   resolveFont?: FontResolver,
 ): SegmentedTextLine[] {
   const displayChars = splitGraphemes(displayText);
-  const segmentText = segments.map((segment) => segment.text).join("");
-  const segmentChars = splitGraphemes(segmentText);
-  const charFills: string[] = [];
-  const charFontWeights: Array<string | undefined> = [];
-  let segmentCharIndex = 0;
-
-  for (const char of displayChars) {
-    if (char === "\n") {
-      charFills.push(defaultFill);
-      charFontWeights.push(undefined);
-      segmentCharIndex += 1;
-      continue;
-    }
-
-    if (segmentCharIndex < segmentChars.length) {
-      let cumulativeLength = 0;
-      let fill = defaultFill;
-      let fontWeight: string | undefined;
-      for (const segment of segments) {
-        const segmentLength = splitGraphemes(segment.text).length;
-        if (segmentCharIndex < cumulativeLength + segmentLength) {
-          fill = segment.color ?? defaultFill;
-          fontWeight = segment.font_weight ?? undefined;
-          break;
-        }
-        cumulativeLength += segmentLength;
-      }
-      charFills.push(fill);
-      charFontWeights.push(fontWeight);
-      segmentCharIndex += 1;
-    } else {
-      charFills.push(defaultFill);
-      charFontWeights.push(undefined);
-    }
-  }
+  const { fills: charFills, fontWeights: charFontWeights } = segmentStyles(displayChars, segments, defaultFill);
+  const measureCache = new Map<string, number>();
 
   const hardLines: StyledChar[][] = [[]];
   for (let i = 0; i < displayChars.length; i += 1) {
@@ -137,7 +150,7 @@ export function buildSegmentedLines(
     if (!containerWidth || containerWidth <= 0) {
       result.push({
         segments: mergeAdjacentSegments(hardLine),
-        width: measureSegmentChars(ctx, hardLine, letterSpacing, resolveFont),
+        width: measureSegmentChars(ctx, hardLine, letterSpacing, resolveFont, measureCache),
       });
       continue;
     }
@@ -151,7 +164,7 @@ export function buildSegmentedLines(
       while (currentLine.at(-1)?.char === " ") currentLine.pop();
       result.push({
         segments: mergeAdjacentSegments(currentLine),
-        width: measureSegmentChars(ctx, currentLine, letterSpacing, resolveFont),
+        width: measureSegmentChars(ctx, currentLine, letterSpacing, resolveFont, measureCache),
       });
     };
 
@@ -179,7 +192,13 @@ export function buildSegmentedLines(
       ctx.font = resolveFont
         ? resolveFont(ch.char, ch.fontWeight, originalFont)
         : fontWithWeight(originalFont, ch.fontWeight);
-      const charWidth = ctx.measureText(ch.char).width + (wordBuffer.length > 0 ? letterSpacing : 0);
+      const cacheKey = `${ctx.font}\u0000${ch.char}`;
+      let measured = measureCache.get(cacheKey);
+      if (measured === undefined) {
+        measured = ctx.measureText(ch.char).width;
+        measureCache.set(cacheKey, measured);
+      }
+      const charWidth = measured + (wordBuffer.length > 0 ? letterSpacing : 0);
       if (ch.char === " ") {
         if (isMarkerOnlyLine(wordBuffer)) {
           wordBuffer.push(ch);
@@ -187,7 +206,7 @@ export function buildSegmentedLines(
         } else {
           flushWord();
           currentLine.push(ch);
-          currentWidth += (currentLine.length > 1 ? letterSpacing : 0) + ctx.measureText(ch.char).width;
+          currentWidth += (currentLine.length > 1 ? letterSpacing : 0) + measured;
         }
       } else {
         wordBuffer.push(ch);
