@@ -44,6 +44,10 @@ interface AssetImageProps {
   children: (image: HTMLImageElement | null, errored: boolean) => React.ReactNode;
 }
 
+const MAX_ASSET_IMAGE_CACHE_SIZE = 256;
+const assetImageCache = new Map<string, HTMLImageElement>();
+const assetImageRequests = new Map<string, Promise<HTMLImageElement>>();
+
 export function numberValue(value: unknown, fallback: number): number {
   const next = Number(value);
   return Number.isFinite(next) ? next : fallback;
@@ -56,6 +60,48 @@ export function fontSampleForValue(value: string): string {
 
 function isPositiveNumber(value: number | undefined): value is number {
   return typeof value === "number" && Number.isFinite(value) && value > 0;
+}
+
+function rememberAssetImage(src: string, image: HTMLImageElement): HTMLImageElement {
+  assetImageCache.delete(src);
+  assetImageCache.set(src, image);
+  while (assetImageCache.size > MAX_ASSET_IMAGE_CACHE_SIZE) {
+    const oldest = assetImageCache.keys().next().value;
+    if (oldest === undefined) break;
+    assetImageCache.delete(oldest);
+  }
+  return image;
+}
+
+function cachedAssetImage(src: string): HTMLImageElement | null {
+  const image = assetImageCache.get(src);
+  if (!image) return null;
+  rememberAssetImage(src, image);
+  return image;
+}
+
+function loadAssetImage(src: string): Promise<HTMLImageElement> {
+  const cached = cachedAssetImage(src);
+  if (cached) return Promise.resolve(cached);
+
+  const inFlight = assetImageRequests.get(src);
+  if (inFlight) return inFlight;
+
+  const request = new Promise<HTMLImageElement>((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const decode = typeof img.decode === "function" ? img.decode().catch(() => undefined) : Promise.resolve();
+      decode.then(() => resolve(rememberAssetImage(src, img)));
+    };
+    img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+    img.src = src;
+  }).finally(() => {
+    assetImageRequests.delete(src);
+  });
+
+  assetImageRequests.set(src, request);
+  return request;
 }
 
 function estimateTextLineWidth(text: string, fontSize: number, fontStyle: string, fontFamily: string, letterSpacing: number): number {
@@ -125,35 +171,49 @@ export function resolvedText(
 }
 
 export function AssetImage({ src, onReady, children }: AssetImageProps) {
-  const [image, setImage] = useState<HTMLImageElement | null>(null);
+  const [image, setImage] = useState<HTMLImageElement | null>(() => cachedAssetImage(src));
   const [errored, setErrored] = useState(false);
   const firedRef = useRef(false);
 
   useEffect(() => {
+    firedRef.current = false;
     let cancelled = false;
-    const img = new Image();
-    img.crossOrigin = "anonymous";
-    img.onload = () => {
-      if (!cancelled) {
-        setImage(img);
-        setErrored(false);
-      }
+    const markReady = () => {
       if (!firedRef.current) {
         firedRef.current = true;
         onReady();
       }
     };
-    img.onerror = () => {
-      if (!cancelled) {
-        setImage(null);
-        setErrored(true);
-      }
-      if (!firedRef.current) {
-        firedRef.current = true;
-        onReady();
-      }
-    };
-    img.src = src;
+
+    const cached = cachedAssetImage(src);
+    if (cached) {
+      setImage(cached);
+      setErrored(false);
+      markReady();
+      return () => {
+        cancelled = true;
+      };
+    }
+
+    setImage(null);
+    setErrored(false);
+    loadAssetImage(src)
+      .then((img) => {
+        if (!cancelled) {
+          setImage(img);
+          setErrored(false);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setImage(null);
+          setErrored(true);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) markReady();
+      });
+
     return () => {
       cancelled = true;
     };
