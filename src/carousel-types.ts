@@ -35,7 +35,6 @@ export interface TextContent {
   align?: Align; // default "left"
   text_shadow_color?: string | null;
   text_shadow_size?: number | null;
-  target_lines?: number | null;
   segments?: TextSegment[] | null;
   fill_linear_gradient?: FillLinearGradient | null;
   corner_radius?: number; // default 0
