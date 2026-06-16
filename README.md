@@ -36,15 +36,30 @@ Pure render closure — ~1,030 LOC, browser-safe (no Node/FS deps, verified):
 | `lucide-icons.ts` | move | icon → data-URI |
 | `carousel-renderer-entry.tsx` (component slice) | split | extract `<CarouselSlide>` + per-block components; the headless harness (`waitForFonts`, PNG export, `window.*` global, ready-orchestration) STAYS in rendering-server |
 
-`SUPPORTED_FONT_FAMILIES` + `FONT_WEIGHT_OPTIONS` become the SSOT here; the
-rendering-server `build-font-css.mjs` imports them instead of duplicating.
+`SUPPORTED_FONT_FAMILIES` + `FONT_WEIGHT_OPTIONS` are the SSOT here.
 
-### Fonts (consumer contract)
-The package only emits font-family **names**; it ships no font bytes.
-- rendering-server (headless): keep the existing build-font-css → inline-CSS →
-  route-fulfill pipeline + `waitForFonts`.
-- frontend (editor): load the same families/weights (web fonts) before render, then
-  `document.fonts.ready`. Metrics must match the headless set or text wraps differently.
+### Fonts (consumer contract) — bytes are bundled in this package
+This package ships the canonical font **bytes** at `fonts/` (`fonts/fonts/*.woff2` +
+`fonts/font-manifest.json`), not just family names. This is deliberate: text wrapping is
+`canvas.measureText()` against the loaded font, so identical bytes are as load-bearing as
+identical wrap logic. When the two consumers fetched fonts independently from a CDN they got
+different bytes at different build times → different metrics → different line counts.
+
+Consumers MUST NOT fetch fonts. At build time they run `leviosa-konva-fonts`
+(`scripts/gen-font-css.mjs`, exposed as the package `bin`), which copies the bytes and emits
+`@font-face` CSS for the consumer's own URL prefix (bytes identical, only the prefix differs):
+
+```bash
+# frontend (editor)
+leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts
+# rendering-server (headless)
+leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist
+```
+
+The renderer still inlines the generated CSS + route-fulfills the bytes + blocks on
+`document.fonts.ready`; the editor still loads the families before render then awaits
+`document.fonts.ready`. The difference is both now measure against the SAME bytes.
+See `CLAUDE.md` for the full contract and the regen procedure (`fonts:freeze`).
 
 ### Assets (consumer contract)
 The caller resolves `brand_config` + `asset_map` and puts them on
