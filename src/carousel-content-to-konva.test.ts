@@ -119,6 +119,25 @@ describe("carousel slide render input", () => {
     expect(resolveTemplateVars("{{theme.tagline}}", brandConfig)).toBe("AI marketing");
   });
 
+  it("resolves plain brand placeholders used by older templates", () => {
+    const brandConfig = {
+      name: "Leviosa",
+      ig_handle: "leviosa.ai",
+      brand_logo_url: "https://cdn.example.com/logo.png",
+      tagline: "AI marketing",
+      cta_text: "Visit",
+    };
+
+    expect(resolveTemplateVars("{{brand_name}}", brandConfig)).toBe("Leviosa");
+    expect(resolveTemplateVars("{{ name }}", brandConfig)).toBe("Leviosa");
+    expect(resolveTemplateVars("{{brand_handle}}", brandConfig)).toBe("leviosa.ai");
+    expect(resolveTemplateVars("{{brand_logo}}", brandConfig)).toBe("https://cdn.example.com/logo.png");
+    expect(resolveTemplateVars("{{brand_logo_url}}", brandConfig)).toBe("https://cdn.example.com/logo.png");
+    expect(resolveTemplateVars("{{brand_tagline}}", brandConfig)).toBe("AI marketing");
+    expect(resolveTemplateVars("{{brand_cta}}", brandConfig)).toBe("Visit");
+    expect(resolveTemplateVars("{{headline}}", brandConfig)).toBe("{{headline}}");
+  });
+
   it("keeps generated body-relative content_number text instead of replacing it with absolute slide_number", () => {
     expect(resolveSlideNumberText("1")).toBe("1");
   });

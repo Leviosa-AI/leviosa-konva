@@ -1,6 +1,24 @@
 import type { BrandConfigDict } from "./carousel-types.js";
 
-const TEMPLATE_VAR_PATTERN = /\{\{(theme|asset)\.([a-zA-Z_][a-zA-Z0-9_]*)\}\}/g;
+const TEMPLATE_VAR_PATTERN = /\{\{\s*(?:(theme|asset)\.)?([a-zA-Z_][a-zA-Z0-9_]*)\s*\}\}/g;
+const THEME_KEY_ALIASES: Record<string, string> = {
+  logo_url: "logo_url",
+  logo: "logo_url",
+  brand_logo: "logo_url",
+  brand_logo_url: "logo_url",
+  brand_image_url: "logo_url",
+  account: "account",
+  handle: "account",
+  brand_handle: "account",
+  ig_handle: "account",
+  brand_name: "brand_name",
+  name: "brand_name",
+  brand_tagline: "brand_tagline",
+  tagline: "brand_tagline",
+  cta: "cta_text",
+  brand_cta: "cta_text",
+  cta_text: "cta_text",
+};
 
 export function resolveTemplateVars(
   s: string,
@@ -9,7 +27,7 @@ export function resolveTemplateVars(
 ): string {
   if (!s) return s || "";
 
-  return s.replace(TEMPLATE_VAR_PATTERN, (_match, namespace: string, key: string) => {
+  return s.replace(TEMPLATE_VAR_PATTERN, (match, namespace: string | undefined, key: string) => {
     if (namespace === "theme") {
       if (brandConfig == null) return "";
       return resolveThemeKey(brandConfig, key);
@@ -18,7 +36,11 @@ export function resolveTemplateVars(
       if (assetMap == null) return "";
       return assetMap[key] ?? "";
     }
-    return "";
+    if (namespace == null && key in THEME_KEY_ALIASES) {
+      if (brandConfig == null) return "";
+      return resolveThemeKey(brandConfig, key);
+    }
+    return match;
   });
 }
 
@@ -67,6 +89,7 @@ function resolveThemeKey(brandConfig: BrandConfigDict, key: string): string {
   const mapping: Record<string, string> = {
     logo_url: logoUrl,
     logo: logoUrl,
+    brand_logo: logoUrl,
     brand_logo_url: logoUrl,
     brand_image_url: logoUrl,
     account,
@@ -77,6 +100,8 @@ function resolveThemeKey(brandConfig: BrandConfigDict, key: string): string {
     name: brandName,
     brand_tagline: brandTagline,
     tagline: brandTagline,
+    cta: brandConfig.cta_text || "",
+    brand_cta: brandConfig.cta_text || "",
     cta_text: brandConfig.cta_text || "",
   };
   return mapping[key] ?? "";
