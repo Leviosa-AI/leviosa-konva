@@ -138,6 +138,17 @@ describe("carousel slide render input", () => {
     expect(resolveTemplateVars("{{headline}}", brandConfig)).toBe("{{headline}}");
   });
 
+  it("uses readable placeholders when text brand variables are unset", () => {
+    expect(resolveTemplateVars("{{theme.name}}", null)).toBe("브랜드명");
+    expect(resolveTemplateVars("{{theme.brand_name}}", {})).toBe("브랜드명");
+    expect(resolveTemplateVars("{{theme.account}}", {})).toBe("@brand");
+    expect(resolveTemplateVars("{{brand_handle}}", null)).toBe("@brand");
+    expect(resolveTemplateVars("{{theme.tagline}}", {})).toBe("브랜드 소개");
+    expect(resolveTemplateVars("{{theme.cta_text}}", {})).toBe("자세히 보기");
+    expect(resolveTemplateVars("{{theme.logo_url}}", {})).toBe("");
+    expect(resolveTemplateVars("{{headline}}", {})).toBe("{{headline}}");
+  });
+
   it("keeps generated body-relative content_number text instead of replacing it with absolute slide_number", () => {
     expect(resolveSlideNumberText("1")).toBe("1");
   });

@@ -20,6 +20,20 @@ const THEME_KEY_ALIASES: Record<string, string> = {
   cta_text: "cta_text",
 };
 
+const THEME_TEXT_PLACEHOLDERS: Record<string, string> = {
+  account: "@brand",
+  handle: "@brand",
+  brand_handle: "@brand",
+  ig_handle: "@brand",
+  brand_name: "브랜드명",
+  name: "브랜드명",
+  brand_tagline: "브랜드 소개",
+  tagline: "브랜드 소개",
+  cta: "자세히 보기",
+  brand_cta: "자세히 보기",
+  cta_text: "자세히 보기",
+};
+
 export function resolveTemplateVars(
   s: string,
   brandConfig?: BrandConfigDict | null,
@@ -29,7 +43,7 @@ export function resolveTemplateVars(
 
   return s.replace(TEMPLATE_VAR_PATTERN, (match, namespace: string | undefined, key: string) => {
     if (namespace === "theme") {
-      if (brandConfig == null) return "";
+      if (brandConfig == null) return themeTextPlaceholder(key);
       return resolveThemeKey(brandConfig, key);
     }
     if (namespace === "asset") {
@@ -37,7 +51,7 @@ export function resolveTemplateVars(
       return assetMap[key] ?? "";
     }
     if (namespace == null && key in THEME_KEY_ALIASES) {
-      if (brandConfig == null) return "";
+      if (brandConfig == null) return themeTextPlaceholder(key);
       return resolveThemeKey(brandConfig, key);
     }
     return match;
@@ -104,7 +118,7 @@ function resolveThemeKey(brandConfig: BrandConfigDict, key: string): string {
     brand_cta: brandConfig.cta_text || "",
     cta_text: brandConfig.cta_text || "",
   };
-  return mapping[key] ?? "";
+  return mapping[key] || themeTextPlaceholder(key);
 }
 
 function firstString(...values: Array<string | null | undefined>): string {
@@ -112,4 +126,9 @@ function firstString(...values: Array<string | null | undefined>): string {
     if (typeof value === "string" && value.trim()) return value;
   }
   return "";
+}
+
+function themeTextPlaceholder(key: string): string {
+  const canonicalKey = THEME_KEY_ALIASES[key] ?? key;
+  return THEME_TEXT_PLACEHOLDERS[key] ?? THEME_TEXT_PLACEHOLDERS[canonicalKey] ?? "";
 }
