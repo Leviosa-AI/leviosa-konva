@@ -34,6 +34,25 @@ const THEME_TEXT_PLACEHOLDERS: Record<string, string> = {
   cta_text: "자세히 보기",
 };
 
+// Keys (incl. aliases) that resolve to the brand logo image. Mirrors the
+// db-schema derive_kind / is_brand_logo_token so the renderer and generator
+// agree on what a logo slot is.
+const BRAND_LOGO_TOKEN_KEYS = new Set([
+  "logo_url",
+  "logo",
+  "brand_logo",
+  "brand_logo_url",
+  "brand_image_url",
+]);
+const SINGLE_TEMPLATE_TOKEN_PATTERN = /^\{\{\s*(?:theme\.)?([a-zA-Z_][a-zA-Z0-9_]*)\s*\}\}$/;
+
+/** True when the whole string is a brand-logo placeholder (any resolved alias). */
+export function isBrandLogoToken(value: string | null | undefined): boolean {
+  if (!value) return false;
+  const match = SINGLE_TEMPLATE_TOKEN_PATTERN.exec(value.trim());
+  return match ? BRAND_LOGO_TOKEN_KEYS.has(match[1].toLowerCase()) : false;
+}
+
 export function resolveTemplateVars(
   s: string,
   brandConfig?: BrandConfigDict | null,

@@ -12,6 +12,7 @@ import {
   normalizeKonvaFontStyle,
 } from "./konva-render-helpers.js";
 import { resolveFontFamily } from "./font-coverage.js";
+import { isBrandLogoToken } from "./carousel-template-vars.js";
 
 export function sortBlocksByZ(blocks: Block[]): Block[] {
   return [...blocks].sort((a, b) => a.z - b.z);
@@ -65,8 +66,11 @@ export function rectContentToKonva(content: RectContent) {
 }
 
 export function mediaContentToKonva(content: MediaContent) {
+  // Brand logos must never be cropped to fill: default them to "contain" so the
+  // mark keeps its aspect ratio. Photos keep "cover". An explicit fit wins.
+  const defaultFit = isBrandLogoToken(content.src) ? "contain" : "cover";
   return {
-    fit: content.fit ?? "cover",
+    fit: content.fit ?? defaultFit,
     focalX: content.focal_x ?? 0.5,
     focalY: content.focal_y ?? 0.5,
     cornerRadius: content.corner_radius ?? 0,

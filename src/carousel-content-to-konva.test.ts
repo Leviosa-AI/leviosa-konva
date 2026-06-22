@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { emojiContentToKonva, labelContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
-import { resolveContentText, resolveSlideNumberText, resolveTemplateVars } from "./carousel-template-vars.js";
+import { emojiContentToKonva, labelContentToKonva, mediaContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
+import { isBrandLogoToken, resolveContentText, resolveSlideNumberText, resolveTemplateVars } from "./carousel-template-vars.js";
 import type { RectContent, Slide } from "./carousel-types.js";
 import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
 
@@ -303,5 +303,30 @@ describe("buildSegmentedLines", () => {
     );
 
     expect(lines.map((line) => line.segments.map((segment) => segment.text).join(""))).toEqual(["앞", "✓ D+1:", "검색"]);
+  });
+});
+
+describe("isBrandLogoToken", () => {
+  it("matches logo aliases the renderer resolves", () => {
+    for (const t of ["{{theme.logo}}", "{{theme.logo_url}}", "{{theme.brand_logo}}", "{{logo}}", "{{ theme.logo }}"]) {
+      expect(isBrandLogoToken(t)).toBe(true);
+    }
+  });
+  it("rejects non-logo tokens, urls and empties", () => {
+    for (const t of ["{{theme.cover}}", "{{theme.account}}", "https://x/y.png", "", null, undefined]) {
+      expect(isBrandLogoToken(t)).toBe(false);
+    }
+  });
+});
+
+describe("mediaContentToKonva logo fit", () => {
+  it("defaults brand-logo media to contain (no crop)", () => {
+    expect(mediaContentToKonva({ media_type: "image", src: "{{theme.logo}}" }).fit).toBe("contain");
+  });
+  it("defaults photos to cover", () => {
+    expect(mediaContentToKonva({ media_type: "image", src: "https://x/y.png" }).fit).toBe("cover");
+  });
+  it("respects an explicit fit on a logo", () => {
+    expect(mediaContentToKonva({ media_type: "image", src: "{{theme.logo}}", fit: "cover" }).fit).toBe("cover");
   });
 });
