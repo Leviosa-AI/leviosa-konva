@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { emojiContentToKonva, labelContentToKonva, mediaContentToKonva, rectContentToKonva, sortBlocksByZ } from "./carousel-content-to-konva.js";
+import { emojiContentToKonva, labelContentToKonva, mediaContentToKonva, rectContentToKonva, sortBlocksByZ, textContentToKonva } from "./carousel-content-to-konva.js";
+import { TEXT_SHADOW_OFFSET_Y, TEXT_SHADOW_OPACITY } from "./konva-render-helpers.js";
 import { isBrandLogoToken, resolveContentText, resolveSlideNumberText, resolveTemplateVars } from "./carousel-template-vars.js";
 import type { RectContent, Slide } from "./carousel-types.js";
 import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
@@ -47,6 +48,29 @@ describe("rectContentToKonva", () => {
 
     expect(props.stroke).toBe("#FFFFFF");
     expect(props.strokeWidth).toBe(3);
+  });
+});
+
+describe("textContentToKonva shadow", () => {
+  it("emits no shadow when the 음영 slider is at the minimum (size 0)", () => {
+    // Slider min must mean "음영 아예 없음" — not a residual offset/opacity drop line.
+    const props = textContentToKonva({ text_shadow_color: "#000000", text_shadow_size: 0 }, "x");
+    expect(props.shadow).toBeNull();
+  });
+
+  it("emits no shadow when size is absent", () => {
+    const props = textContentToKonva({ text_shadow_color: "#000000" }, "x");
+    expect(props.shadow).toBeNull();
+  });
+
+  it("emits the shadow with the slider size as blur when size > 0", () => {
+    const props = textContentToKonva({ text_shadow_color: "#FFFFFF", text_shadow_size: 8 }, "x");
+    expect(props.shadow).toEqual({
+      color: "#FFFFFF",
+      blur: 8,
+      opacity: TEXT_SHADOW_OPACITY,
+      offsetY: TEXT_SHADOW_OFFSET_Y,
+    });
   });
 });
 

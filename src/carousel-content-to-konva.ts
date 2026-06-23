@@ -20,7 +20,10 @@ export function sortBlocksByZ(blocks: Block[]): Block[] {
 
 export function textContentToKonva(content: TextContent, resolvedText: string) {
   const fontFamily = resolveFontFamily(content.font_family);
-  const hasShadow = content.text_shadow_color != null || content.text_shadow_size != null;
+  // 음영 slider min (size 0) means "no shadow at all" — don't emit a residual
+  // offset/opacity drop line. Shadow renders only when the size is > 0.
+  const shadowSize = content.text_shadow_size ?? 0;
+  const hasShadow = shadowSize > 0;
   return {
     text: resolvedText,
     fontSize: content.font_size ?? 24,
@@ -33,7 +36,7 @@ export function textContentToKonva(content: TextContent, resolvedText: string) {
     shadow: hasShadow
       ? {
           color: content.text_shadow_color ?? "#000000",
-          blur: content.text_shadow_size ?? 0,
+          blur: shadowSize,
           opacity: TEXT_SHADOW_OPACITY,
           offsetY: TEXT_SHADOW_OFFSET_Y,
         }
