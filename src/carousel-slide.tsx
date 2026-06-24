@@ -377,6 +377,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
       fontFamily={props.fontFamily}
       fontStyle={props.fontStyle}
       fill={props.fill}
+      textDecoration={props.textDecoration}
       shadowColor={props.shadow?.color}
       shadowBlur={props.shadow?.blur ?? 0}
       shadowOpacity={props.shadow?.opacity ?? 0}
@@ -415,6 +416,7 @@ function RenderRectBlock({ block, input }: { block: RectBlock; input: CarouselSl
           fontFamily={fontFamily}
           fontStyle={normalizeKonvaFontStyle(block.content.font_weight ?? "700", fontFamily)}
           fill={block.content.color ?? "#FFFFFF"}
+          textDecoration={block.content.text_decoration ?? undefined}
           align={block.content.align ?? "center"}
           verticalAlign="middle"
           lineHeight={block.content.line_height ?? 1.2}

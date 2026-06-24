@@ -30,6 +30,7 @@ export function textContentToKonva(content: TextContent, resolvedText: string) {
     fontFamily,
     fontStyle: normalizeKonvaFontStyle(content.font_weight ?? "700", fontFamily),
     fill: content.color ?? "#FFFFFF",
+    textDecoration: content.text_decoration ?? undefined,
     align: content.align ?? "left",
     lineHeight: content.line_height ?? 1.2,
     letterSpacing: content.letter_spacing ?? 0,

@@ -1,7 +1,8 @@
 name: publish
 
-# Publishes @leviosa-ai/konva to GitHub Packages when a version tag is pushed.
+# Publishes @leviosa-ai/konva to the public npm registry when a version tag is pushed.
 #   git tag v0.1.0 && git push origin v0.1.0
+# Requires repo secret NPM_TOKEN (npm automation token with publish rights on the @leviosa-ai org).
 on:
   push:
     tags:
@@ -12,14 +13,13 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          registry-url: "https://npm.pkg.github.com"
+          registry-url: "https://registry.npmjs.org"
           scope: "@leviosa-ai"
 
       - run: npm install --no-save
@@ -37,4 +37,4 @@ jobs:
 
       - run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

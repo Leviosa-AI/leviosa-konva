@@ -1,7 +1,7 @@
 import React, { type ReactElement } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { CarouselBlockNode } from "./carousel-slide.js";
-import type { CarouselSlideRenderInput, TextBlock } from "./carousel-types.js";
+import type { CarouselSlideRenderInput, RectBlock, TextBlock } from "./carousel-types.js";
 
 vi.mock("konva", () => ({ default: {} }));
 vi.mock("react-konva", () => {
@@ -59,5 +59,58 @@ describe("CarouselBlockNode text rendering", () => {
 
     expect(textNode.props.width).toBe(320);
     expect(textNode.props.height).toBeUndefined();
+  });
+
+  it("passes underline decoration to plain text nodes", () => {
+    const block: TextBlock = {
+      id: "text-1",
+      type: "text",
+      z: 1,
+      x: 10,
+      y: 20,
+      w: 320,
+      h: 48,
+      rotation: 0,
+      locked: false,
+      content: {
+        text: "Underlined",
+        text_decoration: "underline",
+      },
+    };
+
+    const element = CarouselBlockNode({ block, input, onAssetReady: () => undefined }) as ReactElement;
+    const group = renderFunctionElement(element) as ReactElement<{ children: React.ReactNode }>;
+    const children = React.Children.toArray(group.props.children) as Array<ReactElement<Record<string, unknown>>>;
+    const textNode = children[1];
+
+    expect(textNode.props.textDecoration).toBe("underline");
+  });
+
+  it("passes underline decoration to rect text nodes", () => {
+    const block: RectBlock = {
+      id: "rect-1",
+      type: "rect",
+      z: 1,
+      x: 10,
+      y: 20,
+      w: 320,
+      h: 80,
+      rotation: 0,
+      locked: false,
+      content: {
+        fill: "#111111",
+        text: "Button",
+        color: "#FFCC00",
+        text_decoration: "underline",
+      },
+    };
+
+    const element = CarouselBlockNode({ block, input, onAssetReady: () => undefined }) as ReactElement;
+    const group = renderFunctionElement(element) as ReactElement<{ children: React.ReactNode }>;
+    const children = React.Children.toArray(group.props.children) as Array<ReactElement<Record<string, unknown>>>;
+    const textNode = children[1];
+
+    expect(textNode.props.fill).toBe("#FFCC00");
+    expect(textNode.props.textDecoration).toBe("underline");
   });
 });

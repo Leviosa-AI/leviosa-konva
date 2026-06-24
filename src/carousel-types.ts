@@ -65,6 +65,7 @@ export interface RectContent {
   font_size?: number | null;
   font_family?: string | null;
   font_weight?: string | null;
+  text_decoration?: string | null;
   color?: string | null;
   line_height?: number | null;
   letter_spacing?: number | null;
