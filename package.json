@@ -1,6 +1,6 @@
 {
   "name": "@leviosa-ai/konva",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "description": "Shared carousel block→react-konva render core AND the canonical font bundle. Single source of truth for the editor (leviosa-frontend) and the headless renderer (leviosa-rendering-server) so the editor is pixel-identical to published output. Consumers MUST NOT fetch fonts independently — they copy the woff2 bytes from this package and generate CSS via scripts/gen-font-css.mjs.",
   "type": "module",
   "license": "UNLICENSED",
@@ -39,7 +39,7 @@
     "fonts:gen": "node scripts/gen-font-css.mjs"
   },
   "peerDependencies": {
-    "konva": "^9.3.0",
+    "konva": "^9.3.0 || ^10.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-konva": "^19.2.0"
@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
-    "konva": "9.3.18",
+    "konva": "10.3.0",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "react-konva": "19.2.3",
