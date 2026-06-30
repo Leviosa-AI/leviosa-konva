@@ -77,3 +77,8 @@ on their next `npm install`.
 - Never add a font fetch/`@font-face`/CSS-with-`local()` in a consumer. Consume this package.
 - Bump `version` (package.json) and `LEVIOSA_KONVA_VERSION` (src/index.ts) together on release.
 - New rendering logic ships in `dist/`; new fonts ship in `fonts/`. Keep both in `files`.
+- Do not promote `dev` to `main` by recreating the same final tree as a new standalone
+  commit while leaving the original `dev` commits disconnected. Preserve ancestry with a
+  normal merge commit or fast-forward-compatible flow; if a squash/snapshot promotion is
+  unavoidable, immediately re-anchor `dev` onto the resulting `main` commit before more work
+  lands on `dev`.
