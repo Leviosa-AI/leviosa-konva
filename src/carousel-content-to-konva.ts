@@ -3,6 +3,7 @@ import type {
   EmojiContent,
   LabelContent,
   MediaContent,
+  ParticlesContent,
   RectContent,
   TextContent,
 } from "./carousel-types.js";
@@ -44,6 +45,53 @@ export function textContentToKonva(content: TextContent, resolvedText: string) {
       : null,
     opacity: content.opacity ?? undefined,
   };
+}
+
+export interface Particle {
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  rotation: number;
+}
+
+// Seeded PRNG (mulberry32). Pure + deterministic so the editor and the headless
+// renderer generate the identical particle field from the same seed.
+function mulberry32(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const PARTICLE_DEFAULT_COLORS = ["#FFFFFF"];
+// ponytail: 500 cap is a runaway backstop; real scatters are 10–60 particles.
+const PARTICLE_MAX_COUNT = 500;
+
+// Deterministic particle field for a `particles` block. The block box (width x
+// height) is the scatter area; each particle's position/size/color/rotation is
+// drawn from the seeded PRNG in a fixed call order (position → size → color →
+// rotation) so the sequence never drifts between consumers.
+export function particleField(content: ParticlesContent, width: number, height: number): Particle[] {
+  const count = Math.max(0, Math.min(PARTICLE_MAX_COUNT, Math.floor(content.count ?? 24)));
+  const rand = mulberry32((content.seed ?? 1) >>> 0);
+  const colors = content.colors && content.colors.length > 0 ? content.colors : PARTICLE_DEFAULT_COLORS;
+  const sizeMin = content.size_min ?? 6;
+  const sizeMax = Math.max(sizeMin, content.size_max ?? 14);
+  const canRotate = content.rotate ?? content.shape === "confetti";
+  const out: Particle[] = [];
+  for (let i = 0; i < count; i += 1) {
+    const x = rand() * width;
+    const y = rand() * height;
+    const size = sizeMin + rand() * (sizeMax - sizeMin);
+    const color = colors[Math.floor(rand() * colors.length)] ?? colors[0];
+    const rotation = canRotate ? rand() * 360 : 0;
+    out.push({ x, y, size, color, rotation });
+  }
+  return out;
 }
 
 export function rectContentToKonva(content: RectContent) {

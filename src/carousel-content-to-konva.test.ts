@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { emojiContentToKonva, labelContentToKonva, mediaContentToKonva, rectContentToKonva, sortBlocksByZ, textContentToKonva } from "./carousel-content-to-konva.js";
+import { emojiContentToKonva, labelContentToKonva, mediaContentToKonva, particleField, rectContentToKonva, sortBlocksByZ, textContentToKonva } from "./carousel-content-to-konva.js";
 import { TEXT_SHADOW_OFFSET_Y, TEXT_SHADOW_OPACITY } from "./konva-render-helpers.js";
 import { isBrandLogoToken, resolveContentText, resolveSlideNumberText, resolveTemplateVars } from "./carousel-template-vars.js";
 import type { RectContent, Slide } from "./carousel-types.js";
@@ -352,5 +352,55 @@ describe("mediaContentToKonva logo fit", () => {
   });
   it("respects an explicit fit on a logo", () => {
     expect(mediaContentToKonva({ media_type: "image", src: "{{theme.logo}}", fit: "cover" }).fit).toBe("cover");
+  });
+});
+
+describe("particleField determinism", () => {
+  const base = { shape: "star" as const, count: 40, seed: 7, colors: ["#f00", "#0f0"], size_min: 6, size_max: 14 };
+
+  it("same seed → identical field", () => {
+    expect(particleField(base, 300, 200)).toEqual(particleField({ ...base }, 300, 200));
+  });
+  it("different seed → different field", () => {
+    expect(particleField(base, 300, 200)).not.toEqual(particleField({ ...base, seed: 8 }, 300, 200));
+  });
+  it("count is honoured and clamped to the 500 cap", () => {
+    expect(particleField({ ...base, count: 40 }, 300, 200)).toHaveLength(40);
+    expect(particleField({ ...base, count: 9999 }, 300, 200)).toHaveLength(500);
+    expect(particleField({ ...base, count: 0 }, 300, 200)).toHaveLength(0);
+  });
+  it("every particle stays inside the box, in size range, with a listed colour", () => {
+    for (const p of particleField(base, 300, 200)) {
+      expect(p.x).toBeGreaterThanOrEqual(0);
+      expect(p.x).toBeLessThanOrEqual(300);
+      expect(p.y).toBeGreaterThanOrEqual(0);
+      expect(p.y).toBeLessThanOrEqual(200);
+      expect(p.size).toBeGreaterThanOrEqual(6);
+      expect(p.size).toBeLessThanOrEqual(14);
+      expect(base.colors).toContain(p.color);
+    }
+  });
+  it("rotation defaults on for confetti, off for dot/star", () => {
+    expect(particleField({ shape: "confetti", count: 30, seed: 3 }, 300, 200).some((p) => p.rotation !== 0)).toBe(true);
+    expect(particleField({ shape: "dot", count: 30, seed: 3 }, 300, 200).every((p) => p.rotation === 0)).toBe(true);
+  });
+});
+
+import { svgMarkupToDataUri } from "./konva-render-helpers.js";
+
+describe("svgMarkupToDataUri", () => {
+  it("injects xmlns when the markup lacks it (else Konva fails to load)", () => {
+    const uri = svgMarkupToDataUri("<svg viewBox='0 0 10 10'><path d='M0 0h10'/></svg>");
+    expect(decodeURIComponent(uri)).toContain('xmlns="http://www.w3.org/2000/svg"');
+    expect(uri.startsWith("data:image/svg+xml")).toBe(true);
+  });
+  it("keeps an existing xmlns (no double-inject)", () => {
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg"><rect/></svg>';
+    const decoded = decodeURIComponent(svgMarkupToDataUri(svg));
+    expect(decoded.match(/xmlns=/g)?.length).toBe(1);
+  });
+  it("returns empty string for empty/whitespace markup", () => {
+    expect(svgMarkupToDataUri("")).toBe("");
+    expect(svgMarkupToDataUri("   ")).toBe("");
   });
 });

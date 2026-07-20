@@ -6,12 +6,13 @@
 
 import Konva from "konva";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Group, Image as KImage, Layer, Line, Rect, Shape, Stage, Text } from "react-konva";
+import { Circle, Group, Image as KImage, Layer, Line, Rect, Shape, Stage, Star, Text } from "react-konva";
 import { imagePresetValues } from "./image-presets.js";
 import {
   emojiContentToKonva,
   labelContentToKonva,
   mediaContentToKonva,
+  particleField,
   rectContentToKonva,
   sortBlocksByZ,
   textContentToKonva,
@@ -23,12 +24,15 @@ import type {
   EmojiBlock,
   LabelBlock,
   MediaBlock,
+  ParticlesBlock,
   RectBlock,
+  SvgBlock,
   TextBlock,
 } from "./carousel-types.js";
 import {
   coverCrop,
   emojiToDataUri,
+  svgMarkupToDataUri,
   EMOJI_TEXT_FONT_FAMILY,
   normalizeKonvaFontStyle,
 } from "./konva-render-helpers.js";
@@ -554,6 +558,56 @@ function RenderEmojiBlock({ block, onReady }: { block: EmojiBlock; onReady: () =
   );
 }
 
+function RenderSvgBlock({ block, onReady }: { block: SvgBlock; onReady: () => void }) {
+  const src = svgMarkupToDataUri(block.content.svg ?? "");
+  const width = numberValue(block.w, 0);
+  const height = numberValue(block.h, 0);
+  if (!src) return null;
+  return (
+    <AssetImage src={src} onReady={onReady}>
+      {(image) => (
+        <Group name={block.id} x={numberValue(block.x, 0)} y={numberValue(block.y, 0)} width={width} height={height} rotation={numberValue(block.rotation, 0)} opacity={block.content.opacity ?? undefined}>
+          <Rect width={width} height={height} fill="rgba(0,0,0,0)" listening={false} />
+          {image && <KImage width={width} height={height} image={image} listening={false} />}
+        </Group>
+      )}
+    </AssetImage>
+  );
+}
+
+function RenderParticlesBlock({ block }: { block: ParticlesBlock }) {
+  const content = block.content;
+  const width = numberValue(block.w, 0);
+  const height = numberValue(block.h, 0);
+  const shape = content.shape ?? "dot";
+  const particles = particleField(content, width, height);
+  return (
+    <Group
+      name={block.id}
+      x={numberValue(block.x, 0)}
+      y={numberValue(block.y, 0)}
+      width={width}
+      height={height}
+      rotation={numberValue(block.rotation, 0)}
+      opacity={content.opacity ?? undefined}
+    >
+      {particles.map((p, i) => {
+        if (shape === "star") {
+          return (
+            <Star key={i} x={p.x} y={p.y} numPoints={5} innerRadius={p.size * 0.4} outerRadius={p.size * 0.9} fill={p.color} rotation={p.rotation} listening={false} />
+          );
+        }
+        if (shape === "confetti") {
+          return (
+            <Rect key={i} x={p.x} y={p.y} width={p.size} height={p.size * 0.5} offsetX={p.size / 2} offsetY={p.size * 0.25} fill={p.color} rotation={p.rotation} cornerRadius={p.size * 0.12} listening={false} />
+          );
+        }
+        return <Circle key={i} x={p.x} y={p.y} radius={p.size / 2} fill={p.color} listening={false} />;
+      })}
+    </Group>
+  );
+}
+
 function RenderLabelBlock({ block, input }: { block: LabelBlock; input: CarouselSlideRenderInput }) {
   const props = labelContentToKonva(block.content, resolvedText(block.content, input, block.name));
   const paddingX = props.padding?.x ?? 8;
@@ -629,6 +683,10 @@ export function CarouselBlockNode({
       return <RenderRectBlock block={block as RectBlock} input={input} />;
     case "emoji":
       return <RenderEmojiBlock block={block as EmojiBlock} onReady={onAssetReady} />;
+    case "svg":
+      return <RenderSvgBlock block={block as SvgBlock} onReady={onAssetReady} />;
+    case "particles":
+      return <RenderParticlesBlock block={block as ParticlesBlock} />;
     case "label":
       return <RenderLabelBlock block={block as LabelBlock} input={input} />;
     default:
@@ -647,6 +705,11 @@ export function assetBlockCount(input: CarouselSlideRenderInput, blocks: AnyBloc
         return !!iconToDataUri(iconName, content.color ?? "#FFFFFF", 2, content.font_size ?? 80);
       }
       return true;
+    }
+    if (block.type === "svg") {
+      // Baked SVG loads through AssetImage like an image, so it must be counted
+      // in the ready-gate or the headless render can fire before it draws.
+      return !!svgMarkupToDataUri((block.content as SvgBlock["content"]).svg ?? "");
     }
     if (block.type !== "media") return false;
     const content = block.content as MediaBlock["content"];

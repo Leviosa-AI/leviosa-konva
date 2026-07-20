@@ -41,6 +41,18 @@ export function emojiToDataUri(emoji: string, size: number): string {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
+// Bake arbitrary SVG markup into a data URI for Konva.Image. A baked SVG is a
+// standalone document, so a missing xmlns makes Konva fail to load the image
+// (detail-page vector-layer hard rule) — inject it when absent.
+export function svgMarkupToDataUri(svg: string): string {
+  const markup = (svg ?? "").trim();
+  if (!markup) return "";
+  const withNs = /<svg\b[^>]*\sxmlns=/i.test(markup)
+    ? markup
+    : markup.replace(/<svg\b/i, '<svg xmlns="http://www.w3.org/2000/svg"');
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(withNs)}`;
+}
+
 export const EMOJI_TEXT_FONT_FAMILY = "Noto Color Emoji, Apple Color Emoji, Segoe UI Emoji, sans-serif";
 
 export function coverCropRaw(

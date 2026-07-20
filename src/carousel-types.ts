@@ -2,9 +2,10 @@
 // Mirrors the Python model in leviosa-marketing-db-schema (block_content.py).
 // Both leviosa-frontend and leviosa-rendering-server import these from here.
 
-export type BlockType = "text" | "media" | "rect" | "emoji" | "label";
+export type BlockType = "text" | "media" | "rect" | "emoji" | "label" | "particles" | "svg";
 export type MediaType = "image" | "video";
 export type EmojiKind = "emoji" | "icon";
+export type ParticleShape = "dot" | "star" | "confetti";
 export type Align = "left" | "center" | "right";
 export type Fit = "cover" | "contain";
 
@@ -106,6 +107,30 @@ export interface LabelContent {
   padding?: { x?: number; y?: number } | null;
 }
 
+// Particle scatter (별·confetti·dot 흩뿌리기). The block's box (x/y/w/h) is the
+// scatter area; positions/sizes/colors are generated deterministically from `seed`
+// so the editor preview and the headless render are pixel-identical.
+export interface ParticlesContent {
+  shape?: ParticleShape; // default "dot"
+  count?: number; // default 24
+  seed?: number; // default 1 — determinism knob
+  colors?: string[] | null; // default ["#FFFFFF"]; each particle picks one
+  size_min?: number; // px, default 6
+  size_max?: number; // px, default 14
+  rotate?: boolean | null; // random rotation; default true for confetti, false otherwise
+  opacity?: number | null;
+}
+
+// Free vector layer: holds arbitrary SVG markup (a curated preset or an
+// AI-generated shape) baked to a data URI and drawn to fill the block box.
+// Decoration that must flex with content (speech-bubble body, photo frames)
+// belongs to a parametric type instead — this is for standalone shapes.
+export interface SvgContent {
+  role?: string | null;
+  svg?: string; // raw SVG markup; baked to a data URI at render
+  opacity?: number | null;
+}
+
 interface BaseBlock {
   id: string;
   z: number; // default 0
@@ -145,7 +170,17 @@ export interface LabelBlock extends BaseBlock {
   content: LabelContent;
 }
 
-export type Block = TextBlock | MediaBlock | RectBlock | EmojiBlock | LabelBlock;
+export interface ParticlesBlock extends BaseBlock {
+  type: "particles";
+  content: ParticlesContent;
+}
+
+export interface SvgBlock extends BaseBlock {
+  type: "svg";
+  content: SvgContent;
+}
+
+export type Block = TextBlock | MediaBlock | RectBlock | EmojiBlock | LabelBlock | ParticlesBlock | SvgBlock;
 
 export interface Slide {
   id: string;
