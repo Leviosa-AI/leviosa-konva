@@ -53,6 +53,10 @@ export interface Particle {
   size: number;
   color: string;
   rotation: number;
+  // Per-piece height/width ratio — only confetti uses it (thin strip .. square),
+  // so a scatter reads as varied paper bits, not uniform blobs. Drawn for every
+  // particle so switching shape never reflows positions.
+  aspect: number;
 }
 
 // Seeded PRNG (mulberry32). Pure + deterministic so the editor and the headless
@@ -89,7 +93,8 @@ export function particleField(content: ParticlesContent, width: number, height: 
     const size = sizeMin + rand() * (sizeMax - sizeMin);
     const color = colors[Math.floor(rand() * colors.length)] ?? colors[0];
     const rotation = canRotate ? rand() * 360 : 0;
-    out.push({ x, y, size, color, rotation });
+    const aspect = 0.25 + rand() * 0.75;
+    out.push({ x, y, size, color, rotation, aspect });
   }
   return out;
 }

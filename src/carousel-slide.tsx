@@ -598,8 +598,9 @@ function RenderParticlesBlock({ block }: { block: ParticlesBlock }) {
           );
         }
         if (shape === "confetti") {
+          const h = Math.max(2, p.size * p.aspect);
           return (
-            <Rect key={i} x={p.x} y={p.y} width={p.size} height={p.size * 0.5} offsetX={p.size / 2} offsetY={p.size * 0.25} fill={p.color} rotation={p.rotation} cornerRadius={p.size * 0.12} listening={false} />
+            <Rect key={i} x={p.x} y={p.y} width={p.size} height={h} offsetX={p.size / 2} offsetY={h / 2} fill={p.color} rotation={p.rotation} cornerRadius={Math.min(p.size, h) * 0.35} listening={false} />
           );
         }
         return <Circle key={i} x={p.x} y={p.y} radius={p.size / 2} fill={p.color} listening={false} />;
