@@ -404,3 +404,54 @@ describe("svgMarkupToDataUri", () => {
     expect(svgMarkupToDataUri("   ")).toBe("");
   });
 });
+
+import { snapBackgroundToCanvas } from "./carousel-content-to-konva.js";
+import type { Block } from "./carousel-types.js";
+
+describe("snapBackgroundToCanvas", () => {
+  const bg = (over: Partial<Block>): Block => ({
+    id: "bg", type: "rect", z: 0, x: 0, y: 0, w: 1080, h: 1350,
+    rotation: 0, locked: false, content: { fill: "#000000" },
+    ...over,
+  } as Block);
+  const fg: Block = {
+    id: "text", type: "text", z: 5, x: 100, y: 100, w: 500, h: 80,
+    rotation: 0, locked: false, content: { text: "본문" },
+  } as Block;
+
+  it("snaps a background nudged off the canvas (템플릿 y=40.5 사례)", () => {
+    const [snapped] = snapBackgroundToCanvas([bg({ y: 40.5 }), fg], 1080, 1350);
+    expect([snapped.x, snapped.y, snapped.w, snapped.h]).toEqual([0, 0, 1080, 1350]);
+  });
+
+  it("snaps a hairline-short background photo (y=1.3, h=1347.5)", () => {
+    const [snapped] = snapBackgroundToCanvas(
+      [bg({ type: "media", y: 1.3, h: 1347.5, content: { src: "x", fit: "cover" } } as Partial<Block>), fg],
+      1080, 1350,
+    );
+    expect([snapped.y, snapped.h]).toEqual([0, 1350]);
+  });
+
+  it("찾는 대상은 z 최소 블록 — 배열 순서와 무관", () => {
+    const result = snapBackgroundToCanvas([fg, bg({ y: 40.5 })], 1080, 1350);
+    expect(result[1].y).toBe(0);
+    expect(result[0]).toBe(fg);
+  });
+
+  it("의도적으로 여백을 둔 레이아웃은 건드리지 않는다", () => {
+    const inset = bg({ x: 100, y: 100, w: 880, h: 1150 });
+    expect(snapBackgroundToCanvas([inset, fg], 1080, 1350)[0]).toBe(inset);
+  });
+
+  it("이미 딱 맞으면 같은 배열을 그대로 돌려준다", () => {
+    const blocks = [bg({}), fg];
+    expect(snapBackgroundToCanvas(blocks, 1080, 1350)).toBe(blocks);
+  });
+
+  it("회전된 블록·텍스트 배경은 스냅하지 않는다", () => {
+    const rotated = bg({ y: 40.5, rotation: 5 });
+    expect(snapBackgroundToCanvas([rotated, fg], 1080, 1350)[0]).toBe(rotated);
+    const textBottom = { ...fg, z: -1 } as Block;
+    expect(snapBackgroundToCanvas([textBottom, bg({})], 1080, 1350)[0]).toBe(textBottom);
+  });
+});

@@ -19,6 +19,48 @@ export function sortBlocksByZ(blocks: Block[]): Block[] {
   return [...blocks].sort((a, b) => a.z - b.z);
 }
 
+// 템플릿 좌표가 어긋난 채 저장된 배경(예: 배경 사각형 y=40.5, 배경 사진 y=-0.1/h=1348)이
+// 실사이즈 렌더에서 캔버스 배경색을 얇은 띠로 드러낸다. 에디터는 60% 정도로 축소해 보여주니
+// 안 보이고 발행본에서만 보인다. 맨 아래(배경) 블록이 거의 캔버스면 캔버스에 딱 맞춘다.
+// ponytail: 표시 단계 보정 — 저장 데이터는 그대로 두고 템플릿/기존 프로젝트까지 한 번에 메운다.
+const BACKGROUND_SNAP_SLACK = 0.05;
+
+export function snapBackgroundToCanvas<T extends Block>(
+  blocks: T[],
+  canvasWidth: number,
+  canvasHeight: number,
+): T[] {
+  // 맨 아래 = 배경. 호출부가 z 정렬을 했든 안 했든 같은 블록을 고르도록 직접 찾는다.
+  let background: T | undefined;
+  for (const block of blocks) {
+    if (!background || (block.z ?? 0) < (background.z ?? 0)) background = block;
+  }
+  if (!background) return blocks;
+  if (background.type !== "rect" && background.type !== "media") return blocks;
+  if (background.rotation) return blocks;
+
+  const x = Number(background.x) || 0;
+  const y = Number(background.y) || 0;
+  const w = Number(background.w) || 0;
+  const h = Number(background.h) || 0;
+  if (w <= 0 || h <= 0) return blocks;
+  if (x === 0 && y === 0 && w === canvasWidth && h === canvasHeight) return blocks;
+
+  const slackX = canvasWidth * BACKGROUND_SNAP_SLACK;
+  const slackY = canvasHeight * BACKGROUND_SNAP_SLACK;
+  const coversCanvas =
+    x <= slackX &&
+    y <= slackY &&
+    x >= -slackX &&
+    y >= -slackY &&
+    x + w >= canvasWidth - slackX &&
+    y + h >= canvasHeight - slackY;
+  if (!coversCanvas) return blocks;
+
+  const snapped = { ...background, x: 0, y: 0, w: canvasWidth, h: canvasHeight };
+  return blocks.map((block) => (block === background ? snapped : block));
+}
+
 export function textContentToKonva(content: TextContent, resolvedText: string) {
   const fontFamily = resolveFontFamily(content.font_family);
   // 음영 slider min (size 0) means "no shadow at all" — don't emit a residual

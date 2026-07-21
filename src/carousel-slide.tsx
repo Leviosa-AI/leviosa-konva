@@ -14,6 +14,7 @@ import {
   mediaContentToKonva,
   particleField,
   rectContentToKonva,
+  snapBackgroundToCanvas,
   sortBlocksByZ,
   textContentToKonva,
 } from "./carousel-content-to-konva.js";
@@ -730,7 +731,10 @@ export function CarouselSlide({ input, onReady }: { input: CarouselSlideRenderIn
   const width = Number(input.canvas_width || 1080);
   const height = Number(input.canvas_height || 1350);
   const stageRef = useRef<any>(null);
-  const blocks = useMemo(() => sortBlocksByZ(input.slide.blocks) as AnyBlock[], [input.slide.blocks]);
+  const blocks = useMemo(
+    () => snapBackgroundToCanvas(sortBlocksByZ(input.slide.blocks), width, height) as AnyBlock[],
+    [height, input.slide.blocks, width],
+  );
   const expectedAssets = useMemo(() => assetBlockCount(input, blocks), [input, blocks]);
   const [readyAssets, setReadyAssets] = useState(0);
   const firedRef = useRef(false);
