@@ -88,6 +88,11 @@ export function textContentToKonva(content: TextContent, resolvedText: string) {
     opacity: content.opacity ?? undefined,
     highlightColor: content.highlight_color ?? null,
     highlightOpacity: content.highlight_opacity ?? 0.4,
+    highlightHeight: content.highlight_height ?? 1.02,
+    highlightRadius: content.highlight_radius ?? 0.25,
+    highlightPadX: content.highlight_pad_x ?? 0.1,
+    highlightOffsetY: content.highlight_offset_y ?? 0,
+    highlightMultiply: content.highlight_multiply ?? false,
   };
 }
 

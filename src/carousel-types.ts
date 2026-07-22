@@ -41,9 +41,14 @@ export interface TextContent {
   fill_linear_gradient?: FillLinearGradient | null;
   corner_radius?: number; // default 0
   opacity?: number | null;
-  // 형광펜(마커) 강조: 텍스트 줄 뒤에 반투명 색 밴드를 줄바당 자동으로 깐다.
-  highlight_color?: string | null; // 없으면 형광펜 없음
-  highlight_opacity?: number | null; // default 0.4
+  // 하이라이트(마커) 강조: 텍스트 줄/런 뒤에 색 밴드를 깐다.
+  highlight_color?: string | null; // 없으면 하이라이트 없음
+  highlight_opacity?: number | null; // 진하기 0..1 (default 0.4)
+  highlight_height?: number | null; // 두께 = 밴드 높이 / font_size (default 1.02)
+  highlight_radius?: number | null; // 둥글기 = 모서리 반경 / 밴드 높이 (0..0.5, default 0.25)
+  highlight_pad_x?: number | null; // 가로 패딩 / font_size (default 0.1)
+  highlight_offset_y?: number | null; // 세로 위치 offset / font_size (default 0)
+  highlight_multiply?: boolean | null; // 곱하기 블렌드 (default false)
 }
 
 export interface MediaContent {

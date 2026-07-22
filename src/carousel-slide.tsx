@@ -301,15 +301,21 @@ function drawLineHighlights(
   blockW: number,
   color: string,
   opacity: number,
+  heightRatio: number,
+  radiusRatio: number,
+  padRatio: number,
+  offsetYRatio: number,
+  multiply: boolean,
 ): void {
-  const padX = fontSize * 0.14;
-  const bandH = fontSize * 1.02;
-  const topGap = Math.max(0, (lineHeightPx - bandH) / 2);
-  const radius = Math.min(bandH / 2, fontSize * 0.28);
+  const padX = fontSize * padRatio;
+  const bandH = fontSize * heightRatio;
+  const topGap = Math.max(0, (lineHeightPx - bandH) / 2) + fontSize * offsetYRatio;
+  const radius = bandH * radiusRatio;
   const c2 = canvas as CanvasRenderingContext2D & { roundRect?: (x: number, y: number, w: number, h: number, r: number) => void };
   canvas.save();
   canvas.shadowColor = "rgba(0,0,0,0)";
   canvas.shadowBlur = 0;
+  if (multiply) canvas.globalCompositeOperation = "multiply";
   canvas.globalAlpha = opacity;
   canvas.fillStyle = color;
   for (let i = 0; i < lines.length; i += 1) {
@@ -346,12 +352,17 @@ function drawSegmentBands(
   fontForChar: (char: string, fontWeight?: string) => string,
   defaultWeight: string,
   opacity: number,
+  heightRatio: number,
+  radiusRatio: number,
+  padRatio: number,
+  offsetYRatio: number,
+  multiply: boolean,
 ): void {
   if (!segments.some((s) => s.highlight)) return;
-  const bandH = fontSize * 1.02;
-  const topGap = Math.max(0, (lineHeightPx - bandH) / 2);
-  const padX = fontSize * 0.1;
-  const radius = Math.min(bandH / 2, fontSize * 0.26);
+  const bandH = fontSize * heightRatio;
+  const topGap = Math.max(0, (lineHeightPx - bandH) / 2) + fontSize * offsetYRatio;
+  const padX = fontSize * padRatio;
+  const radius = bandH * radiusRatio;
   const c2 = canvas as CanvasRenderingContext2D & { roundRect?: (x: number, y: number, w: number, h: number, r: number) => void };
   let x = x0;
   for (const seg of segments) {
@@ -364,6 +375,7 @@ function drawSegmentBands(
       canvas.save();
       canvas.shadowColor = "rgba(0,0,0,0)";
       canvas.shadowBlur = 0;
+      if (multiply) canvas.globalCompositeOperation = "multiply";
       canvas.globalAlpha = opacity;
       canvas.fillStyle = seg.highlight;
       if (typeof c2.roundRect === "function") {
@@ -416,7 +428,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             props.letterSpacing,
             (char, fontWeight) => fontForChar(char, fontWeight),
           );
-          if (highlightColor) drawLineHighlights(canvas, lines, lineHeightPx, props.fontSize, props.align, block.w, highlightColor, props.highlightOpacity);
+          if (highlightColor) drawLineHighlights(canvas, lines, lineHeightPx, props.fontSize, props.align, block.w, highlightColor, props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
           for (let i = 0; i < lines.length; i += 1) {
             const line = lines[i];
             const y = i * lineHeightPx;
@@ -425,7 +437,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
               if (props.align === "center") x = (block.w - line.width) / 2;
               else if (props.align === "right") x = block.w - line.width;
             }
-            drawSegmentBands(canvas, line.segments, x, y, props.fontSize, lineHeightPx, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity);
+            drawSegmentBands(canvas, line.segments, x, y, props.fontSize, lineHeightPx, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
             for (const segment of line.segments) {
               canvas.fillStyle = segment.fill;
               for (const ch of splitGraphemes(segment.text)) {
@@ -446,7 +458,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
             props.letterSpacing,
             (char, fontWeight) => fontForChar(char, fontWeight),
           );
-          if (highlightColor) drawLineHighlights(canvas, lines, lineHeightPx, props.fontSize, props.align, block.w, highlightColor, props.highlightOpacity);
+          if (highlightColor) drawLineHighlights(canvas, lines, lineHeightPx, props.fontSize, props.align, block.w, highlightColor, props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
           for (let i = 0; i < lines.length; i += 1) {
             const line = lines[i];
             const y = i * lineHeightPx;
@@ -455,7 +467,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
               if (props.align === "center") x = (block.w - line.width) / 2;
               else if (props.align === "right") x = block.w - line.width;
             }
-            drawSegmentBands(canvas, line.segments, x, y, props.fontSize, lineHeightPx, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity);
+            drawSegmentBands(canvas, line.segments, x, y, props.fontSize, lineHeightPx, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
             for (const segment of line.segments) {
               canvas.fillStyle = segment.fill;
               for (const ch of splitGraphemes(segment.text)) {
