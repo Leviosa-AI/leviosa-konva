@@ -47,4 +47,4 @@ export * from "./image-presets.js";
 // Consumers copy the bytes and generate CSS with scripts/gen-font-css.mjs (bin: leviosa-konva-fonts).
 // They MUST NOT fetch fonts from a CDN — that is what made the editor and renderer wrap text
 // differently (same wrap logic, different font bytes -> different measureText -> different lines).
-export const LEVIOSA_KONVA_VERSION = "0.4.10";
+export const LEVIOSA_KONVA_VERSION = "0.4.11";
