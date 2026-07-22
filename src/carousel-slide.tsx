@@ -408,11 +408,11 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
           return `${segmentFontStyle} ${props.fontSize}px ${family}`;
         };
         const textFont = `${props.fontStyle} ${props.fontSize}px ${sourceFontFamily}`;
-        // konva Text 노드와 동일하게: 각 줄 글자의 세로 '중앙'을 줄박스 중앙에 둔다.
-        // (konva 내부: textBaseline='middle', y=n*lineHeightPx + lineHeightPx/2)
-        // 이렇게 안 하면 세그먼트/하이라이트가 있는 텍스트만 Shape 경로로 그려져
-        // 일반 Text 노드보다 위로 떠 보인다.
-        canvas.textBaseline = "middle";
+        // konva Text 노드(비-legacy)와 동일한 세로 위치를 재현한다. konva는
+        // textBaseline='alphabetic'에 baseline y = (ascent-descent)/2 + lineHeightPx/2
+        // 로 그린다(Text.js). 이걸 안 맞추면 세그먼트/하이라이트가 있는 텍스트만
+        // Shape 경로로 그려져 일반 Text 노드보다 위로 떠 보인다.
+        canvas.textBaseline = "alphabetic";
         canvas.fillStyle = props.fill;
         if (props.shadow?.color) {
           canvas.shadowColor = props.shadow.color;
@@ -421,6 +421,13 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
           canvas.shadowOffsetY = props.shadow.offsetY ?? 0;
         }
         const lineHeightPx = props.fontSize * props.lineHeight;
+        // konva Text.js와 동일한 baseline 오프셋: 'M'을 본문 폰트로 재서 ascent/descent
+        // 를 구하고 (ascent-descent)/2 + lineHeightPx/2 를 각 줄 y에 더한다.
+        canvas.font = textFont;
+        const _bm = canvas.measureText("M");
+        const _ascent = _bm.fontBoundingBoxAscent ?? _bm.actualBoundingBoxAscent ?? props.fontSize * 0.8;
+        const _descent = _bm.fontBoundingBoxDescent ?? _bm.actualBoundingBoxDescent ?? props.fontSize * 0.2;
+        const baselineY = (_ascent - _descent) / 2 + lineHeightPx / 2;
         if (hasSegments) {
           canvas.font = textFont;
           const lines = buildSegmentedLines(
@@ -446,7 +453,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
               canvas.fillStyle = segment.fill;
               for (const ch of splitGraphemes(segment.text)) {
                 canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
-                canvas.fillText(ch, x, y + lineHeightPx / 2);
+                canvas.fillText(ch, x, y + baselineY);
                 x += canvas.measureText(ch).width + props.letterSpacing;
               }
             }
@@ -476,7 +483,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
               canvas.fillStyle = segment.fill;
               for (const ch of splitGraphemes(segment.text)) {
                 canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
-                canvas.fillText(ch, x, y + lineHeightPx / 2);
+                canvas.fillText(ch, x, y + baselineY);
                 x += canvas.measureText(ch).width + props.letterSpacing;
               }
             }
