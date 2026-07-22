@@ -51,6 +51,25 @@ describe("rectContentToKonva", () => {
   });
 });
 
+describe("textContentToKonva highlight", () => {
+  it("has no highlight by default", () => {
+    const props = textContentToKonva({ text: "x" }, "x");
+    expect(props.highlightColor).toBeNull();
+    expect(props.highlightOpacity).toBe(0.4);
+  });
+
+  it("passes highlight color through and defaults opacity to 0.4", () => {
+    const props = textContentToKonva({ text: "x", highlight_color: "#FFE24D" }, "x");
+    expect(props.highlightColor).toBe("#FFE24D");
+    expect(props.highlightOpacity).toBe(0.4);
+  });
+
+  it("respects an explicit highlight opacity", () => {
+    const props = textContentToKonva({ text: "x", highlight_color: "#FFE24D", highlight_opacity: 0.65 }, "x");
+    expect(props.highlightOpacity).toBe(0.65);
+  });
+});
+
 describe("textContentToKonva shadow", () => {
   it("emits no shadow when the 음영 slider is at the minimum (size 0)", () => {
     // Slider min must mean "음영 아예 없음" — not a residual offset/opacity drop line.
@@ -246,6 +265,34 @@ describe("buildSegmentedLines", () => {
         ],
       },
     ]);
+  });
+
+  it("carries per-segment highlight only on the highlighted range (word-style range)", () => {
+    const ctx = {
+      font: "700 24px Pretendard",
+      measureText: (value: string) => ({ width: value === " " ? 4 : 10 }),
+    } as unknown as CanvasRenderingContext2D;
+
+    const lines = buildSegmentedLines(
+      ctx,
+      "before mid after",
+      [
+        { text: "before " },
+        { text: "mid", highlight_color: "#FFE24D" },
+        { text: " after" },
+      ],
+      "#FFFFFF",
+      1000,
+      0,
+    );
+
+    const runs = lines[0].segments;
+    const highlighted = runs.filter((r) => r.highlight);
+    expect(highlighted).toHaveLength(1);
+    expect(highlighted[0].text).toBe("mid");
+    expect(highlighted[0].highlight).toBe("#FFE24D");
+    // 나머지 런은 강조 없음
+    expect(runs.filter((r) => r.highlight).map((r) => r.text)).toEqual(["mid"]);
   });
 
   it("keeps emoji grapheme clusters intact for centered line width calculations", () => {

@@ -1,11 +1,11 @@
 import type { TextSegment } from "./carousel-types.js";
 
 export interface SegmentedTextLine {
-  segments: Array<{ text: string; fill: string; fontWeight?: string }>;
+  segments: Array<{ text: string; fill: string; fontWeight?: string; highlight?: string }>;
   width: number;
 }
 
-type StyledChar = { char: string; fill: string; fontWeight?: string };
+type StyledChar = { char: string; fill: string; fontWeight?: string; highlight?: string };
 type FontResolver = (char: string, fontWeight: string | undefined, originalFont: string) => string;
 const NON_ORPHAN_PREFIX_MARKERS = new Set(["✓", "✔", "✅", "☑", "☑️", "•"]);
 
@@ -31,13 +31,13 @@ function fontWithWeight(font: string, fontWeight?: string): string {
 function mergeAdjacentSegments(chars: StyledChar[]): SegmentedTextLine["segments"] {
   if (chars.length === 0) return [];
   const result: SegmentedTextLine["segments"] = [];
-  let current = { text: chars[0].char, fill: chars[0].fill, fontWeight: chars[0].fontWeight };
+  let current = { text: chars[0].char, fill: chars[0].fill, fontWeight: chars[0].fontWeight, highlight: chars[0].highlight };
   for (let i = 1; i < chars.length; i += 1) {
-    if (chars[i].fill === current.fill && chars[i].fontWeight === current.fontWeight) {
+    if (chars[i].fill === current.fill && chars[i].fontWeight === current.fontWeight && chars[i].highlight === current.highlight) {
       current.text += chars[i].char;
     } else {
       result.push(current);
-      current = { text: chars[i].char, fill: chars[i].fill, fontWeight: chars[i].fontWeight };
+      current = { text: chars[i].char, fill: chars[i].fill, fontWeight: chars[i].fontWeight, highlight: chars[i].highlight };
     }
   }
   result.push(current);
@@ -80,13 +80,15 @@ function segmentStyles(
   displayChars: string[],
   segments: TextSegment[],
   defaultFill: string,
-): { fills: string[]; fontWeights: Array<string | undefined> } {
+): { fills: string[]; fontWeights: Array<string | undefined>; highlights: Array<string | undefined> } {
   const fills: string[] = [];
   const fontWeights: Array<string | undefined> = [];
+  const highlights: Array<string | undefined> = [];
   const segmentRanges = segments.map((segment) => ({
     length: splitGraphemes(segment.text).length,
     fill: segment.color ?? defaultFill,
     fontWeight: segment.font_weight ?? undefined,
+    highlight: segment.highlight_color ?? undefined,
   }));
   let segmentIndex = 0;
   let segmentOffset = 0;
@@ -95,6 +97,7 @@ function segmentStyles(
     if (char === "\n") {
       fills.push(defaultFill);
       fontWeights.push(undefined);
+      highlights.push(undefined);
       segmentOffset += 1;
     } else if (segmentIndex < segmentRanges.length) {
       while (segmentIndex < segmentRanges.length && segmentOffset >= segmentRanges[segmentIndex].length) {
@@ -104,14 +107,16 @@ function segmentStyles(
       const range = segmentRanges[segmentIndex];
       fills.push(range?.fill ?? defaultFill);
       fontWeights.push(range?.fontWeight);
+      highlights.push(range?.highlight);
       segmentOffset += 1;
     } else {
       fills.push(defaultFill);
       fontWeights.push(undefined);
+      highlights.push(undefined);
     }
   }
 
-  return { fills, fontWeights };
+  return { fills, fontWeights, highlights };
 }
 
 export function buildSegmentedLines(
@@ -124,7 +129,7 @@ export function buildSegmentedLines(
   resolveFont?: FontResolver,
 ): SegmentedTextLine[] {
   const displayChars = splitGraphemes(displayText);
-  const { fills: charFills, fontWeights: charFontWeights } = segmentStyles(displayChars, segments, defaultFill);
+  const { fills: charFills, fontWeights: charFontWeights, highlights: charHighlights } = segmentStyles(displayChars, segments, defaultFill);
   const measureCache = new Map<string, number>();
 
   const hardLines: StyledChar[][] = [[]];
@@ -136,6 +141,7 @@ export function buildSegmentedLines(
         char: displayChars[i],
         fill: charFills[i],
         fontWeight: charFontWeights[i],
+        highlight: charHighlights[i],
       });
     }
   }

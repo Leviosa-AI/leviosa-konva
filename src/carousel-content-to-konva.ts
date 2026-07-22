@@ -86,6 +86,8 @@ export function textContentToKonva(content: TextContent, resolvedText: string) {
         }
       : null,
     opacity: content.opacity ?? undefined,
+    highlightColor: content.highlight_color ?? null,
+    highlightOpacity: content.highlight_opacity ?? 0.4,
   };
 }
 

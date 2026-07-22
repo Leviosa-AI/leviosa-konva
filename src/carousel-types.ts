@@ -19,6 +19,7 @@ export interface TextSegment {
   text: string;
   color?: string | null;
   font_weight?: string | null;
+  highlight_color?: string | null; // 이 범위(런)만 형광펜 — 없으면 강조 없음
 }
 
 export interface TextContent {
@@ -40,6 +41,9 @@ export interface TextContent {
   fill_linear_gradient?: FillLinearGradient | null;
   corner_radius?: number; // default 0
   opacity?: number | null;
+  // 형광펜(마커) 강조: 텍스트 줄 뒤에 반투명 색 밴드를 줄바당 자동으로 깐다.
+  highlight_color?: string | null; // 없으면 형광펜 없음
+  highlight_opacity?: number | null; // default 0.4
 }
 
 export interface MediaContent {
