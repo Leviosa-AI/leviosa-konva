@@ -408,7 +408,11 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
           return `${segmentFontStyle} ${props.fontSize}px ${family}`;
         };
         const textFont = `${props.fontStyle} ${props.fontSize}px ${sourceFontFamily}`;
-        canvas.textBaseline = "top";
+        // konva Text 노드와 동일하게: 각 줄 글자의 세로 '중앙'을 줄박스 중앙에 둔다.
+        // (konva 내부: textBaseline='middle', y=n*lineHeightPx + lineHeightPx/2)
+        // 이렇게 안 하면 세그먼트/하이라이트가 있는 텍스트만 Shape 경로로 그려져
+        // 일반 Text 노드보다 위로 떠 보인다.
+        canvas.textBaseline = "middle";
         canvas.fillStyle = props.fill;
         if (props.shadow?.color) {
           canvas.shadowColor = props.shadow.color;
@@ -442,7 +446,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
               canvas.fillStyle = segment.fill;
               for (const ch of splitGraphemes(segment.text)) {
                 canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
-                canvas.fillText(ch, x, y);
+                canvas.fillText(ch, x, y + lineHeightPx / 2);
                 x += canvas.measureText(ch).width + props.letterSpacing;
               }
             }
@@ -472,7 +476,7 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
               canvas.fillStyle = segment.fill;
               for (const ch of splitGraphemes(segment.text)) {
                 canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
-                canvas.fillText(ch, x, y);
+                canvas.fillText(ch, x, y + lineHeightPx / 2);
                 x += canvas.measureText(ch).width + props.letterSpacing;
               }
             }
