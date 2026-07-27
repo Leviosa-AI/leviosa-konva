@@ -103,16 +103,18 @@ describe("emojiContentToKonva", () => {
 });
 
 describe("labelContentToKonva", () => {
-  it("keeps content.align as the source of truth when contrast fallback changes fill", () => {
+  it("keeps extracted color, alignment, and bubble tail unchanged", () => {
     const props = labelContentToKonva({
       text: "CTA",
       color: "#111111",
       background: "#111111",
       align: "right",
+      tail_direction: "bottom_left",
     }, "CTA");
 
-    expect(props.fill).not.toBe("#111111");
+    expect(props.fill).toBe("#111111");
     expect(props.align).toBe("right");
+    expect(props.tailDirection).toBe("bottom_left");
   });
 
   it("preserves label background gradients as the rect fill priority", () => {

@@ -745,13 +745,41 @@ function RenderLabelBlock({ block, input }: { block: LabelBlock; input: Carousel
   const storedH = numberValue(block.h, 0);
   const w = isPositiveNumber(storedW) ? storedW : fallbackBox.width;
   const h = isPositiveNumber(storedH) ? storedH : fallbackBox.height;
+  const tail = props.tailDirection;
+  let bodyX = 0;
+  let bodyW = w;
+  let bodyH = h;
+  let tailPoints: number[] | null = null;
+  if (tail?.startsWith("bottom")) {
+    bodyH = h * 0.8;
+    const center = tail === "bottom_left" ? w * 0.28 : tail === "bottom_right" ? w * 0.72 : w * 0.5;
+    tailPoints = [center - w * 0.08, bodyH - 1, center + w * 0.08, bodyH - 1, center, h];
+  } else if (tail === "left") {
+    bodyX = w * 0.12;
+    bodyW = w - bodyX;
+    tailPoints = [bodyX + 1, h * 0.38, bodyX + 1, h * 0.68, 0, h * 0.55];
+  } else if (tail === "right") {
+    bodyW = w * 0.88;
+    tailPoints = [bodyW - 1, h * 0.38, bodyW - 1, h * 0.68, w, h * 0.55];
+  }
   // 충실 렌더: 저장된 font_size·corner_radius를 그대로 쓴다(크기·모서리는 생성 시 worker가 구움).
   // verticalAlign만 순수 primitive로 — 박스 안 세로중앙(위치/크기를 바꾸지 않음).
   return (
     <Group name={block.id} x={numberValue(block.x, 0)} y={numberValue(block.y, 0)} rotation={numberValue(block.rotation, 0)}>
+      {tailPoints && (
+        <Line
+          points={tailPoints}
+          closed
+          fill={props.background || "transparent"}
+          stroke={props.stroke}
+          strokeWidth={props.strokeWidth}
+          listening={false}
+        />
+      )}
       <Rect
-        width={w}
-        height={h}
+        x={bodyX}
+        width={bodyW}
+        height={bodyH}
         fill={props.background || "transparent"}
         fillLinearGradientStartPoint={props.fillLinearGradientStartPoint}
         fillLinearGradientEndPoint={props.fillLinearGradientEndPoint}
@@ -763,8 +791,9 @@ function RenderLabelBlock({ block, input }: { block: LabelBlock; input: Carousel
         listening={false}
       />
       <Text
-        width={w}
-        height={h}
+        x={bodyX}
+        width={bodyW}
+        height={bodyH}
         text={props.text}
         fontSize={props.fontSize}
         fontFamily={props.fontFamily}

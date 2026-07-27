@@ -114,6 +114,7 @@ export interface LabelContent {
   stroke_width?: number | null;
   corner_radius?: number; // default 0
   padding?: { x?: number; y?: number } | null;
+  tail_direction?: "bottom_left" | "bottom_center" | "bottom_right" | "left" | "right" | null;
 }
 
 // Particle scatter (별·confetti·dot 흩뿌리기). The block's box (x/y/w/h) is the
@@ -142,6 +143,7 @@ export interface SvgContent {
 
 interface BaseBlock {
   id: string;
+  group_id?: string | null;
   z: number; // default 0
   x: number; // default 0
   y: number; // default 0
