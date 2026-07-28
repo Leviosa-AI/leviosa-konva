@@ -82,6 +82,10 @@ function rememberAssetImage(src: string, image: HTMLImageElement): HTMLImageElem
   return image;
 }
 
+export function cacheAssetImage(src: string, image: HTMLImageElement): void {
+  rememberAssetImage(src, image);
+}
+
 function cachedAssetImage(src: string): HTMLImageElement | null {
   const image = assetImageCache.get(src);
   if (!image) return null;
