@@ -13,7 +13,8 @@
       "category": "sans",
       "traits": { "class": "gothic", "shape": "neutral" },
       "weights": [100, 200, 300, 400, 500, 600, 700, 800, 900],
-      "source": { "type": "css", "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" },
+      "comment": "dynamic-subset, not the whole-file build: Pretendard is the default font and one weight is a single ~750KB file, so the editor paid ~6.7MB to warm all nine. The subset build is the same release split into unicode ranges — metrics verified identical (unitsPerEm/ascent/descent/lineGap and glyph advances), so wrapping does not move. Pinned: an unpinned tag would silently re-freeze different bytes.",
+      "source": { "type": "css", "url": "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.css" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://github.com/orioncactus/pretendard" },
       "previewText": "프리텐다드 Pretendard"
     },
