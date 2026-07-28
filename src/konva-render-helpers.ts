@@ -1,25 +1,10 @@
+import { catalogFont } from "./font-catalog.js";
+
 export const TEXT_SHADOW_BLUR = 5;
 export const TEXT_SHADOW_OPACITY = 0.65;
 export const TEXT_SHADOW_OFFSET_Y = 1;
 
 const DEFAULT_FONT_WEIGHTS = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-const FONT_WEIGHT_OPTIONS = new Map<string, number[]>([
-  ["Pretendard", DEFAULT_FONT_WEIGHTS],
-  ["Noto Sans KR", DEFAULT_FONT_WEIGHTS],
-  ["Gowun Dodum", [400]],
-  ["Noto Serif KR", [200, 300, 400, 500, 600, 700, 900]],
-  ["Nanum Myeongjo", [400, 700, 800]],
-  ["Gowun Batang", [400, 700]],
-  ["Black Han Sans", [400]],
-  ["Do Hyeon", [400]],
-  ["Jua", [400]],
-  ["Gugi", [400]],
-  ["Sunflower", [300, 500, 700]],
-  ["Nanum Pen Script", [400]],
-  ["Gaegu", [300, 400, 700]],
-  ["Dokdo", [400]],
-  ["East Sea Dokdo", [400]],
-]);
 
 export interface CropRect {
   sx: number;
@@ -92,7 +77,7 @@ export function coverCrop(
 
 export function normalizeKonvaFontStyle(fontWeight: unknown, fontFamily?: string | null): string {
   if (fontFamily) {
-    const supportedWeights = FONT_WEIGHT_OPTIONS.get(fontFamily) || DEFAULT_FONT_WEIGHTS;
+    const supportedWeights = catalogFont(fontFamily)?.weights ?? DEFAULT_FONT_WEIGHTS;
     const requestedWeight =
       fontWeight === "bold" ? 700
         : fontWeight === "normal" ? 400

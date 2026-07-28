@@ -56,10 +56,35 @@ leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist
 `<out>/fonts/` (bytes), `<out>/font-manifest.json`, `<out>/font-css.css` (all faces) and
 `<out>/family-css/<slug>.css` (per family). woff2-only (universally supported by both targets).
 
+## The font catalog — where "which fonts exist" lives
+
+`fonts/catalog.json` is the SSOT for the font list. One entry per family: display label,
+category, coarse traits (`class` gothic/myeongjo/handwriting/display × `shape`
+neutral/round/angular/narrow/pixel), weights, licence, preview string. Three source types:
+
+- `google` — folded into one `fonts.googleapis.com/css2` request (unicode-range slices)
+- `css` — an upstream stylesheet fetched as-is (Pretendard)
+- `files` — direct woff2 URLs, `@font-face` blocks synthesized (whole font, no slices)
+
+Everything downstream derives from it, so **a font name must never be hardcoded anywhere else**:
+
+- `src/font-catalog.ts` — typed view + `matchFontFamily()` trait matching
+- `src/font-coverage.ts` — the supported-family set, `resolveFontFamily()`
+- `src/konva-render-helpers.ts` — per-family weight snapping
+- `leviosa-frontend` — the picker list and its coverage check (imports from this package)
+- the frozen bundle itself — `freeze-fonts.mjs` reads the catalog
+
+`resolveFontFamily()` accepts three things: a real family name, a trait descriptor
+(`"gothic/round"`, what reference extraction emits — it describes lettering rather than
+naming a font, so the server never needs to know the font list), and the legacy
+`"serif"`/`"sans"` values still present in older DB rows.
+
+Adding a font = one catalog entry + a re-freeze. `npm test` fails if the catalog and the
+frozen bytes drift apart.
+
 ## Regenerating the bundle (rare, maintenance only)
 
-The frozen `fonts/` IS the SSOT. To intentionally update font versions (new family, new
-Pretendard release):
+The catalog plus the frozen `fonts/` IS the SSOT. To add a family or update font versions:
 
 ```bash
 ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze   # scripts/freeze-fonts.mjs — re-fetch + re-hash

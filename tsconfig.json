@@ -9,9 +9,10 @@
     "declaration": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "resolveJsonModule": true,
     "noEmit": true,
     "allowImportingTsExtensions": false,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"]
+  "include": ["src", "fonts/catalog.json"]
 }

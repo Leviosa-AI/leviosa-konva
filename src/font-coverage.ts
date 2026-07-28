@@ -13,23 +13,9 @@ const COMMON_TEXT_RANGES: Array<[number, number]> = [
   [0xff01, 0xff60],
 ];
 
-const SUPPORTED_FONT_FAMILIES = new Set([
-  "Pretendard",
-  "Noto Sans KR",
-  "Gowun Dodum",
-  "Noto Serif KR",
-  "Nanum Myeongjo",
-  "Gowun Batang",
-  "Black Han Sans",
-  "Do Hyeon",
-  "Jua",
-  "Gugi",
-  "Sunflower",
-  "Nanum Pen Script",
-  "Gaegu",
-  "Dokdo",
-  "East Sea Dokdo",
-]);
+import { FONT_FAMILIES, matchFontFamily, type FontClass, type FontShape } from "./font-catalog.js";
+
+const SUPPORTED_FONT_FAMILIES = new Set(FONT_FAMILIES);
 
 function isVariationSelector(codePoint: number): boolean {
   return (codePoint >= 0xfe00 && codePoint <= 0xfe0f) ||
@@ -45,9 +31,28 @@ function isSupportedCodePoint(codePoint: number): boolean {
 // 번들 폰트로 매핑한다: serif 계열은 Noto Serif KR, 그 외는 Pretendard.
 const _SERIF_HINT = /serif|times|georgia|playfair|garamond|merriweather|myeongjo|batang|명조|바탕/i;
 
+const _FONT_CLASSES = new Set<string>(["gothic", "myeongjo", "handwriting", "display"]);
+const _FONT_SHAPES = new Set<string>(["neutral", "round", "angular", "narrow", "pixel"]);
+
+/**
+ * 레퍼런스 추출이 넘기는 글씨 묘사("gothic/round" 같은 계열/형태 쌍)를 실제 패밀리로.
+ * 추출 쪽은 우리 폰트 목록을 몰라도 되고, 폰트가 늘어도 추출은 그대로다.
+ * 묘사가 아니면 null — 호출부가 기존 경로(패밀리명/serif 힌트)로 넘어간다.
+ */
+function familyFromTraitDescriptor(name: string): string | null {
+  const [head, tail] = name.toLowerCase().split("/", 2);
+  if (!_FONT_CLASSES.has(head)) return null;
+  return matchFontFamily({
+    class: head as FontClass,
+    shape: tail && _FONT_SHAPES.has(tail) ? (tail as FontShape) : null,
+  });
+}
+
 export function resolveFontFamily(family: string | null | undefined): string {
   const name = (family ?? "").trim();
   if (name && SUPPORTED_FONT_FAMILIES.has(name)) return name;
+  const fromTraits = name ? familyFromTraitDescriptor(name) : null;
+  if (fromTraits) return fromTraits;
   return _SERIF_HINT.test(name) ? "Noto Serif KR" : "Pretendard";
 }
 

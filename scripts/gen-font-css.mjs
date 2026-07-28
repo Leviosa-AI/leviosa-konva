@@ -85,23 +85,44 @@ async function main() {
   const combined = [header, ...faces.map((f) => faceBlock(f, prefix))].join("\n");
   await fs.writeFile(path.join(out, "font-css.css"), `${combined}\n`);
 
-  // 3) per-family css
+  // 3) per-family css, and per-family-per-weight css.
+  //
+  // Korean families are split by Google into ~90 unicode-range slices, so one family
+  // file is one @font-face block per (weight × slice) — Noto Sans KR alone is 780KB of
+  // CSS text guarding maybe 30KB of glyphs the page will actually fetch. A slide uses
+  // one or two weights, so the editor asks for the weight file and reads ~1/9 as much.
+  // The whole-family file stays as the fallback for callers that don't know the weight.
   const familyDir = path.join(out, "family-css");
   await fs.rm(familyDir, { recursive: true, force: true });
   await fs.mkdir(familyDir, { recursive: true });
   const byFamily = new Map();
+  const byFamilyWeight = new Map();
   for (const face of faces) {
-    const list = byFamily.get(face.family) ?? [];
-    list.push(face);
-    byFamily.set(face.family, list);
+    const family = byFamily.get(face.family) ?? [];
+    family.push(face);
+    byFamily.set(face.family, family);
+
+    const weightKey = `${face.family}\n${face.weight}`;
+    const weight = byFamilyWeight.get(weightKey) ?? [];
+    weight.push(face);
+    byFamilyWeight.set(weightKey, weight);
   }
   for (const [family, list] of byFamily) {
     const content = [header, ...list.map((f) => faceBlock(f, prefix))].join("\n");
     await fs.writeFile(path.join(familyDir, `${slugifyFamily(family)}.css`), `${content}\n`);
   }
+  for (const [key, list] of byFamilyWeight) {
+    const [family, weight] = key.split("\n");
+    const content = [header, ...list.map((f) => faceBlock(f, prefix))].join("\n");
+    await fs.writeFile(
+      path.join(familyDir, `${slugifyFamily(family)}-${weight}.css`),
+      `${content}\n`,
+    );
+  }
 
   console.log(
-    `[konva] font css generated: ${faces.length} faces, prefix=${prefix} -> ${out}`,
+    `[konva] font css generated: ${faces.length} faces, ${byFamily.size} families, ` +
+      `${byFamilyWeight.size} family+weight files, prefix=${prefix} -> ${out}`,
   );
 }
 

@@ -35,6 +35,9 @@ export * from "./konva-render-helpers.js";
 // font family resolution + coverage (names only; consumer supplies font bytes)
 export * from "./font-coverage.js";
 
+// 폰트 목록 SSOT (fonts/catalog.json) — 피커/커버리지/굵기표가 전부 여기서 파생
+export * from "./font-catalog.js";
+
 // lucide icon → data-URI
 export * from "./lucide-icons.js";
 
@@ -48,4 +51,4 @@ export * from "./image-presets.js";
 // Consumers copy the bytes and generate CSS with scripts/gen-font-css.mjs (bin: leviosa-konva-fonts).
 // They MUST NOT fetch fonts from a CDN — that is what made the editor and renderer wrap text
 // differently (same wrap logic, different font bytes -> different measureText -> different lines).
-export const LEVIOSA_KONVA_VERSION = "0.4.17";
+export const LEVIOSA_KONVA_VERSION = "0.5.0";
