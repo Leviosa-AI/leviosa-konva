@@ -85,9 +85,16 @@ build left behind.
 ### Keeping pinned URLs honest
 
 `npm run fonts:check-urls` (bin: `leviosa-konva-check-fonts`) HEADs every unique `sourceUrl`
-and fails if one is gone or no longer serves the frozen byte count; `--full` downloads and
-re-hashes instead. CI runs it on PRs and weekly, because a jsdelivr `gh/<user>/<repo>@<tag>`
-path dies with its upstream repo and under `cdn` that would first surface in production.
+and compares Content-Length with the frozen byte count; `--full` downloads and re-hashes
+instead. CI runs it on PRs and weekly, because a jsdelivr `gh/<user>/<repo>@<tag>` path dies
+with its upstream repo and under `cdn` that would first surface in production.
+
+It fails on **rot**, not on every request that did not succeed: a definitive 4xx, a byte
+count that moved, or an entire upstream group (one `gh/…@<tag>`, one `/s/<family>/vNN/`)
+failing together. Scattered timeouts are reported and tolerated — sweeping 5500 URLs gets
+the caller throttled (a CI run timed out on 204 URLs that answered fine from a laptop
+minutes earlier), and a check that goes red for that is a check people rerun until it
+passes, which catches nothing. `--strict` fails on any failure.
 
 ## The font catalog — where "which fonts exist" lives
 

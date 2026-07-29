@@ -12,15 +12,28 @@
 // HEAD is a few hundred bytes. Content-Length disagreeing with the manifest already
 // means the bytes moved. Use --full to actually download and hash instead.
 //
+// What counts as a failure, and why it is not "any request that did not succeed":
+// sweeping 5500 URLs is bursty enough that gstatic throttles the caller — a CI run
+// timed out on 204 URLs that all answered fine from a laptop minutes earlier. Failing
+// on that would make this check flaky noise, and a check people rerun until it goes
+// green catches nothing. So a run fails on evidence of *rot*, not of throttling:
+//
+//   - a definitive 4xx (404/410/403 …) on any URL — the file is gone or forbidden
+//   - a whole upstream group unreachable — every URL under one `gh/<user>/<repo>@<tag>`
+//     or one `/s/<family>/vNN/` failing together is what a deleted repo or tag looks
+//     like, whatever error it surfaces as
+//
+// Scattered timeouts are reported and tolerated. `--strict` fails on any of them.
+//
 // Usage:
 //   node scripts/check-font-urls.mjs
 //   node scripts/check-font-urls.mjs --limit=50 --concurrency=16
-//   node scripts/check-font-urls.mjs --full
+//   node scripts/check-font-urls.mjs --full --strict
 
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MANIFEST_PATH = path.resolve(HERE, "..", "fonts", "font-manifest.json");
@@ -34,17 +47,19 @@ function parseArgs(argv) {
   return args;
 }
 
+/** `rot` means the file is gone or changed; `transient` means we could not tell. */
+const rot = (message) => ({ kind: "rot", message });
+const transient = (message) => ({ kind: "transient", message });
+
 /**
- * Retries transient failures. Walking 5500 URLs is bursty enough that gstatic resets a
- * share of the connections (a CI run saw ~1500 bare `fetch failed` where the same list
- * passed 5500/5500 from a laptop). Those are not dead URLs, and failing on them would
- * make this check noise that people learn to ignore.
+ * Retries before giving up. Even at low concurrency a 5500-URL sweep gets throttled, and
+ * one lost connection says nothing about whether the file exists.
  */
-async function fetchRetrying(url, init, attempts = 4) {
+async function fetchRetrying(url, init, attempts = 5) {
   let lastError;
   for (let attempt = 0; attempt < attempts; attempt += 1) {
     if (attempt > 0) {
-      const backoff = 400 * 2 ** (attempt - 1) * (1 + Math.random());
+      const backoff = 500 * 2 ** (attempt - 1) * (1 + Math.random());
       await new Promise((resolve) => setTimeout(resolve, backoff));
     }
     try {
@@ -63,25 +78,47 @@ async function fetchRetrying(url, init, attempts = 4) {
   throw new Error(`${lastError?.message ?? "fetch failed"}${code ? ` (${code})` : ""}`);
 }
 
+/** A 4xx that is not 429 is the upstream telling us the file is not there. */
+export function statusFailure(status) {
+  if (status >= 400 && status < 500 && status !== 429) return rot(`HTTP ${status}`);
+  return transient(`HTTP ${status}`);
+}
+
 async function checkHead(file) {
   const response = await fetchRetrying(file.sourceUrl, { method: "HEAD", redirect: "follow" });
-  if (!response.ok) return `HTTP ${response.status}`;
+  if (!response.ok) return statusFailure(response.status);
   const length = Number(response.headers.get("content-length"));
   // A CDN that omits Content-Length (or answers a HEAD without one) is not a failure —
   // it just means this cheap check cannot prove the size. --full can.
   if (!Number.isFinite(length) || length === 0) return null;
-  if (length !== file.bytes) return `size ${length} != manifest ${file.bytes}`;
+  if (length !== file.bytes) return rot(`size ${length} != manifest ${file.bytes}`);
   return null;
 }
 
 async function checkFull(file) {
   const response = await fetchRetrying(file.sourceUrl, { redirect: "follow" });
-  if (!response.ok) return `HTTP ${response.status}`;
+  if (!response.ok) return statusFailure(response.status);
   const body = Buffer.from(await response.arrayBuffer());
-  if (body.length !== file.bytes) return `size ${body.length} != manifest ${file.bytes}`;
+  if (body.length !== file.bytes) return rot(`size ${body.length} != manifest ${file.bytes}`);
   const sha256 = crypto.createHash("sha256").update(body).digest("hex");
-  if (sha256 !== file.sha256) return `sha256 ${sha256.slice(0, 12)}… != manifest ${file.sha256.slice(0, 12)}…`;
+  if (sha256 !== file.sha256) {
+    return rot(`sha256 ${sha256.slice(0, 12)}… != manifest ${file.sha256.slice(0, 12)}…`);
+  }
   return null;
+}
+
+/**
+ * The upstream a URL belongs to: one jsdelivr `gh/<user>/<repo>@<tag>` (or npm package),
+ * or one Google family release `/s/<family>/vNN/`. A repo or tag being deleted takes its
+ * whole group down at once, which is the signal we can trust through the throttling noise.
+ */
+export function upstreamGroup(url) {
+  const parsed = new URL(url);
+  const google = parsed.pathname.match(/^\/s\/[^/]+\/v\d+\//);
+  if (google) return `${parsed.host}${google[0]}`;
+  const pinned = parsed.pathname.match(/^.*@[\w.\-]+\//);
+  if (pinned) return `${parsed.host}${pinned[0]}`;
+  return `${parsed.host}${parsed.pathname.replace(/\/[^/]*$/, "/")}`;
 }
 
 /** Fixed-size worker pool — 5500 concurrent fetches would just get us rate-limited. */
@@ -119,35 +156,74 @@ async function main() {
   const check = full ? checkFull : checkHead;
   let done = 0;
   const failures = [];
+  const groupTotals = new Map();
+  const groupFailures = new Map();
+  for (const file of files) {
+    const group = upstreamGroup(file.sourceUrl);
+    groupTotals.set(group, (groupTotals.get(group) ?? 0) + 1);
+  }
+
   await pooled(files, concurrency, async (file) => {
-    let reason;
+    let failure;
     try {
-      reason = await check(file);
+      failure = await check(file);
     } catch (error) {
-      reason = error instanceof Error ? error.message : String(error);
+      failure = transient(error instanceof Error ? error.message : String(error));
     }
-    if (reason) failures.push({ file, reason });
+    if (failure) {
+      const group = upstreamGroup(file.sourceUrl);
+      groupFailures.set(group, (groupFailures.get(group) ?? 0) + 1);
+      failures.push({ file, group, ...failure });
+    }
     done += 1;
     if (done % 500 === 0) console.log(`[konva] checked ${done}/${files.length}`);
   });
 
-  for (const file of missing) failures.push({ file, reason: "no sourceUrl in manifest" });
+  // An upstream whose every URL failed is gone, whatever error it surfaced as.
+  const deadGroups = new Set(
+    [...groupFailures].filter(([g, n]) => n === groupTotals.get(g)).map(([g]) => g),
+  );
 
-  if (failures.length > 0) {
-    console.error(`[konva] ${failures.length} font URL(s) failed:`);
-    for (const { file, reason } of failures.slice(0, 40)) {
-      console.error(`- ${file.filename}: ${reason}\n  ${file.sourceUrl ?? "(none)"}`);
+  const strict = args.strict === "true";
+  const fatal = failures.filter(
+    (f) => f.kind === "rot" || deadGroups.has(f.group) || strict,
+  );
+  const tolerated = failures.filter((f) => !fatal.includes(f));
+
+  for (const file of missing) {
+    fatal.push({ file, kind: "rot", message: "no sourceUrl in manifest" });
+  }
+
+  if (tolerated.length > 0) {
+    console.warn(
+      `[konva] ${tolerated.length} URL(s) unverified (throttling/timeouts), spread over ` +
+        `${new Set(tolerated.map((f) => f.group)).size} upstreams — not treated as rot`,
+    );
+  }
+
+  if (fatal.length > 0) {
+    console.error(`[konva] ${fatal.length} font URL(s) failed:`);
+    if (deadGroups.size > 0) {
+      console.error(`[konva] upstream(s) with every URL failing: ${[...deadGroups].join(", ")}`);
     }
-    if (failures.length > 40) console.error(`- …and ${failures.length - 40} more`);
+    for (const { file, message } of fatal.slice(0, 40)) {
+      console.error(`- ${file.filename}: ${message}\n  ${file.sourceUrl ?? "(none)"}`);
+    }
+    if (fatal.length > 40) console.error(`- …and ${fatal.length - 40} more`);
     process.exit(1);
   }
 
   console.log(
-    `[konva] ${files.length} font URL(s) live, ${full ? "sha256" : "size"} matches the manifest`,
+    `[konva] ${files.length - tolerated.length}/${files.length} font URL(s) live, ` +
+      `${full ? "sha256" : "size"} matches the manifest`,
   );
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+const invokedDirectly =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
+if (invokedDirectly) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
