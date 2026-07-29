@@ -1,7 +1,7 @@
 {
   "name": "@leviosa-ai/konva",
-  "version": "0.5.1",
-  "description": "Shared carousel block→react-konva render core AND the canonical font bundle. Single source of truth for the editor (leviosa-frontend) and the headless renderer (leviosa-rendering-server) so the editor is pixel-identical to published output. Consumers MUST NOT fetch fonts independently — they copy the woff2 bytes from this package and generate CSS via scripts/gen-font-css.mjs.",
+  "version": "0.6.0",
+  "description": "Shared carousel block→react-konva render core AND the canonical font bundle. Single source of truth for the editor (leviosa-frontend) and the headless renderer (leviosa-rendering-server) so the editor is pixel-identical to published output. Consumers MUST NOT resolve font URLs independently — they generate CSS via scripts/gen-font-css.mjs, serving either the bundled woff2 bytes (--mode=local) or the pinned CDN URLs the manifest froze (--mode=cdn).",
   "type": "module",
   "license": "UNLICENSED",
   "repository": {
@@ -21,13 +21,15 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "leviosa-konva-fonts": "scripts/gen-font-css.mjs"
+    "leviosa-konva-fonts": "scripts/gen-font-css.mjs",
+    "leviosa-konva-check-fonts": "scripts/check-font-urls.mjs"
   },
   "files": [
     "dist",
     "src",
     "fonts",
-    "scripts/gen-font-css.mjs"
+    "scripts/gen-font-css.mjs",
+    "scripts/check-font-urls.mjs"
   ],
   "sideEffects": false,
   "scripts": {
@@ -36,7 +38,8 @@
     "test": "vitest run",
     "prepare": "tsup",
     "fonts:freeze": "node scripts/freeze-fonts.mjs",
-    "fonts:gen": "node scripts/gen-font-css.mjs"
+    "fonts:gen": "node scripts/gen-font-css.mjs",
+    "fonts:check-urls": "node scripts/check-font-urls.mjs"
   },
   "peerDependencies": {
     "konva": "^9.3.0 || ^10.0.0",

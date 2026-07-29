@@ -38,28 +38,33 @@ Pure render closure — ~1,030 LOC, browser-safe (no Node/FS deps, verified):
 
 `SUPPORTED_FONT_FAMILIES` + `FONT_WEIGHT_OPTIONS` are the SSOT here.
 
-### Fonts (consumer contract) — bytes are bundled in this package
-This package ships the canonical font **bytes** at `fonts/` (`fonts/fonts/*.woff2` +
-`fonts/font-manifest.json`), not just family names. This is deliberate: text wrapping is
-`canvas.measureText()` against the loaded font, so identical bytes are as load-bearing as
-identical wrap logic. When the two consumers fetched fonts independently from a CDN they got
-different bytes at different build times → different metrics → different line counts.
+### Fonts (consumer contract) — the manifest is the SSOT
+This package ships `fonts/font-manifest.json` — per file, the version-pinned URL it was
+frozen from and its sha256 — plus the woff2 bytes themselves at `fonts/fonts/`. This is
+deliberate: text wrapping is `canvas.measureText()` against the loaded font, so identical
+bytes are as load-bearing as identical wrap logic. When the two consumers each resolved their
+own unpinned CDN URLs at their own build times they got different bytes → different metrics
+→ different line counts.
 
-Consumers MUST NOT fetch fonts. At build time they run `leviosa-konva-fonts`
-(`scripts/gen-font-css.mjs`, exposed as the package `bin`), which copies the bytes and emits
-`@font-face` CSS for the consumer's own URL prefix (bytes identical, only the prefix differs):
+Consumers MUST NOT decide which font bytes to fetch. At build time they run
+`leviosa-konva-fonts` (`scripts/gen-font-css.mjs`, exposed as the package `bin`), which emits
+`@font-face` CSS from the manifest. Two delivery modes differ **only in the `src` URL**:
 
 ```bash
-# frontend (editor)
-leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts
-# rendering-server (headless)
-leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist
+# local (default) — copy the bytes, serve them yourself, zero network at render time
+leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts    # editor
+leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist   # renderer
+
+# cdn — src points at the pinned manifest sourceUrl; no bytes are copied (~81MB less)
+leviosa-konva-fonts --mode=cdn --out=public/render-fonts
 ```
 
 The renderer still inlines the generated CSS + route-fulfills the bytes + blocks on
 `document.fonts.ready`; the editor still loads the families before render then awaits
-`document.fonts.ready`. The difference is both now measure against the SAME bytes.
-See `CLAUDE.md` for the full contract and the regen procedure (`fonts:freeze`).
+`document.fonts.ready`. Both measure against the same bytes either way — the manifest pins
+them. `npm run fonts:check-urls` verifies every pinned URL is still live and unchanged.
+See `CLAUDE.md` for which mode belongs where, the full contract, and the regen procedure
+(`fonts:freeze`).
 
 ### Assets (consumer contract)
 The caller resolves `brand_config` + `asset_map` and puts them on
