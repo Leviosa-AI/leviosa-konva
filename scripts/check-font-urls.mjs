@@ -34,8 +34,37 @@ function parseArgs(argv) {
   return args;
 }
 
+/**
+ * Retries transient failures. Walking 5500 URLs is bursty enough that gstatic resets a
+ * share of the connections (a CI run saw ~1500 bare `fetch failed` where the same list
+ * passed 5500/5500 from a laptop). Those are not dead URLs, and failing on them would
+ * make this check noise that people learn to ignore.
+ */
+async function fetchRetrying(url, init, attempts = 4) {
+  let lastError;
+  for (let attempt = 0; attempt < attempts; attempt += 1) {
+    if (attempt > 0) {
+      const backoff = 400 * 2 ** (attempt - 1) * (1 + Math.random());
+      await new Promise((resolve) => setTimeout(resolve, backoff));
+    }
+    try {
+      const response = await fetch(url, init);
+      // 429/5xx is the CDN asking us to slow down, not a missing file.
+      if (response.status === 429 || response.status >= 500) {
+        lastError = new Error(`HTTP ${response.status}`);
+        continue;
+      }
+      return response;
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  const code = lastError?.cause?.code;
+  throw new Error(`${lastError?.message ?? "fetch failed"}${code ? ` (${code})` : ""}`);
+}
+
 async function checkHead(file) {
-  const response = await fetch(file.sourceUrl, { method: "HEAD", redirect: "follow" });
+  const response = await fetchRetrying(file.sourceUrl, { method: "HEAD", redirect: "follow" });
   if (!response.ok) return `HTTP ${response.status}`;
   const length = Number(response.headers.get("content-length"));
   // A CDN that omits Content-Length (or answers a HEAD without one) is not a failure —
@@ -46,7 +75,7 @@ async function checkHead(file) {
 }
 
 async function checkFull(file) {
-  const response = await fetch(file.sourceUrl, { redirect: "follow" });
+  const response = await fetchRetrying(file.sourceUrl, { redirect: "follow" });
   if (!response.ok) return `HTTP ${response.status}`;
   const body = Buffer.from(await response.arrayBuffer());
   if (body.length !== file.bytes) return `size ${body.length} != manifest ${file.bytes}`;
@@ -71,7 +100,9 @@ async function pooled(items, size, worker) {
 
 async function main() {
   const args = parseArgs(process.argv);
-  const concurrency = Number(args.concurrency ?? 16);
+  // Deliberately modest: gstatic starts resetting connections well before this check
+  // gets fast enough to matter, and a full pass is a few minutes either way.
+  const concurrency = Number(args.concurrency ?? 8);
   const full = args.full === "true";
 
   const manifest = JSON.parse(await fs.readFile(MANIFEST_PATH, "utf8"));

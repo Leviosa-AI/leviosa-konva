@@ -31,4 +31,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node scripts/check-font-urls.mjs --concurrency=24
+      - run: node scripts/check-font-urls.mjs
+        timeout-minutes: 20
