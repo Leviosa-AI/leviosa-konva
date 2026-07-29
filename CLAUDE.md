@@ -58,9 +58,25 @@ identical, and `src/gen-font-css.test.mjs` asserts exactly that:
 leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts
 leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist
 
-# cdn — point src at the pinned manifest sourceUrl; no bytes are copied
-leviosa-konva-fonts --mode=cdn --out=public/render-fonts
+# cdn — point src at the pinned manifest sourceUrl; only the files we cannot delegate ship
+leviosa-konva-fonts --mode=cdn --prefix=/render-fonts/fonts/ --out=public/render-fonts
 ```
+
+### Pinned is not the same as permanent
+
+`cdn` mode only delegates a file whose upstream **cannot be repointed at other bytes by
+someone else**: `fonts.gstatic.com/s/<family>/vNN/…` (a Google release path) and
+`cdn.jsdelivr.net/npm/<pkg>@<version>/…` (npm refuses to republish a version and blocks
+unpublish after 72 hours). `isImmutableSource()` is that rule.
+
+`cdn.jsdelivr.net/gh/<user>/<repo>@<tag>/…` is neither: a git tag can be force-moved to
+different bytes and the repo can be deleted outright, and it is a third party's. Those files
+keep shipping as bytes even in `cdn` mode. Today that is **six woff2, 1.26MB** — Paperozi and
+Presentation, whose only upstream is 눈누's `projectnoonnu` repos. Pretendard used to be in
+that category; it now points at `npm/pretendard@1.3.9`, the same release, **verified
+byte-identical for all 1,656 files**, so its sha256 and wrap behaviour are unchanged.
+
+Adding a font from a `gh/` path is allowed — it just costs bundle size instead of a risk.
 
 `leviosa-konva-fonts` is the package `bin` → `scripts/gen-font-css.mjs`. It writes
 `<out>/font-manifest.json`, `<out>/font-css.css` (all faces) and `<out>/family-css/<slug>.css`

@@ -11,8 +11,10 @@ import catalog from "../fonts/catalog.json" with { type: "json" };
 import {
   assertPinnedUrl,
   buildSheets,
+  bundledFilenames,
   faceBlock,
   invokedAsScript,
+  isImmutableSource,
   readManifest,
   sourceUrlIndex,
   woff2Faces,
@@ -21,9 +23,11 @@ import {
 const manifest = await readManifest();
 const faces = woff2Faces(manifest);
 const sourceUrls = sourceUrlIndex(manifest);
+const bundled = bundledFilenames(faces, sourceUrls);
 
-const local = { mode: "local", prefix: "/render-fonts/fonts/", sourceUrls };
-const cdn = { mode: "cdn", prefix: null, sourceUrls };
+const PREFIX = "/render-fonts/fonts/";
+const local = { mode: "local", prefix: PREFIX, sourceUrls };
+const cdn = { mode: "cdn", prefix: PREFIX, sourceUrls, bundled };
 
 const srcUrls = (css) => Array.from(css.matchAll(/url\("([^"]+)"\)/g), (m) => m[1]);
 const withoutSrc = (css) => css.replace(/^ {2}src: .*$/gm, "  src: <URL>");
@@ -47,14 +51,63 @@ describe("cdn mode vs local mode", () => {
     expect(cdnSheets.families).toBe(localSheets.families);
   });
 
-  it("resolves every face to a pinned https URL", () => {
+  it("resolves every delegated face to an immutable https URL", () => {
     const missing = faces.filter((face) => !sourceUrls.has(face.filename));
     expect(missing).toEqual([]);
     for (const url of srcUrls(buildSheets(faces, cdn).combined)) {
+      if (url.startsWith(PREFIX)) continue; // bundled — checked below
       expect(url).toMatch(/^https:\/\//);
-      // gstatic pins with /vNN/, jsdelivr with @tag — an unversioned URL would let
-      // upstream swap bytes under a fixed address.
-      expect(/\/v\d+\//.test(url) || /@[\w.\-]+\//.test(url)).toBe(true);
+      expect(isImmutableSource(url)).toBe(true);
+    }
+  });
+});
+
+describe("what a cdn build still ships itself", () => {
+  // A git tag can be force-moved and a repo can be deleted; an npm version cannot be
+  // republished and cannot be unpublished after 72h. Only the second is safe to delegate.
+  it("delegates gstatic releases and npm versions, keeps third-party gh tags", () => {
+    expect(isImmutableSource("https://fonts.gstatic.com/s/jua/v18/co3K.13.woff2")).toBe(true);
+    expect(
+      isImmutableSource("https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/a.woff2"),
+    ).toBe(true);
+    expect(
+      isImmutableSource("https://cdn.jsdelivr.net/npm/@fontsource/gaegu@5.2.5/files/a.woff2"),
+    ).toBe(true);
+    expect(
+      isImmutableSource("https://cdn.jsdelivr.net/gh/projectnoonnu/2404@1.0/a.woff2"),
+    ).toBe(false);
+    expect(isImmutableSource("https://fonts.gstatic.com/s/jua/a.woff2")).toBe(false);
+    expect(isImmutableSource("http://cdn.jsdelivr.net/npm/x@1/a.woff2")).toBe(false);
+    expect(isImmutableSource(undefined)).toBe(false);
+  });
+
+  // Pretendard moved from a gh tag to the npm version of the same release (verified
+  // byte-identical), which left only the two noonnu families behind a mutable path.
+  it("bundles exactly the faces whose upstream is not immutable", () => {
+    const bundledFaces = faces.filter((face) => bundled.has(face.filename));
+    expect(new Set(bundledFaces.map((face) => face.family))).toEqual(
+      new Set(["Paperozi", "Presentation"]),
+    );
+    for (const face of bundledFaces) {
+      expect(sourceUrls.get(face.filename)).toContain("/gh/projectnoonnu/");
+    }
+    expect(bundled.size).toBeLessThan(faces.length / 100);
+  });
+
+  it("serves a bundled face from the consumer prefix, not the CDN", () => {
+    const face = faces.find((f) => bundled.has(f.filename));
+    expect(faceBlock(face, cdn)).toContain(`url("${PREFIX}${face.filename}")`);
+    const delegated = faces.find((f) => !bundled.has(f.filename));
+    expect(faceBlock(delegated, cdn)).toContain(`url("${sourceUrls.get(delegated.filename)}")`);
+  });
+
+  it("no longer depends on a third-party gh tag for Pretendard", () => {
+    const pretendard = faces.filter((face) => face.family === "Pretendard");
+    expect(pretendard.length).toBeGreaterThan(0);
+    for (const face of pretendard) {
+      expect(sourceUrls.get(face.filename)).toMatch(
+        /^https:\/\/cdn\.jsdelivr\.net\/npm\/pretendard@\d/,
+      );
     }
   });
 });
@@ -62,7 +115,10 @@ describe("cdn mode vs local mode", () => {
 describe("cdn mode refuses to emit something unsafe", () => {
   it("fails on a face with no frozen source URL", () => {
     expect(() =>
-      faceBlock({ family: "X", weight: "400", filename: "nope.woff2" }, cdn),
+      faceBlock({ family: "X", weight: "400", filename: "nope.woff2" }, {
+        ...cdn,
+        bundled: new Set(),
+      }),
     ).toThrow(/No sourceUrl/);
   });
 

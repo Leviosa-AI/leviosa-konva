@@ -13,19 +13,22 @@
 //   local (default) — copy the frozen woff2 into <out>/fonts and point `src` at the
 //     consumer's own prefix. Zero network at render time; the renderer verifies each
 //     file's sha256 before serving it.
-//   cdn — point `src` straight at manifest `sourceUrl`. No bytes are copied. Every
-//     URL in the manifest is version-pinned (gstatic /vNN/, jsdelivr @tag), so this is
-//     NOT the "each repo re-fetches from a CDN at build time" setup that caused the
-//     wrap-divergence postmortem in CLAUDE.md — the URL list is frozen and shared.
-//     Never resolve fonts.googleapis.com/css2 at build time to fill this in.
+//   cdn — point `src` straight at manifest `sourceUrl`, for every file whose upstream
+//     cannot be repointed at other bytes (gstatic `/s/<family>/vNN/`, jsdelivr
+//     `/npm/<pkg>@<version>/`). This is NOT the "each repo re-fetches from a CDN at build
+//     time" setup that caused the wrap-divergence postmortem in CLAUDE.md — the URL list is
+//     frozen and shared. Never resolve fonts.googleapis.com/css2 at build time to fill it in.
+//     Files served from anything weaker — today six woff2 behind third-party
+//     `gh/<user>/<repo>@<tag>` paths, where a tag can be force-moved and a repo deleted —
+//     still ship as bytes, so nothing outside our control can take a font away.
 //
 // Usage:
 //   node gen-font-css.mjs --prefix=/render-fonts/fonts/ --out=/abs/path/render-fonts
 //   node gen-font-css.mjs --mode=cdn --out=/abs/path/render-fonts
 //
 // Writes <out>/font-css.css (all faces), <out>/family-css/<slug>.css (per family, and
-// per family+weight) and <out>/font-manifest.json. In local mode it also writes
-// <out>/fonts/*.woff2.
+// per family+weight) and <out>/font-manifest.json. local mode also writes all of
+// <out>/fonts/*.woff2; cdn mode writes only the files it could not delegate.
 
 import { realpathSync } from "node:fs";
 import fs from "node:fs/promises";
@@ -74,11 +77,42 @@ export function slugifyFamily(family) {
 }
 
 /**
- * Where a face's bytes are served from. `local` composes the consumer's prefix with the
- * frozen filename; `cdn` returns the pinned upstream URL the file was frozen from.
+ * Whether a pinned URL can be repointed at different bytes by someone other than us.
+ *
+ * Pinning is necessary but not sufficient. `fonts.gstatic.com/s/<family>/vNN/…` is a Google
+ * release path and `cdn.jsdelivr.net/npm/<pkg>@<version>/…` is an npm version — npm refuses
+ * to republish a version and blocks unpublish after 72 hours, so both are effectively
+ * immutable and permanent.
+ *
+ * A `cdn.jsdelivr.net/gh/<user>/<repo>@<tag>/…` path is neither. A git tag can be force-moved
+ * to different bytes and the repo can be deleted outright, and it belongs to a third party.
+ * Those files keep shipping as bytes even in cdn mode: nothing outside our control can then
+ * take a font away or change what it measures.
  */
-export function resolveFaceUrl(face, { mode, prefix, sourceUrls }) {
-  if (mode === "cdn") {
+export function isImmutableSource(url) {
+  if (!url || !url.startsWith("https://")) return false;
+  const { host, pathname } = new URL(url);
+  if (host === "fonts.gstatic.com") return /^\/s\/[^/]+\/v\d+\//.test(pathname);
+  if (host === "cdn.jsdelivr.net") return /^\/npm\/(@[^/]+\/)?[^/@]+@[^/]+\//.test(pathname);
+  return false;
+}
+
+/** The files a cdn build still has to ship itself — see isImmutableSource. */
+export function bundledFilenames(faces, sourceUrls) {
+  return new Set(
+    faces
+      .map((face) => face.filename)
+      .filter((filename) => !isImmutableSource(sourceUrls.get(filename))),
+  );
+}
+
+/**
+ * Where a face's bytes are served from. `local` composes the consumer's prefix with the
+ * frozen filename; `cdn` returns the pinned upstream URL the file was frozen from, except
+ * for the files whose upstream we do not trust to stay put.
+ */
+export function resolveFaceUrl(face, { mode, prefix, sourceUrls, bundled }) {
+  if (mode === "cdn" && !bundled?.has(face.filename)) {
     const url = sourceUrls.get(face.filename);
     if (!url) throw new Error(`No sourceUrl in manifest for ${face.filename}`);
     return url;
@@ -187,11 +221,6 @@ async function main() {
   if (!MODES.includes(mode)) {
     throw new Error(`Unknown --mode=${mode} (expected one of ${MODES.join(", ")})`);
   }
-  // A leftover --prefix under --mode=cdn reads as "the bytes are still mine", which is
-  // exactly the misconfiguration that would go unnoticed until a font 404s in prod.
-  if (mode === "cdn" && args.prefix != null) {
-    throw new Error("--prefix has no meaning with --mode=cdn; the manifest sourceUrl is used");
-  }
   const prefix = args.prefix ?? "/render-fonts/fonts/";
   const out = args.out ? path.resolve(args.out) : path.resolve("public/render-fonts");
 
@@ -200,29 +229,34 @@ async function main() {
   if (faces.length === 0) throw new Error(`No woff2 faces in manifest: ${MANIFEST_PATH}`);
 
   const sourceUrls = sourceUrlIndex(manifest);
+  const bundled = mode === "cdn" ? bundledFilenames(faces, sourceUrls) : null;
   if (mode === "cdn") {
-    const missing = faces.filter((face) => !sourceUrls.has(face.filename));
-    if (missing.length > 0) {
-      throw new Error(
-        `--mode=cdn needs a sourceUrl for every face; ${missing.length} missing, ` +
-          `e.g. ${missing[0].family} ${missing[0].filename}`,
-      );
+    for (const face of faces) {
+      if (bundled.has(face.filename)) continue;
+      assertPinnedUrl(sourceUrls.get(face.filename), face.filename);
     }
-    for (const face of faces) assertPinnedUrl(sourceUrls.get(face.filename), face.filename);
   }
 
-  const options = { mode, prefix, sourceUrls };
+  const options = { mode, prefix, sourceUrls, bundled };
   const { combined, familySheets, families } = buildSheets(faces, options);
 
   await fs.mkdir(out, { recursive: true });
   // The manifest travels in both modes: it carries the sha256 a consumer needs to verify
   // bytes, whether it serves them itself or fetches them from the pinned URL.
   await fs.copyFile(MANIFEST_PATH, path.join(out, "font-manifest.json"));
+  const fontsOut = path.join(out, "fonts");
   if (mode === "local") {
-    await copyDir(BUNDLE_FONTS_DIR, path.join(out, "fonts"));
+    await copyDir(BUNDLE_FONTS_DIR, fontsOut);
   } else {
-    // Drop bytes left behind by an earlier local build so nothing serves stale copies.
-    await fs.rm(path.join(out, "fonts"), { recursive: true, force: true });
+    // Rebuild rather than prune: bytes left by an earlier local build would keep serving
+    // files nothing points at, and would hide that this build is meant to carry only six.
+    await fs.rm(fontsOut, { recursive: true, force: true });
+    if (bundled.size > 0) {
+      await fs.mkdir(fontsOut, { recursive: true });
+      for (const filename of bundled) {
+        await fs.copyFile(path.join(BUNDLE_FONTS_DIR, filename), path.join(fontsOut, filename));
+      }
+    }
   }
 
   await fs.writeFile(path.join(out, "font-css.css"), combined);
@@ -234,10 +268,14 @@ async function main() {
     await fs.writeFile(path.join(familyDir, filename), content);
   }
 
+  const bundledNote =
+    mode === "cdn" && bundled.size > 0
+      ? `, ${bundled.size} files bundled (upstream not immutable)`
+      : "";
   console.log(
     `[konva] font css generated: ${faces.length} faces, ${families} families, ` +
-      `${familySheets.size} family css files, mode=${mode}` +
-      `${mode === "local" ? `, prefix=${prefix}` : ""} -> ${out}`,
+      `${familySheets.size} family css files, mode=${mode}, prefix=${prefix}` +
+      `${bundledNote} -> ${out}`,
   );
 }
 
