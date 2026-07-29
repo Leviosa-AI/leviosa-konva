@@ -1,0 +1,35 @@
+name: ci
+
+on:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # Weekly — catches a font URL that rots between releases rather than at release time.
+    - cron: "0 3 * * 1"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm install --no-save
+      - run: npm run typecheck
+      - run: npm test
+
+  # The frozen URLs are version-pinned, but pinned is not permanent: a jsdelivr
+  # gh/<user>/<repo>@<tag> path dies with the upstream repo. Under --mode=cdn that
+  # would surface as a failed render in prod, so check it on a schedule and on any
+  # PR that touches the font bundle. HEAD-only — ~5500 requests, no downloads.
+  font-urls:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node scripts/check-font-urls.mjs
+        timeout-minutes: 20

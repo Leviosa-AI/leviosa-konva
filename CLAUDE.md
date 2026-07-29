@@ -36,25 +36,81 @@ Neither repo committed the bundle (both `render-fonts`/`dist` are gitignored). B
 different times, the two repos pulled **different font bytes** → different glyph advance
 widths → different wrap points → different line counts. Same logic, different measuring stick.
 
-Fix: the font bytes are **frozen in this package** and both consumers copy them from here.
-No consumer fetches fonts anymore.
+Fix: the font list is **frozen in this package** — `fonts/font-manifest.json` records, per
+file, the exact version-pinned URL it came from and its sha256, and the woff2 bytes sit next
+to it. Every consumer generates its CSS from that one manifest.
+
+Note what the root cause actually was: **each consumer resolving its own URLs at its own
+build time**, from addresses that were not pinned. It was not "a CDN was involved". A frozen,
+shared, version-pinned URL list has the same guarantee as frozen bytes — which is what makes
+`--mode=cdn` below safe, and why re-resolving `fonts.googleapis.com/css2` at build time is
+still forbidden.
 
 ## How consumers use the fonts (the contract)
 
-Consumers MUST NOT fetch fonts. At build time they run this package's generator, which
-copies the canonical woff2 bytes and emits `@font-face` CSS for their own serving prefix
-(the bytes are identical; only the URL prefix differs):
+Consumers MUST NOT decide for themselves which font bytes to fetch. At build time they run
+this package's generator, which emits `@font-face` CSS from the manifest. Two delivery modes
+differ **only in the `src` URL** — face metadata, unicode ranges and the resulting bytes are
+identical, and `src/gen-font-css.test.mjs` asserts exactly that:
 
 ```bash
-# frontend
+# local (default) — copy the frozen woff2, serve them yourself, zero network at render time
 leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts
-# renderer
 leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist
+
+# cdn — point src at the pinned manifest sourceUrl; only the files we cannot delegate ship
+leviosa-konva-fonts --mode=cdn --prefix=/render-fonts/fonts/ --out=public/render-fonts
 ```
 
+### Pinned is not the same as permanent
+
+`cdn` mode only delegates a file whose upstream **cannot be repointed at other bytes by
+someone else**: `fonts.gstatic.com/s/<family>/vNN/…` (a Google release path) and
+`cdn.jsdelivr.net/npm/<pkg>@<version>/…` (npm refuses to republish a version and blocks
+unpublish after 72 hours). `isImmutableSource()` is that rule.
+
+`cdn.jsdelivr.net/gh/<user>/<repo>@<tag>/…` is neither: a git tag can be force-moved to
+different bytes and the repo can be deleted outright, and it is a third party's. Those files
+keep shipping as bytes even in `cdn` mode. Today that is **six woff2, 1.26MB** — Paperozi and
+Presentation, whose only upstream is 눈누's `projectnoonnu` repos. Pretendard used to be in
+that category; it now points at `npm/pretendard@1.3.9`, the same release, **verified
+byte-identical for all 1,656 files**, so its sha256 and wrap behaviour are unchanged.
+
+Adding a font from a `gh/` path is allowed — it just costs bundle size instead of a risk.
+
 `leviosa-konva-fonts` is the package `bin` → `scripts/gen-font-css.mjs`. It writes
-`<out>/fonts/` (bytes), `<out>/font-manifest.json`, `<out>/font-css.css` (all faces) and
-`<out>/family-css/<slug>.css` (per family). woff2-only (universally supported by both targets).
+`<out>/font-manifest.json`, `<out>/font-css.css` (all faces) and `<out>/family-css/<slug>.css`
+(per family, and per family+weight); in `local` mode it also writes `<out>/fonts/` (bytes).
+woff2-only (universally supported by both targets). `--mode=cdn` refuses to emit a face whose
+URL is missing, non-https, or unversioned, and it deletes any `<out>/fonts` a previous local
+build left behind.
+
+### Which mode to use where
+
+- **Editor (leviosa-frontend)** — either. `cdn` drops ~81MB of byte copying per build and
+  gets edge caching; the browser is online regardless.
+- **Headless renderer** — `local` unless you replace what it gives up. Today the renderer
+  intercepts every font request and verifies the file's sha256 against the manifest before
+  serving it, so a corrupted or swapped byte cannot reach a published image. `@font-face` has
+  no SRI, so a plain `cdn` build loses that check. It does **not** risk silent wrong wrapping —
+  `waitForFonts` throws `FontLoadError` rather than falling back — but a font CDN outage
+  becomes a failed render job.
+- The safe middle for the renderer, if the bundled bytes must go: keep the `page.route`
+  interception, fetch the pinned URL once, verify sha256 against the manifest, cache, fulfil.
+
+### Keeping pinned URLs honest
+
+`npm run fonts:check-urls` (bin: `leviosa-konva-check-fonts`) HEADs every unique `sourceUrl`
+and compares Content-Length with the frozen byte count; `--full` downloads and re-hashes
+instead. CI runs it on PRs and weekly, because a jsdelivr `gh/<user>/<repo>@<tag>` path dies
+with its upstream repo and under `cdn` that would first surface in production.
+
+It fails on **rot**, not on every request that did not succeed: a definitive 4xx, a byte
+count that moved, or an entire upstream group (one `gh/…@<tag>`, one `/s/<family>/vNN/`)
+failing together. Scattered timeouts are reported and tolerated — sweeping 5500 URLs gets
+the caller throttled (a CI run timed out on 204 URLs that answered fine from a laptop
+minutes earlier), and a check that goes red for that is a check people rerun until it
+passes, which catches nothing. `--strict` fails on any failure.
 
 ## The font catalog — where "which fonts exist" lives
 
@@ -99,7 +155,9 @@ on their next `npm install`.
 
 - Anything that changes rendered pixels (wrap, fonts, crop, presets, glyph metrics) belongs
   **here**, not in a consumer. A consumer-local copy is drift waiting to happen.
-- Never add a font fetch/`@font-face`/CSS-with-`local()` in a consumer. Consume this package.
+- Never hand-write a font fetch/`@font-face`/CSS-with-`local()` in a consumer, and never
+  re-resolve `fonts.googleapis.com/css2` at build time. Generate from this package — that is
+  what makes `--mode=cdn` a delivery choice rather than a return to the postmortem.
 - Bump `version` (package.json) and `LEVIOSA_KONVA_VERSION` (src/index.ts) together on release.
 - New rendering logic ships in `dist/`; new fonts ship in `fonts/`. Keep both in `files`.
 - Do not promote `dev` to `main` by recreating the same final tree as a new standalone
