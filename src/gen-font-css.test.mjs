@@ -1,5 +1,10 @@
 // The generator is a .mjs CLI, so this test is too — tsconfig has allowJs off and
 // typechecking the script would mean hand-writing a .d.mts for a build tool.
+import { mkdtempSync, symlinkSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+
 import { describe, expect, it } from "vitest";
 
 import catalog from "../fonts/catalog.json" with { type: "json" };
@@ -7,6 +12,7 @@ import {
   assertPinnedUrl,
   buildSheets,
   faceBlock,
+  invokedAsScript,
   readManifest,
   sourceUrlIndex,
   woff2Faces,
@@ -67,6 +73,34 @@ describe("cdn mode refuses to emit something unsafe", () => {
     expect(() => assertPinnedUrl("http://fonts.gstatic.com/s/x/v1/y.woff2", "a.woff2")).toThrow(
       /must be https/,
     );
+  });
+});
+
+describe("CLI entry detection", () => {
+  const scriptUrl = new URL("../scripts/gen-font-css.mjs", import.meta.url);
+  const scriptPath = fileURLToPath(scriptUrl);
+
+  // npm installs a `bin` as a symlink under node_modules/.bin, so argv[1] is the link and
+  // import.meta.url is its target. Comparing the two directly made the generator a silent
+  // no-op — the build "succeeded" and simply produced no CSS.
+  it("recognises the script when invoked through a node_modules/.bin symlink", () => {
+    const dir = mkdtempSync(path.join(tmpdir(), "konva-bin-"));
+    const link = path.join(dir, "leviosa-konva-fonts");
+    symlinkSync(scriptPath, link);
+    expect(invokedAsScript(link, scriptUrl.href)).toBe(true);
+  });
+
+  it("recognises a direct invocation and rejects an import", () => {
+    expect(invokedAsScript(scriptPath, scriptUrl.href)).toBe(true);
+    expect(invokedAsScript(undefined, scriptUrl.href)).toBe(false);
+    expect(
+      invokedAsScript(fileURLToPath(new URL("../scripts/check-font-urls.mjs", import.meta.url)), scriptUrl.href),
+    ).toBe(false);
+  });
+
+  it("falls back to the raw path when it cannot be resolved", () => {
+    const ghost = path.join(tmpdir(), "does-not-exist-konva.mjs");
+    expect(invokedAsScript(ghost, pathToFileURL(ghost).href)).toBe(true);
   });
 });
 

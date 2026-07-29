@@ -27,6 +27,7 @@
 // per family+weight) and <out>/font-manifest.json. In local mode it also writes
 // <out>/fonts/*.woff2.
 
+import { realpathSync } from "node:fs";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -37,6 +38,23 @@ const MANIFEST_PATH = path.join(BUNDLE_DIR, "font-manifest.json");
 const BUNDLE_FONTS_DIR = path.join(BUNDLE_DIR, "fonts");
 
 const MODES = ["local", "cdn"];
+
+/**
+ * True when this file is the script node was asked to run, rather than an import.
+ *
+ * Compares realpaths: npm installs a `bin` as a symlink in node_modules/.bin, so
+ * `process.argv[1]` is that symlink while `import.meta.url` is the file it points at.
+ * Comparing them directly makes the generator a silent no-op for every consumer — which
+ * is exactly how it shipped for one commit.
+ */
+export function invokedAsScript(argv1, moduleUrl) {
+  if (!argv1) return false;
+  try {
+    return pathToFileURL(realpathSync(argv1)).href === moduleUrl;
+  } catch {
+    return pathToFileURL(argv1).href === moduleUrl;
+  }
+}
 
 export function parseArgs(argv) {
   const args = {};
@@ -223,9 +241,7 @@ async function main() {
   );
 }
 
-const invokedDirectly =
-  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
-if (invokedDirectly) {
+if (invokedAsScript(process.argv[1], import.meta.url)) {
   main().catch((error) => {
     console.error(error);
     process.exit(1);

@@ -33,7 +33,9 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
+
+import { invokedAsScript } from "./gen-font-css.mjs";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const MANIFEST_PATH = path.resolve(HERE, "..", "fonts", "font-manifest.json");
@@ -219,9 +221,7 @@ async function main() {
   );
 }
 
-const invokedDirectly =
-  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
-if (invokedDirectly) {
+if (invokedAsScript(process.argv[1], import.meta.url)) {
   main().catch((error) => {
     console.error(error);
     process.exit(1);
