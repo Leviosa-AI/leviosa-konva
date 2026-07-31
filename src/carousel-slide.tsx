@@ -526,10 +526,10 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
 }
 
 function RenderRectBlock({ block, input }: { block: RectBlock; input: CarouselSlideRenderInput }) {
-  const props = rectContentToKonva(block.content);
-  const text = resolvedText(block.content, input, block.name);
   const width = numberValue(block.w, 0);
   const height = numberValue(block.h, 0);
+  const props = rectContentToKonva(block.content, { width, height });
+  const text = resolvedText(block.content, input, block.name);
   const fontFamily = resolveFontFamily(block.content.font_family);
   return (
     <Group name={block.id} x={numberValue(block.x, 0)} y={numberValue(block.y, 0)} width={width} height={height} rotation={numberValue(block.rotation, 0)} opacity={props.opacity}>
@@ -733,7 +733,10 @@ function RenderParticlesBlock({ block }: { block: ParticlesBlock }) {
 }
 
 function RenderLabelBlock({ block, input }: { block: LabelBlock; input: CarouselSlideRenderInput }) {
-  const props = labelContentToKonva(block.content, resolvedText(block.content, input, block.name));
+  const props = labelContentToKonva(block.content, resolvedText(block.content, input, block.name), {
+    width: numberValue(block.w, 0),
+    height: numberValue(block.h, 0),
+  });
   const paddingX = props.padding?.x ?? 8;
   const lineHeight = block.content.line_height ?? 1.2;
   const fallbackBox = estimateLabelBox(

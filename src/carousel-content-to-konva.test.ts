@@ -34,6 +34,41 @@ describe("rectContentToKonva", () => {
     ]);
   });
 
+  it("scales a normalized gradient to the shape box (konva wants pixel offsets)", () => {
+    const content = {
+      fill_linear_gradient: {
+        start: { x: 0.5, y: 0 },
+        end: { x: 0.5, y: 1 },
+        color_stops: [
+          { offset: 0, color: "#FFFFFF" },
+          { offset: 1, color: "#000000" },
+        ],
+      },
+    };
+
+    const props = rectContentToKonva(content, { width: 1080, height: 1350 });
+
+    expect(props.fillLinearGradientStartPoint).toEqual({ x: 540, y: 0 });
+    expect(props.fillLinearGradientEndPoint).toEqual({ x: 540, y: 1350 });
+  });
+
+  it("leaves an already-pixel gradient alone", () => {
+    const content = {
+      fill_linear_gradient: {
+        start: { x: 0, y: 0 },
+        end: { x: 0, y: 650 },
+        color_stops: [
+          { offset: 0, color: "#FFFFFF" },
+          { offset: 1, color: "#000000" },
+        ],
+      },
+    };
+
+    const props = rectContentToKonva(content, { width: 1080, height: 650 });
+
+    expect(props.fillLinearGradientEndPoint).toEqual({ x: 0, y: 650 });
+  });
+
   it("does not set fillPriority for a plain solid-fill rect (no gradient)", () => {
     const content: RectContent = { fill: "#FF0000", alpha: 1.0 };
     const props = rectContentToKonva(content);

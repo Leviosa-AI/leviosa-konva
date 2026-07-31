@@ -1,6 +1,7 @@
 import type {
   Block,
   EmojiContent,
+  FillLinearGradient,
   LabelContent,
   MediaContent,
   ParticlesContent,
@@ -148,11 +149,41 @@ export function particleField(content: ParticlesContent, width: number, height: 
   return out;
 }
 
-export function rectContentToKonva(content: RectContent) {
+/** 그라데이션을 계산할 도형의 크기. 없으면 좌표를 그대로 쓴다. */
+export interface GradientBox {
+  width?: number | null;
+  height?: number | null;
+}
+
+/** 그라데이션 좌표를 도형 픽셀 좌표로 맞춘다.
+ *
+ * konva는 도형 안의 **픽셀 오프셋**을 기대하는데, 레퍼런스 추출은 정규화 좌표(0~1)를 준다.
+ * 그대로 넘기면 1px 구간 그라데이션이 되고 나머지는 마지막 색으로 덮여 평면색으로 보인다.
+ * 네 좌표가 모두 1 이하면 정규화로 보고 폭·높이를 곱한다. 도형을 가로지르는 픽셀 좌표는
+ * 반드시 하나가 1을 넘으므로 오판하지 않는다.
+ */
+function gradientPoints(gradient: FillLinearGradient, size?: GradientBox) {
+  const { start, end } = gradient;
+  const width = size?.width ?? 0;
+  const height = size?.height ?? 0;
+  const normalized = [start.x, start.y, end.x, end.y].every(
+    (value) => Number.isFinite(value) && Math.abs(value) <= 1,
+  );
+  if (!normalized || !(width > 0) || !(height > 0)) return { start, end };
+  return {
+    start: { x: start.x * width, y: start.y * height },
+    end: { x: end.x * width, y: end.y * height },
+  };
+}
+
+export function rectContentToKonva(content: RectContent, size?: GradientBox) {
+  const points = content.fill_linear_gradient
+    ? gradientPoints(content.fill_linear_gradient, size)
+    : null;
   const fillLinearGradient = content.fill_linear_gradient
     ? {
-        fillLinearGradientStartPoint: content.fill_linear_gradient.start,
-        fillLinearGradientEndPoint: content.fill_linear_gradient.end,
+        fillLinearGradientStartPoint: points!.start,
+        fillLinearGradientEndPoint: points!.end,
         fillLinearGradientColorStops: content.fill_linear_gradient.color_stops.flatMap((stop) => [stop.offset, stop.color]),
         // Konva defaults fillPriority to "color", so a solid `fill` (e.g. #000000)
         // would win over the gradient and render an opaque rect, covering the slide
@@ -195,12 +226,19 @@ export function emojiContentToKonva(content: Partial<EmojiContent> = {}) {
   };
 }
 
-export function labelContentToKonva(content: LabelContent, resolvedText: string) {
+export function labelContentToKonva(
+  content: LabelContent,
+  resolvedText: string,
+  size?: GradientBox,
+) {
   const fontFamily = resolveFontFamily(content.font_family);
+  const points = content.fill_linear_gradient
+    ? gradientPoints(content.fill_linear_gradient, size)
+    : null;
   const fillLinearGradient = content.fill_linear_gradient
     ? {
-        fillLinearGradientStartPoint: content.fill_linear_gradient.start,
-        fillLinearGradientEndPoint: content.fill_linear_gradient.end,
+        fillLinearGradientStartPoint: points!.start,
+        fillLinearGradientEndPoint: points!.end,
         fillLinearGradientColorStops: content.fill_linear_gradient.color_stops.flatMap((stop) => [stop.offset, stop.color]),
         fillPriority: "linear-gradient" as const,
       }
