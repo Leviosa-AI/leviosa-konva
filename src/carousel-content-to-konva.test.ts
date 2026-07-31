@@ -78,6 +78,13 @@ describe("rectContentToKonva", () => {
     expect((props as Record<string, unknown>).fillLinearGradientColorStops).toBeUndefined();
   });
 
+  it('drops fill "none" so an outline-only box does not paint black', () => {
+    const props = rectContentToKonva({ fill: "none", stroke: "#333333", stroke_width: 2 });
+
+    expect(props.fill).toBeUndefined();
+    expect(props.stroke).toBe("#333333");
+  });
+
   it("uses the editor white-stroke fallback when strokeWidth exists without a stroke color", () => {
     const props = rectContentToKonva({ fill: "rgba(0,0,0,0.5)", stroke_width: 3 });
 

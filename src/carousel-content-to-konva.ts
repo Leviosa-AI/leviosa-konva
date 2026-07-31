@@ -176,6 +176,18 @@ function gradientPoints(gradient: FillLinearGradient, size?: GradientBox) {
   };
 }
 
+/** 칠하지 않음을 뜻하는 값은 konva 에 넘기지 않는다.
+ *
+ * 캔버스는 `none`/`transparent` 를 색으로 못 읽고 직전 색(대개 검정)으로 칠해 버려서,
+ * 테두리만 있어야 할 박스가 검은 판이 된다. 추출 지시가 "테두리만인 박스는 fill 을 none 으로
+ * 둬도 된다"고 안내하므로 이 값은 계속 들어온다.
+ */
+function paintOrNone(value: string | null | undefined): string | undefined {
+  if (value == null) return undefined;
+  const normalized = value.trim().toLowerCase();
+  return normalized === "none" || normalized === "transparent" ? undefined : value;
+}
+
 export function rectContentToKonva(content: RectContent, size?: GradientBox) {
   const points = content.fill_linear_gradient
     ? gradientPoints(content.fill_linear_gradient, size)
@@ -193,7 +205,7 @@ export function rectContentToKonva(content: RectContent, size?: GradientBox) {
       }
     : {};
   return {
-    fill: content.fill ?? undefined,
+    fill: paintOrNone(content.fill),
     ...fillLinearGradient,
     opacity: content.alpha ?? undefined,
     stroke: content.stroke ?? (content.stroke_width != null ? "#FFFFFF" : undefined),
