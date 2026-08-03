@@ -1,12 +1,17 @@
 import type { TextSegment } from "./carousel-types.js";
 
 export interface SegmentedTextLine {
-  segments: Array<{ text: string; fill: string; fontWeight?: string; highlight?: string }>;
+  segments: Array<{ text: string; fill: string; fontWeight?: string; fontSize?: number; highlight?: string }>;
   width: number;
 }
 
-type StyledChar = { char: string; fill: string; fontWeight?: string; highlight?: string };
-type FontResolver = (char: string, fontWeight: string | undefined, originalFont: string) => string;
+type StyledChar = { char: string; fill: string; fontWeight?: string; fontSize?: number; highlight?: string };
+type FontResolver = (
+  char: string,
+  fontWeight: string | undefined,
+  originalFont: string,
+  fontSize?: number,
+) => string;
 const NON_ORPHAN_PREFIX_MARKERS = new Set(["✓", "✔", "✅", "☑", "☑️", "•"]);
 
 const graphemeSegmenter = typeof Intl !== "undefined" && "Segmenter" in Intl
@@ -21,23 +26,32 @@ export function splitGraphemes(text: string): string[] {
   return Array.from(text);
 }
 
-function fontWithWeight(font: string, fontWeight?: string): string {
-  if (!fontWeight) return font;
-  const normalized = String(fontWeight);
-  const replaced = font.replace(/^(\S+)(?=\s+\d+(?:\.\d+)?px)/, normalized);
-  return replaced === font ? `${normalized} ${font}` : replaced;
+function fontWithWeight(font: string, fontWeight?: string, fontSize?: number): string {
+  let result = font;
+  if (fontWeight) {
+    const normalized = String(fontWeight);
+    const replaced = result.replace(/^(\S+)(?=\s+\d+(?:\.\d+)?px)/, normalized);
+    result = replaced === result ? `${normalized} ${result}` : replaced;
+  }
+  if (fontSize) result = result.replace(/\d+(?:\.\d+)?px/, `${fontSize}px`);
+  return result;
 }
 
 function mergeAdjacentSegments(chars: StyledChar[]): SegmentedTextLine["segments"] {
   if (chars.length === 0) return [];
   const result: SegmentedTextLine["segments"] = [];
-  let current = { text: chars[0].char, fill: chars[0].fill, fontWeight: chars[0].fontWeight, highlight: chars[0].highlight };
+  let current = { text: chars[0].char, fill: chars[0].fill, fontWeight: chars[0].fontWeight, fontSize: chars[0].fontSize, highlight: chars[0].highlight };
   for (let i = 1; i < chars.length; i += 1) {
-    if (chars[i].fill === current.fill && chars[i].fontWeight === current.fontWeight && chars[i].highlight === current.highlight) {
+    if (
+      chars[i].fill === current.fill
+      && chars[i].fontWeight === current.fontWeight
+      && chars[i].fontSize === current.fontSize
+      && chars[i].highlight === current.highlight
+    ) {
       current.text += chars[i].char;
     } else {
       result.push(current);
-      current = { text: chars[i].char, fill: chars[i].fill, fontWeight: chars[i].fontWeight, highlight: chars[i].highlight };
+      current = { text: chars[i].char, fill: chars[i].fill, fontWeight: chars[i].fontWeight, fontSize: chars[i].fontSize, highlight: chars[i].highlight };
     }
   }
   result.push(current);
@@ -60,8 +74,8 @@ function measureSegmentChars(
   for (let i = 0; i < chars.length; i += 1) {
     const ch = chars[i];
     const font = resolveFont
-      ? resolveFont(ch.char, ch.fontWeight, originalFont)
-      : fontWithWeight(originalFont, ch.fontWeight);
+      ? resolveFont(ch.char, ch.fontWeight, originalFont, ch.fontSize)
+      : fontWithWeight(originalFont, ch.fontWeight, ch.fontSize);
     const cacheKey = `${font}\u0000${ch.char}`;
     let measured = measureCache?.get(cacheKey);
     if (measured === undefined) {
@@ -80,14 +94,21 @@ function segmentStyles(
   displayChars: string[],
   segments: TextSegment[],
   defaultFill: string,
-): { fills: string[]; fontWeights: Array<string | undefined>; highlights: Array<string | undefined> } {
+): {
+  fills: string[];
+  fontWeights: Array<string | undefined>;
+  fontSizes: Array<number | undefined>;
+  highlights: Array<string | undefined>;
+} {
   const fills: string[] = [];
   const fontWeights: Array<string | undefined> = [];
+  const fontSizes: Array<number | undefined> = [];
   const highlights: Array<string | undefined> = [];
   const segmentRanges = segments.map((segment) => ({
     length: splitGraphemes(segment.text).length,
     fill: segment.color ?? defaultFill,
     fontWeight: segment.font_weight ?? undefined,
+    fontSize: segment.font_size ?? undefined,
     highlight: segment.highlight_color ?? undefined,
   }));
   let segmentIndex = 0;
@@ -97,6 +118,7 @@ function segmentStyles(
     if (char === "\n") {
       fills.push(defaultFill);
       fontWeights.push(undefined);
+      fontSizes.push(undefined);
       highlights.push(undefined);
       segmentOffset += 1;
     } else if (segmentIndex < segmentRanges.length) {
@@ -107,16 +129,18 @@ function segmentStyles(
       const range = segmentRanges[segmentIndex];
       fills.push(range?.fill ?? defaultFill);
       fontWeights.push(range?.fontWeight);
+      fontSizes.push(range?.fontSize);
       highlights.push(range?.highlight);
       segmentOffset += 1;
     } else {
       fills.push(defaultFill);
       fontWeights.push(undefined);
+      fontSizes.push(undefined);
       highlights.push(undefined);
     }
   }
 
-  return { fills, fontWeights, highlights };
+  return { fills, fontWeights, fontSizes, highlights };
 }
 
 export function buildSegmentedLines(
@@ -129,7 +153,12 @@ export function buildSegmentedLines(
   resolveFont?: FontResolver,
 ): SegmentedTextLine[] {
   const displayChars = splitGraphemes(displayText);
-  const { fills: charFills, fontWeights: charFontWeights, highlights: charHighlights } = segmentStyles(displayChars, segments, defaultFill);
+  const {
+    fills: charFills,
+    fontWeights: charFontWeights,
+    fontSizes: charFontSizes,
+    highlights: charHighlights,
+  } = segmentStyles(displayChars, segments, defaultFill);
   const measureCache = new Map<string, number>();
 
   const hardLines: StyledChar[][] = [[]];
@@ -141,6 +170,7 @@ export function buildSegmentedLines(
         char: displayChars[i],
         fill: charFills[i],
         fontWeight: charFontWeights[i],
+        fontSize: charFontSizes[i],
         highlight: charHighlights[i],
       });
     }
@@ -196,8 +226,8 @@ export function buildSegmentedLines(
 
     for (const ch of hardLine) {
       ctx.font = resolveFont
-        ? resolveFont(ch.char, ch.fontWeight, originalFont)
-        : fontWithWeight(originalFont, ch.fontWeight);
+        ? resolveFont(ch.char, ch.fontWeight, originalFont, ch.fontSize)
+        : fontWithWeight(originalFont, ch.fontWeight, ch.fontSize);
       const cacheKey = `${ctx.font}\u0000${ch.char}`;
       let measured = measureCache.get(cacheKey);
       if (measured === undefined) {

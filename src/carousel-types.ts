@@ -19,6 +19,7 @@ export interface TextSegment {
   text: string;
   color?: string | null;
   font_weight?: string | null;
+  font_size?: number | null; // 이 범위만 다른 크기 — 없으면 블록 font_size. 줄 높이는 그 줄의 가장 큰 값을 따른다
   highlight_color?: string | null; // 이 범위(런)만 형광펜 — 없으면 강조 없음
 }
 

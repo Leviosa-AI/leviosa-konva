@@ -299,8 +299,7 @@ function VideoPlaceholder({ block, canvasBackground }: { block: MediaBlock; canv
 function drawLineHighlights(
   canvas: CanvasRenderingContext2D,
   lines: readonly { width: number }[],
-  lineHeightPx: number,
-  fontSize: number,
+  metrics: readonly { top: number; height: number; fontSize: number }[],
   align: string,
   blockW: number,
   color: string,
@@ -311,10 +310,6 @@ function drawLineHighlights(
   offsetYRatio: number,
   multiply: boolean,
 ): void {
-  const padX = fontSize * padRatio;
-  const bandH = fontSize * heightRatio;
-  const topGap = Math.max(0, (lineHeightPx - bandH) / 2) + fontSize * offsetYRatio;
-  const radius = bandH * radiusRatio;
   const c2 = canvas as CanvasRenderingContext2D & { roundRect?: (x: number, y: number, w: number, h: number, r: number) => void };
   canvas.save();
   canvas.shadowColor = "rgba(0,0,0,0)";
@@ -325,12 +320,16 @@ function drawLineHighlights(
   for (let i = 0; i < lines.length; i += 1) {
     const w = lines[i].width;
     if (w <= 0) continue;
+    const { top, height, fontSize } = metrics[i];
+    const padX = fontSize * padRatio;
+    const bandH = fontSize * heightRatio;
+    const radius = bandH * radiusRatio;
     let x = 0;
     if (blockW > 0) {
       if (align === "center") x = (blockW - w) / 2;
       else if (align === "right") x = blockW - w;
     }
-    const y = i * lineHeightPx + topGap;
+    const y = top + Math.max(0, (height - bandH) / 2) + fontSize * offsetYRatio;
     if (typeof c2.roundRect === "function") {
       canvas.beginPath();
       c2.roundRect(x - padX, y, w + padX * 2, bandH, radius);
@@ -347,13 +346,13 @@ function drawLineHighlights(
 // 줄별로 쪼개므로 자동으로 따라간다. 밴드 측정 x-전진은 텍스트 그리기와 동일 계산.
 function drawSegmentBands(
   canvas: CanvasRenderingContext2D,
-  segments: readonly { text: string; fontWeight?: string; highlight?: string }[],
+  segments: readonly { text: string; fontWeight?: string; fontSize?: number; highlight?: string }[],
   x0: number,
   y: number,
   fontSize: number,
   lineHeightPx: number,
   letterSpacing: number,
-  fontForChar: (char: string, fontWeight?: string) => string,
+  fontForChar: (char: string, fontWeight?: string, fontSize?: number) => string,
   defaultWeight: string,
   opacity: number,
   heightRatio: number,
@@ -363,16 +362,17 @@ function drawSegmentBands(
   multiply: boolean,
 ): void {
   if (!segments.some((s) => s.highlight)) return;
-  const bandH = fontSize * heightRatio;
-  const topGap = Math.max(0, (lineHeightPx - bandH) / 2) + fontSize * offsetYRatio;
-  const padX = fontSize * padRatio;
-  const radius = bandH * radiusRatio;
   const c2 = canvas as CanvasRenderingContext2D & { roundRect?: (x: number, y: number, w: number, h: number, r: number) => void };
   let x = x0;
   for (const seg of segments) {
+    const segFontSize = seg.fontSize ?? fontSize;
+    const bandH = segFontSize * heightRatio;
+    const topGap = Math.max(0, (lineHeightPx - bandH) / 2) + segFontSize * offsetYRatio;
+    const padX = segFontSize * padRatio;
+    const radius = bandH * radiusRatio;
     let rw = 0;
     for (const ch of splitGraphemes(seg.text)) {
-      canvas.font = fontForChar(ch, seg.fontWeight ?? defaultWeight);
+      canvas.font = fontForChar(ch, seg.fontWeight ?? defaultWeight, seg.fontSize);
       rw += canvas.measureText(ch).width + letterSpacing;
     }
     if (seg.highlight) {
@@ -406,10 +406,14 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
       sceneFunc={(ctx) => {
         const canvas = ctx._context as CanvasRenderingContext2D;
         const sourceFontFamily = resolveFontFamily(block.content.font_family);
-        const fontForChar = (char: string, fontWeight: string | undefined = block.content.font_weight ?? "700") => {
+        const fontForChar = (
+          char: string,
+          fontWeight: string | undefined = block.content.font_weight ?? "700",
+          fontSize?: number,
+        ) => {
           const segmentFontStyle = normalizeKonvaFontStyle(fontWeight, sourceFontFamily);
           const family = shouldUseEmojiFontForChar(sourceFontFamily, char) ? EMOJI_TEXT_FONT_FAMILY : sourceFontFamily;
-          return `${segmentFontStyle} ${props.fontSize}px ${family}`;
+          return `${segmentFontStyle} ${fontSize ?? props.fontSize}px ${family}`;
         };
         const textFont = `${props.fontStyle} ${props.fontSize}px ${sourceFontFamily}`;
         // konva Text 노드(비-legacy)와 동일한 세로 위치를 재현한다. konva는
@@ -424,72 +428,52 @@ function RenderTextBlock({ block, input }: { block: TextBlock; input: CarouselSl
           canvas.shadowOffsetX = 0;
           canvas.shadowOffsetY = props.shadow.offsetY ?? 0;
         }
-        const lineHeightPx = props.fontSize * props.lineHeight;
         // konva Text.js와 동일한 baseline 오프셋: 'M'을 본문 폰트로 재서 ascent/descent
-        // 를 구하고 (ascent-descent)/2 + lineHeightPx/2 를 각 줄 y에 더한다.
+        // 를 구하고 (ascent-descent)/2 + 줄높이/2 를 각 줄 y에 더한다(줄마다 크기가
+        // 다르면 그 줄 크기 비율로 늘린다).
         canvas.font = textFont;
         const _bm = canvas.measureText("M");
         const _ascent = _bm.fontBoundingBoxAscent ?? _bm.actualBoundingBoxAscent ?? props.fontSize * 0.8;
         const _descent = _bm.fontBoundingBoxDescent ?? _bm.actualBoundingBoxDescent ?? props.fontSize * 0.2;
-        const baselineY = (_ascent - _descent) / 2 + lineHeightPx / 2;
-        if (hasSegments) {
-          canvas.font = textFont;
-          const lines = buildSegmentedLines(
-            canvas,
-            props.text,
-            block.content.segments ?? [],
-            props.fill,
-            block.w,
-            props.letterSpacing,
-            (char, fontWeight) => fontForChar(char, fontWeight),
+        const lines = buildSegmentedLines(
+          canvas,
+          props.text,
+          hasSegments ? block.content.segments ?? [] : [{ text: props.text }],
+          props.fill,
+          block.w,
+          props.letterSpacing,
+          (char, fontWeight, _originalFont, fontSize) => fontForChar(char, fontWeight, fontSize),
+        );
+        // 한 줄 안에 큰 조각이 있으면 그 줄만 키운다 — 안 그러면 큰 글자가 다음 줄을 덮는다.
+        let top = 0;
+        const metrics = lines.map((line) => {
+          const size = line.segments.reduce(
+            (largest, segment) => Math.max(largest, segment.fontSize ?? props.fontSize),
+            props.fontSize,
           );
-          if (highlightColor) drawLineHighlights(canvas, lines, lineHeightPx, props.fontSize, props.align, block.w, highlightColor, props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
-          for (let i = 0; i < lines.length; i += 1) {
-            const line = lines[i];
-            const y = i * lineHeightPx;
-            let x = 0;
-            if (block.w > 0) {
-              if (props.align === "center") x = (block.w - line.width) / 2;
-              else if (props.align === "right") x = block.w - line.width;
-            }
-            drawSegmentBands(canvas, line.segments, x, y, props.fontSize, lineHeightPx, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
-            for (const segment of line.segments) {
-              canvas.fillStyle = segment.fill;
-              for (const ch of splitGraphemes(segment.text)) {
-                canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
-                canvas.fillText(ch, x, y + baselineY);
-                x += canvas.measureText(ch).width + props.letterSpacing;
-              }
-            }
+          const height = size * props.lineHeight;
+          const entry = { top, height, fontSize: size };
+          top += height;
+          return entry;
+        });
+        if (highlightColor) drawLineHighlights(canvas, lines, metrics, props.align, block.w, highlightColor, props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
+        for (let i = 0; i < lines.length; i += 1) {
+          const line = lines[i];
+          const { top: y, height: lineBoxHeight, fontSize: lineFontSize } = metrics[i];
+          const scale = lineFontSize / props.fontSize;
+          const baselineY = ((_ascent - _descent) / 2) * scale + lineBoxHeight / 2;
+          let x = 0;
+          if (block.w > 0) {
+            if (props.align === "center") x = (block.w - line.width) / 2;
+            else if (props.align === "right") x = block.w - line.width;
           }
-        } else {
-          canvas.font = textFont;
-          const lines = buildSegmentedLines(
-            canvas,
-            props.text,
-            [{ text: props.text }],
-            props.fill,
-            block.w,
-            props.letterSpacing,
-            (char, fontWeight) => fontForChar(char, fontWeight),
-          );
-          if (highlightColor) drawLineHighlights(canvas, lines, lineHeightPx, props.fontSize, props.align, block.w, highlightColor, props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
-          for (let i = 0; i < lines.length; i += 1) {
-            const line = lines[i];
-            const y = i * lineHeightPx;
-            let x = 0;
-            if (block.w > 0) {
-              if (props.align === "center") x = (block.w - line.width) / 2;
-              else if (props.align === "right") x = block.w - line.width;
-            }
-            drawSegmentBands(canvas, line.segments, x, y, props.fontSize, lineHeightPx, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
-            for (const segment of line.segments) {
-              canvas.fillStyle = segment.fill;
-              for (const ch of splitGraphemes(segment.text)) {
-                canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700");
-                canvas.fillText(ch, x, y + baselineY);
-                x += canvas.measureText(ch).width + props.letterSpacing;
-              }
+          drawSegmentBands(canvas, line.segments, x, y, lineFontSize, lineBoxHeight, props.letterSpacing, fontForChar, block.content.font_weight ?? "700", props.highlightOpacity, props.highlightHeight, props.highlightRadius, props.highlightPadX, props.highlightOffsetY, props.highlightMultiply);
+          for (const segment of line.segments) {
+            canvas.fillStyle = segment.fill;
+            for (const ch of splitGraphemes(segment.text)) {
+              canvas.font = fontForChar(ch, segment.fontWeight ?? block.content.font_weight ?? "700", segment.fontSize);
+              canvas.fillText(ch, x, y + baselineY);
+              x += canvas.measureText(ch).width + props.letterSpacing;
             }
           }
         }

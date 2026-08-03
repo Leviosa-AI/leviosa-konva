@@ -311,6 +311,32 @@ describe("buildSegmentedLines", () => {
     ]);
   });
 
+  it("measures a bigger segment with its own font size", () => {
+    // 한 줄 안에서 숫자만 크게 — 재는 폰트가 안 바뀌면 폭이 그대로라 줄바꿈·가운데정렬이 어긋난다.
+    const ctx = {
+      font: "700 20px Pretendard",
+      measureText(this: { font: string }, value: string) {
+        const size = Number(/(\d+(?:\.\d+)?)px/.exec(this.font)?.[1] ?? 20);
+        return { width: value === " " ? size / 4 : size / 2 };
+      },
+    } as unknown as CanvasRenderingContext2D;
+
+    const lines = buildSegmentedLines(
+      ctx,
+      "AB",
+      [
+        { text: "A" },
+        { text: "B", font_size: 40 },
+      ],
+      "#FFFFFF",
+      500,
+      0,
+    );
+
+    expect(lines[0].segments.map((segment) => segment.fontSize)).toEqual([undefined, 40]);
+    expect(lines[0].width).toBe(30); // 10(20px) + 20(40px)
+  });
+
   it("carries per-segment highlight only on the highlighted range (word-style range)", () => {
     const ctx = {
       font: "700 24px Pretendard",
