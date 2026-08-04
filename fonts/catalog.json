@@ -9,25 +9,25 @@
     {
       "id": "pretendard",
       "family": "Pretendard",
-      "label": "프리텐다드",
+      "label": "Pretendard",
       "category": "sans",
       "traits": { "class": "gothic", "shape": "neutral" },
       "weights": [100, 200, 300, 400, 500, 600, 700, 800, 900],
       "comment": "dynamic-subset, not the whole-file build: Pretendard is the default font and one weight is a single ~750KB file, so the editor paid ~6.7MB to warm all nine. The subset build is the same release split into unicode ranges — metrics verified identical (unitsPerEm/ascent/descent/lineGap and glyph advances), so wrapping does not move. Pinned: an unpinned tag would silently re-freeze different bytes.",
       "source": { "type": "css", "url": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard-dynamic-subset.css" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://github.com/orioncactus/pretendard" },
-      "previewText": "프리텐다드 Pretendard"
+      "previewText": "Pretendard 가나다"
     },
     {
       "id": "noto-sans-kr",
       "family": "Noto Sans KR",
-      "label": "노토 산스",
+      "label": "Noto Sans",
       "category": "sans",
       "traits": { "class": "gothic", "shape": "neutral" },
       "weights": [100, 200, 300, 400, 500, 600, 700, 800, 900],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Noto+Sans+KR/license" },
-      "previewText": "노토 산스 Noto Sans"
+      "previewText": "Noto Sans 가나다"
     },
     {
       "id": "gothic-a1",
@@ -43,13 +43,13 @@
     {
       "id": "ibm-plex-sans-kr",
       "family": "IBM Plex Sans KR",
-      "label": "IBM 플렉스",
+      "label": "IBM Plex Sans",
       "category": "sans",
       "traits": { "class": "gothic", "shape": "neutral" },
       "weights": [400, 700],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/IBM+Plex+Sans+KR/license" },
-      "previewText": "IBM 플렉스 산스"
+      "previewText": "IBM Plex Sans 가나다"
     },
     {
       "id": "nanum-gothic",
@@ -65,7 +65,7 @@
     {
       "id": "paperlogy",
       "family": "Paperozi",
-      "label": "페이퍼로지",
+      "label": "Paperlogy",
       "category": "sans",
       "traits": { "class": "gothic", "shape": "angular" },
       "weights": [400, 700, 900],
@@ -78,12 +78,12 @@
         ]
       },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://noonnu.cc/font_page/1456" },
-      "previewText": "페이퍼로지 Paperlogy"
+      "previewText": "Paperlogy 가나다"
     },
     {
       "id": "freesentation",
       "family": "Presentation",
-      "label": "프리젠테이션",
+      "label": "Freesentation",
       "category": "sans",
       "traits": { "class": "gothic", "shape": "neutral" },
       "weights": [400, 700, 900],
@@ -96,7 +96,7 @@
         ]
       },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://freesentation.blog/freesentation" },
-      "previewText": "프리젠테이션 Freesentation"
+      "previewText": "Freesentation 가나다"
     },
     {
       "id": "gowun-dodum",
@@ -123,13 +123,13 @@
     {
       "id": "noto-serif-kr",
       "family": "Noto Serif KR",
-      "label": "노토 세리프",
+      "label": "Noto Serif",
       "category": "serif",
       "traits": { "class": "myeongjo", "shape": "neutral" },
       "weights": [200, 300, 400, 500, 600, 700, 900],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Noto+Serif+KR/license" },
-      "previewText": "노토 세리프 Noto Serif"
+      "previewText": "Noto Serif 가나다"
     },
     {
       "id": "nanum-myeongjo",
@@ -145,13 +145,13 @@
     {
       "id": "hahmlet",
       "family": "Hahmlet",
-      "label": "함렛",
+      "label": "Hahmlet",
       "category": "serif",
       "traits": { "class": "myeongjo", "shape": "angular" },
       "weights": [400, 700, 900],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Hahmlet/license" },
-      "previewText": "함렛 Hahmlet"
+      "previewText": "Hahmlet 가나다"
     },
     {
       "id": "gowun-batang",
@@ -178,13 +178,13 @@
     {
       "id": "diphylleia",
       "family": "Diphylleia",
-      "label": "디필레이아",
+      "label": "Diphylleia",
       "category": "serif",
       "traits": { "class": "myeongjo", "shape": "angular" },
       "weights": [400],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Diphylleia/license" },
-      "previewText": "디필레이아 Diphylleia"
+      "previewText": "Diphylleia 가나다"
     },
     {
       "id": "black-han-sans",
@@ -200,13 +200,13 @@
     {
       "id": "gasoek-one",
       "family": "Gasoek One",
-      "label": "가속 원",
+      "label": "Gasoek One",
       "category": "display",
       "traits": { "class": "display", "shape": "angular" },
       "weights": [400],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Gasoek+One/license" },
-      "previewText": "가속 원 Gasoek One"
+      "previewText": "Gasoek One 가나다"
     },
     {
       "id": "do-hyeon",
@@ -233,13 +233,13 @@
     {
       "id": "bagel-fat-one",
       "family": "Bagel Fat One",
-      "label": "베이글팻",
+      "label": "Bagel Fat One",
       "category": "display",
       "traits": { "class": "display", "shape": "round" },
       "weights": [400],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Bagel+Fat+One/license" },
-      "previewText": "베이글팻 Bagel Fat One"
+      "previewText": "Bagel Fat One 가나다"
     },
     {
       "id": "yeon-sung",
@@ -255,13 +255,13 @@
     {
       "id": "moirai-one",
       "family": "Moirai One",
-      "label": "모이라이",
+      "label": "Moirai One",
       "category": "display",
       "traits": { "class": "display", "shape": "angular" },
       "weights": [400],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Moirai+One/license" },
-      "previewText": "모이라이 Moirai One"
+      "previewText": "Moirai One 가나다"
     },
     {
       "id": "kirang-haerang",
@@ -288,13 +288,13 @@
     {
       "id": "sunflower",
       "family": "Sunflower",
-      "label": "해바라기",
+      "label": "Sunflower",
       "category": "display",
       "traits": { "class": "display", "shape": "neutral" },
       "weights": [300, 500, 700],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Sunflower/license" },
-      "previewText": "해바라기 Sunflower"
+      "previewText": "Sunflower 가나다"
     },
     {
       "id": "nanum-pen-script",
@@ -343,13 +343,13 @@
     {
       "id": "hi-melody",
       "family": "Hi Melody",
-      "label": "하이멜로디",
+      "label": "Hi Melody",
       "category": "handwriting",
       "traits": { "class": "handwriting", "shape": "round" },
       "weights": [400],
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/Hi+Melody/license" },
-      "previewText": "하이멜로디 Hi Melody"
+      "previewText": "Hi Melody 가나다"
     },
     {
       "id": "dokdo",
