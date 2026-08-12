@@ -73,6 +73,12 @@
       "bytes": 6388
     },
     {
+      "filename": "0067b48600473d86.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.woff2",
+      "sha256": "31257cefdd0cec677b8278086e1d43fdfffb004ab40f96bd1aceda2e8d2f8e42",
+      "bytes": 226584
+    },
+    {
       "filename": "0073419c88e23565.woff2",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Bold.subset.44.woff2",
       "sha256": "ccd1720ec3a66ae5d73d87f761c2901941bc24c3b6471bc868be930e2fd7ac2c",
@@ -761,6 +767,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gowunbatang/v12/ijwNs5nhRMIjYsdSgcMa3wRZ4J7ax6MnJCfFsaj8oklyMztDHlOOun84.51.woff2",
       "sha256": "2681fd6cb25cd7930ce79a8419c9972253b161be62965d1989129ef29a26169b",
       "bytes": 12360
+    },
+    {
+      "filename": "0560b3a903cbc950.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.woff2",
+      "sha256": "6d7749f24a9b3a6bc1d7456e48c15eec1b89a1283b88e8ca11b7b891f046625f",
+      "bytes": 204428
     },
     {
       "filename": "0567873d4391aed0.woff",
@@ -1619,6 +1631,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/kiranghaerang/v22/E21-_dn_gvvIjhYON1lpIU4-bcqqMOCLpPqGnVKCKlULbfuN6LAeqVI.3.woff2",
       "sha256": "df0d5e52e62cdc1f3064cde1989f5ecd0dc33a4b64fd60bff42ebe9f9d6dc6d4",
       "bytes": 16008
+    },
+    {
+      "filename": "0c1177f71f3a1328.woff2",
+      "sourceUrl": "https://raw.githubusercontent.com/fonts-archive/SDSamliphopangcheOutline/f2ba9b8ed062eee8342c10e61d31c18114c4421e/SDSamliphopangcheOutline.ttf",
+      "sha256": "fdbdeb8055e8dcf31994391e3848a77d5d55ad0648a1abf1e191467359fe060e",
+      "bytes": 319168
     },
     {
       "filename": "0c2c78437cfa1170.woff2",
@@ -3301,6 +3319,12 @@
       "bytes": 49728
     },
     {
+      "filename": "195f65df1df6792b.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-SemiBold.woff2",
+      "sha256": "a2f4e223fd4a24d8e03ddbf7e393f1f1575f55997d14cb82e61989adc86f4acd",
+      "bytes": 166704
+    },
+    {
       "filename": "196486eee4c235d0.woff",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff-dynamic-subset/Pretendard-ExtraBold.subset.24.woff",
       "sha256": "8a4b66788e48f77233c7cdcbaa6679e8315870562e6092d9efdd133445b2afe6",
@@ -4291,6 +4315,12 @@
       "bytes": 13364
     },
     {
+      "filename": "20ad365a3d35b84f.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.woff2",
+      "sha256": "090b017020c0b5a8fd517460c5dfdf33819b726e1c860313c75bf0624162242d",
+      "bytes": 361340
+    },
+    {
       "filename": "20bd1312b5cd6e97.woff",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff-dynamic-subset/Pretendard-ExtraBold.subset.54.woff",
       "sha256": "781e12b17738352b3fc15c162ac008b747852847abd5323af07b5cb2a285d3ef",
@@ -4829,6 +4859,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/dongle/v16/sJoG3Ltdjt6VPkqeActrZ12bz3SmUitvVvdIsVspkq6sHljt.54.woff2",
       "sha256": "78b21977073d2d18988e0121273216395b061f093abefdff485a76af9f5f2607",
       "bytes": 6544
+    },
+    {
+      "filename": "25b275f6af60a170.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2",
+      "sha256": "d55c498788f59271d139ac3d13aabe076f456c6758ca10fb4b69f644efa43426",
+      "bytes": 164484
     },
     {
       "filename": "25b852d26ade3413.woff",
@@ -8047,6 +8083,12 @@
       "bytes": 10252
     },
     {
+      "filename": "3f3866a4900c5778.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.woff2",
+      "sha256": "3127eb6b4cf10a0a840d204d613f610bbbd7f8a7ce82c0f81d04713760f81758",
+      "bytes": 247228
+    },
+    {
       "filename": "3f39e32c81fe5e16.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/gaegu/v23/TuGfUVB6Up9NU6ZOyc4xxqgKdTBRWpq2sy8wKnARGTY.30.woff2",
       "sha256": "576b4daeff28efc0fa96417e7d07cb21ad1075094cd7cd013483e03752f3de59",
@@ -8737,6 +8779,12 @@
       "bytes": 30740
     },
     {
+      "filename": "44e273e847bf1c6c.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Decoline.woff2",
+      "sha256": "f6ddde93051da4db815cad1a9af3b0d7274faa4eee54560aeca8866a6c284617",
+      "bytes": 37868
+    },
+    {
       "filename": "45065e34dcfc0a3a.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/jua/v18/co3KmW9ljjAjdojPCM3T3NGswha8jSmuzy4jzT-N.26.woff2",
       "sha256": "0aa10e38be438b7a9b09c0a0f388157e4d315d62dee90d3e3a6f01e70e8cea93",
@@ -9299,6 +9347,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gaegu/v23/TuGfUVB6Up9NU6ZOyc4xxqgKdTBRWpq2sy8wKnARGTY.41.woff2",
       "sha256": "cf98179d1d3b7a4632ce3c7c4dfe36aed9b3c23213cca937f956cdf32c5be897",
       "bytes": 6880
+    },
+    {
+      "filename": "49cc46e60ef5536a.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2",
+      "sha256": "d49ec873fde77829a1614ae9ba1ab431af65c0b87b9de730a23175ec5749a06d",
+      "bytes": 166308
     },
     {
       "filename": "49ceb48b4eaf8221.woff2",
@@ -10267,6 +10321,12 @@
       "bytes": 17372
     },
     {
+      "filename": "50bd2085576f4bc5.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2",
+      "sha256": "455900611bb4b9d001819ea027d1549a0fe98b591a161222be04c73c5656bc19",
+      "bytes": 163660
+    },
+    {
       "filename": "50d0baf8b8a2a44b.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/gamjaflower/v26/6NUR8FiKJg-Pa0rM6uN40Z4kzJdTdNPFFRJ7lwb-CZch2ydaLb0K.29.woff2",
       "sha256": "c82872ea49d8c0bf959c589363943b16ce29dba9ad9e53ea953c784a1242631a",
@@ -11107,6 +11167,12 @@
       "bytes": 27860
     },
     {
+      "filename": "5777daf746f9de23.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff2",
+      "sha256": "f0da0f2329935d3f88f7e4162b68fcdc0be393f74398736ea0967594282ca4e2",
+      "bytes": 339380
+    },
+    {
       "filename": "5778839e9f0b1ba7.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/nanummyeongjo/v31/9Bty3DZF0dXLMZlywRbVRNhxy2pXV1Axzeau69lCAWDrAgLCcAPYKgRK4K8.38.woff2",
       "sha256": "d451bdb90c2490257824b19bf0ffe5283d48985ddf6706d334d69d4b2602e6aa",
@@ -11735,6 +11801,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gowunbatang/v12/ijwNs5nhRMIjYsdSgcMa3wRZ4J7ax6MnJCfFsaj8oklyMztDHlOOun84.116.woff2",
       "sha256": "f4f34ae05f21364955d45011e493a5bbef848501584a538cd674f11f76cab935",
       "bytes": 16216
+    },
+    {
+      "filename": "5cb3bfb438e9fa58.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.woff2",
+      "sha256": "4e8692a08d6c323f1bffb3641c7276d9c4bc8fa2891d78b02acc972776228600",
+      "bytes": 232072
     },
     {
       "filename": "5cba1de646ac405a.woff2",
@@ -13193,6 +13265,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/jua/v18/co3KmW9ljjAjdojPCM3T3NGswha8jSmuzy4jzT-N.103.woff2",
       "sha256": "6e10ba7ae4c557b224963b7424ba44535177d1e42dfa4c87b1435cd8cfd1eb2a",
       "bytes": 16252
+    },
+    {
+      "filename": "681616f238f36fed.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff2",
+      "sha256": "f27c0741248dba9a543520ff27eb32f9433de3ca50ac7ba4ccb5f5ede673c535",
+      "bytes": 388128
     },
     {
       "filename": "68275364cb0305f3.woff2",
@@ -14777,6 +14855,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gothica1/v18/CSR94z5ZnPydRjlCCwl6aaU4Qt0V05ZAcgT3T1VKO2vL6LbP.65.woff2",
       "sha256": "bc88f29c3977d65b85fa53fb70dab51dc551c4b37b9f24eb06c270282f3a9a45",
       "bytes": 3212
+    },
+    {
+      "filename": "73b8934a25f00244.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Thin.woff2",
+      "sha256": "786cbb66df27bb574d740abcb817c1ce19d60f574544c31383e194a13f7fe7a6",
+      "bytes": 153656
     },
     {
       "filename": "73ba997b20b4c0f8.woff2",
@@ -16733,6 +16817,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/sunflower/v18/RWmPoKeF8fUjqIj7Vc-0-MDirOMQBm8AZSXxSxgIpkk0e8w0Fyad.42.woff2",
       "sha256": "5563fe3e6cfc1c36d15bc13a3f8ef5b219528ab54a3407b52a790aa281d6338c",
       "bytes": 2632
+    },
+    {
+      "filename": "8378fc80995459b3.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff2",
+      "sha256": "d13846b612acc829078aff4f91c272c637c08441b409d46bb1a4c802eb2967c3",
+      "bytes": 387104
     },
     {
       "filename": "837c7d27ec38198a.woff",
@@ -22453,6 +22543,12 @@
       "bytes": 5928
     },
     {
+      "filename": "afa2ba91edcecddf.woff2",
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff2",
+      "sha256": "97dfe9720fbed813fc988fcedbcf741e97eef9353515b2043717484ec0b90aa1",
+      "bytes": 384992
+    },
+    {
       "filename": "afa535cc7c6cb613.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/gugi/v21/A2BVn5dXywshVAvo4jMQ8c2HNvL_56t4zTCEuE6pbA.11.woff2",
       "sha256": "70deeb6908bf3b0fc2592d2dbe78e1883cdfd6d9f3e01a3f66734976959732ac",
@@ -22625,6 +22721,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/bagelfatone/v2/hYkPPucsQOr5dy02WmQr5Zkd0BsOqP8SOt3xFR4E1Dx_grJqV0kMIQ.14.woff2",
       "sha256": "080fa170f36d02b475d2bf3ba68f1c2cb86178661e8a5adccbb3715ac1f0bccc",
       "bytes": 8164
+    },
+    {
+      "filename": "b11f7fe7bea36d57.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2",
+      "sha256": "589a2cc42e73c55d456f0c2af28e414893e29c3705fd199f5c57b33c24effe44",
+      "bytes": 163664
     },
     {
       "filename": "b11fa64b7c21fcf2.woff2",
@@ -23819,6 +23921,12 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-ExtraLight.subset.43.woff2",
       "sha256": "b18dc43e56514aa1d43031e42e1e6b3b5b9052dde71bf75239217a81335dac0c",
       "bytes": 11784
+    },
+    {
+      "filename": "b97735c1bced39e6.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraLight.woff2",
+      "sha256": "38aa140d73fb41cbfea8fa8e56035c215c6212f864ea6149fbc74ce37d4680c0",
+      "bytes": 161736
     },
     {
       "filename": "b9780f3a53f4659a.woff2",
@@ -29437,6 +29545,12 @@
       "bytes": 9940
     },
     {
+      "filename": "e3f7158d229fcf9a.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2",
+      "sha256": "7db834e2ced0fca2228b139d7df1dc703db85144c55007bfc54f4455b333d16c",
+      "bytes": 167352
+    },
+    {
       "filename": "e3f901072d7075dc.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/diphylleia/v2/DtVmJxCtRKMixK4_HXsIullO_ALYzG8-84HWW73mcKQ_N6-wNQ.9.woff2",
       "sha256": "32edaf1fe4029d491a8892c265d9b3ffd7497aff1affda099d7bf85f58736f66",
@@ -30653,6 +30767,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/moiraione/v3/2sDbZGFUgJLJmby6xgNGT0D-EbcTD0ai009KbwXQvMjayLt5Dg.114.woff2",
       "sha256": "08abd22082c589a74e7f3e5acdb3db6bb30a8109356453668b3b37163974f61b",
       "bytes": 31728
+    },
+    {
+      "filename": "ecf7240cf27aaa31.woff2",
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraBold.woff2",
+      "sha256": "7b90f684b62113564607aea7dce6ef98bf495f37df6d9138f67980ce8b513fc4",
+      "bytes": 167404
     },
     {
       "filename": "ed03a453df4624d8.woff2",
@@ -34807,6 +34927,16 @@
       "sha256": "2c5ca00da825c36c83930a736325de2d8d47848b6d0047f61b3eaccc88f88b73",
       "bytes": 13648,
       "sourceUrl": "https://fonts.gstatic.com/s/blackhansans/v24/ea8Aad44WunzF9a-dL6toA8r8nqQSWKmEJKy1nK6J8sYUGdTBHS2osQ.116.woff2"
+    },
+    {
+      "family": "Cafe24Decoline",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "44e273e847bf1c6c.woff2",
+      "sha256": "f6ddde93051da4db815cad1a9af3b0d7274faa4eee54560aeca8866a6c284617",
+      "bytes": 37868,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Decoline.woff2"
     },
     {
       "family": "Diphylleia",
@@ -66327,6 +66457,96 @@
       "sha256": "6c66761494a51c16c25b1e19963734d07112c2aa443c559cf402ef153713c61f",
       "bytes": 18772,
       "sourceUrl": "https://fonts.gstatic.com/s/nanumpenscript/v25/daaDSSYiLGqEal3MvdA_FOL_3FkN2zuWfsNNAlvx8XyriiBoA4Qt-85VRg.7.woff2"
+    },
+    {
+      "family": "NanumSquareNeo",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "5777daf746f9de23.woff2",
+      "sha256": "f0da0f2329935d3f88f7e4162b68fcdc0be393f74398736ea0967594282ca4e2",
+      "bytes": 339380,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff2"
+    },
+    {
+      "family": "NanumSquareNeo",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "8378fc80995459b3.woff2",
+      "sha256": "d13846b612acc829078aff4f91c272c637c08441b409d46bb1a4c802eb2967c3",
+      "bytes": 387104,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff2"
+    },
+    {
+      "family": "NanumSquareNeo",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "afa2ba91edcecddf.woff2",
+      "sha256": "97dfe9720fbed813fc988fcedbcf741e97eef9353515b2043717484ec0b90aa1",
+      "bytes": 384992,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff2"
+    },
+    {
+      "family": "NanumSquareNeo",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "681616f238f36fed.woff2",
+      "sha256": "f27c0741248dba9a543520ff27eb32f9433de3ca50ac7ba4ccb5f5ede673c535",
+      "bytes": 388128,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff2"
+    },
+    {
+      "family": "NanumSquareNeo",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "20ad365a3d35b84f.woff2",
+      "sha256": "090b017020c0b5a8fd517460c5dfdf33819b726e1c860313c75bf0624162242d",
+      "bytes": 361340,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.woff2"
+    },
+    {
+      "family": "NanumSquareRound",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "0560b3a903cbc950.woff2",
+      "sha256": "6d7749f24a9b3a6bc1d7456e48c15eec1b89a1283b88e8ca11b7b891f046625f",
+      "bytes": 204428,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.woff2"
+    },
+    {
+      "family": "NanumSquareRound",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "3f3866a4900c5778.woff2",
+      "sha256": "3127eb6b4cf10a0a840d204d613f610bbbd7f8a7ce82c0f81d04713760f81758",
+      "bytes": 247228,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.woff2"
+    },
+    {
+      "family": "NanumSquareRound",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "5cb3bfb438e9fa58.woff2",
+      "sha256": "4e8692a08d6c323f1bffb3641c7276d9c4bc8fa2891d78b02acc972776228600",
+      "bytes": 232072,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.woff2"
+    },
+    {
+      "family": "NanumSquareRound",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "0067b48600473d86.woff2",
+      "sha256": "31257cefdd0cec677b8278086e1d43fdfffb004ab40f96bd1aceda2e8d2f8e42",
+      "bytes": 226584,
+      "sourceUrl": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.woff2"
     },
     {
       "family": "Noto Sans KR",
@@ -102789,6 +103009,16 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Black.subset.33.woff2"
     },
     {
+      "family": "SandollSamlipHobbangOutline",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "0c1177f71f3a1328.woff2",
+      "sha256": "fdbdeb8055e8dcf31994391e3848a77d5d55ad0648a1abf1e191467359fe060e",
+      "bytes": 319168,
+      "sourceUrl": "https://raw.githubusercontent.com/fonts-archive/SDSamliphopangcheOutline/f2ba9b8ed062eee8342c10e61d31c18114c4421e/SDSamliphopangcheOutline.ttf"
+    },
+    {
       "family": "Song Myung",
       "weight": "400",
       "style": "normal",
@@ -103667,6 +103897,96 @@
       "sha256": "1caa00900b6b5f68b988f95c37b850260dcaa5832b1c10dd192ff824d6745db5",
       "bytes": 8264,
       "sourceUrl": "https://fonts.gstatic.com/s/songmyung/v22/1cX2aUDWAJH5-EIC7DIhr1TCk8qivo10xPFih_f6G0tP6mooOg.27.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "100",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "73b8934a25f00244.woff2",
+      "sha256": "786cbb66df27bb574d740abcb817c1ce19d60f574544c31383e194a13f7fe7a6",
+      "bytes": 153656,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Thin.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "b97735c1bced39e6.woff2",
+      "sha256": "38aa140d73fb41cbfea8fa8e56035c215c6212f864ea6149fbc74ce37d4680c0",
+      "bytes": 161736,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraLight.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "25b275f6af60a170.woff2",
+      "sha256": "d55c498788f59271d139ac3d13aabe076f456c6758ca10fb4b69f644efa43426",
+      "bytes": 164484,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "b11f7fe7bea36d57.woff2",
+      "sha256": "589a2cc42e73c55d456f0c2af28e414893e29c3705fd199f5c57b33c24effe44",
+      "bytes": 163664,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "49cc46e60ef5536a.woff2",
+      "sha256": "d49ec873fde77829a1614ae9ba1ab431af65c0b87b9de730a23175ec5749a06d",
+      "bytes": 166308,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "195f65df1df6792b.woff2",
+      "sha256": "a2f4e223fd4a24d8e03ddbf7e393f1f1575f55997d14cb82e61989adc86f4acd",
+      "bytes": 166704,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-SemiBold.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "e3f7158d229fcf9a.woff2",
+      "sha256": "7db834e2ced0fca2228b139d7df1dc703db85144c55007bfc54f4455b333d16c",
+      "bytes": 167352,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "ecf7240cf27aaa31.woff2",
+      "sha256": "7b90f684b62113564607aea7dce6ef98bf495f37df6d9138f67980ce8b513fc4",
+      "bytes": 167404,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraBold.woff2"
+    },
+    {
+      "family": "Suit",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": null,
+      "filename": "50bd2085576f4bc5.woff2",
+      "sha256": "455900611bb4b9d001819ea027d1549a0fe98b591a161222be04c73c5656bc19",
+      "bytes": 163660,
+      "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2"
     },
     {
       "family": "Sunflower",

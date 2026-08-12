@@ -82,14 +82,22 @@ describe("what a cdn build still ships itself", () => {
   });
 
   // Pretendard moved from a gh tag to the npm version of the same release (verified
-  // byte-identical), which left only the two noonnu families behind a mutable path.
+  // byte-identical). Every remaining mutable source must stay bundled.
   it("bundles exactly the faces whose upstream is not immutable", () => {
     const bundledFaces = faces.filter((face) => bundled.has(face.filename));
     expect(new Set(bundledFaces.map((face) => face.family))).toEqual(
-      new Set(["Paperozi", "Presentation"]),
+      new Set([
+        "Cafe24Decoline",
+        "NanumSquareNeo",
+        "NanumSquareRound",
+        "Paperozi",
+        "Presentation",
+        "SandollSamlipHobbangOutline",
+        "Suit",
+      ]),
     );
     for (const face of bundledFaces) {
-      expect(sourceUrls.get(face.filename)).toContain("/gh/projectnoonnu/");
+      expect(isImmutableSource(sourceUrls.get(face.filename))).toBe(false);
     }
     expect(bundled.size).toBeLessThan(faces.length / 100);
   });

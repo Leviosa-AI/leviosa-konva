@@ -55,13 +55,14 @@ Consumers MUST NOT decide which font bytes to fetch. At build time they run
 leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts    # editor
 leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist   # renderer
 
-# cdn — src points at the pinned manifest sourceUrl (~80MB less; six files still ship)
+# cdn — immutable sources use pinned URLs; mutable sources still ship with the package
 leviosa-konva-fonts --mode=cdn --prefix=/render-fonts/fonts/ --out=public/render-fonts
 ```
 
 `cdn` only delegates a file whose upstream cannot be repointed at other bytes — gstatic
-release paths and npm versions. Anything behind a third-party `gh/<user>/<repo>@<tag>` (a tag
-can be force-moved, a repo deleted) still ships as bytes: today six woff2, 1.26MB.
+release paths and npm versions. Anything behind a mutable third-party URL (for example, a
+`gh/<user>/<repo>@<tag>` that can be force-moved or a vendor URL without a versioned path)
+still ships as frozen bytes.
 
 The renderer still inlines the generated CSS + route-fulfills the bytes + blocks on
 `document.fonts.ready`; the editor still loads the families before render then awaits
