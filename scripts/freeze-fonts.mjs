@@ -7,6 +7,7 @@
 //
 //   ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze
 //   FREEZE_NEW_FONTS_ONLY=1 ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze
+//   FREEZE_FAMILIES=NanumSquareNeo,NanumSquareRound ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze
 //
 // Three catalog source types:
 //   google — folded into one fonts.googleapis.com/css2 request (unicode-range slices)
@@ -71,6 +72,7 @@ async function fetchFontFile(url, cache, fontsDir, conversion) {
   const response = await fetchWithRetry(url);
   if (!response.ok) throw new Error(`Failed to fetch font ${url}: ${response.status}`);
   const sourceData = Buffer.from(await response.arrayBuffer());
+  const sourceSha256 = crypto.createHash("sha256").update(sourceData).digest("hex");
   const data = conversion === "woff2"
     ? Buffer.from(await compressWoff2(sourceData))
     : sourceData;
@@ -81,6 +83,9 @@ async function fetchFontFile(url, cache, fontsDir, conversion) {
   const result = {
     filename,
     sourceUrl: url,
+    ...(conversion
+      ? { sourceSha256, sourceBytes: sourceData.length, conversion }
+      : {}),
     sha256,
     bytes: data.length,
     cssUrl: `/render-fonts/fonts/${filename}`,
@@ -235,7 +240,21 @@ function parseFontFaceManifest(css, cache) {
     },
     files: Array.from(filesByFilename.values())
       .filter((file) => referencedFiles.has(file.filename))
-      .map(({ filename, sourceUrl, sha256, bytes }) => ({ filename, sourceUrl, sha256, bytes }))
+      .map(({
+        filename,
+        sourceUrl,
+        sha256,
+        bytes,
+        sourceSha256,
+        sourceBytes,
+        conversion,
+      }) => ({
+        filename,
+        sourceUrl,
+        sha256,
+        bytes,
+        ...(sourceSha256 ? { sourceSha256, sourceBytes, conversion } : {}),
+      }))
       .sort((a, b) => a.filename.localeCompare(b.filename)),
     faces: entries.sort((a, b) =>
       `${a.family}:${a.weight}:${a.style}:${a.filename}`.localeCompare(`${b.family}:${b.weight}:${b.style}:${b.filename}`),
@@ -303,10 +322,34 @@ async function main() {
   const manifestPath = path.join(BUNDLE_DIR, "font-manifest.json");
   const currentManifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
   const newFontsOnly = process.env.FREEZE_NEW_FONTS_ONLY === "1";
+  const selectedFamilies = new Set(
+    (process.env.FREEZE_FAMILIES ?? "").split(",").map((family) => family.trim()).filter(Boolean),
+  );
   const frozenFamilies = new Set(currentManifest.faces.map((face) => face.family));
-  const sourceCatalog = newFontsOnly
-    ? { ...catalog, fonts: catalog.fonts.filter((font) => !frozenFamilies.has(font.family)) }
-    : catalog;
+  const sourceCatalog = {
+    ...catalog,
+    fonts: selectedFamilies.size > 0
+      ? catalog.fonts.filter((font) => selectedFamilies.has(font.family))
+      : newFontsOnly
+        ? catalog.fonts.filter((font) => !frozenFamilies.has(font.family))
+        : catalog.fonts,
+  };
+  if (selectedFamilies.size > 0 && sourceCatalog.fonts.length !== selectedFamilies.size) {
+    const found = new Set(sourceCatalog.fonts.map((font) => font.family));
+    const missing = [...selectedFamilies].filter((family) => !found.has(family));
+    throw new Error(`Unknown FREEZE_FAMILIES: ${missing.join(", ")}`);
+  }
+  const retainedFaces = selectedFamilies.size > 0
+    ? currentManifest.faces.filter((face) => !selectedFamilies.has(face.family))
+    : currentManifest.faces;
+  const retainedFiles = new Set(retainedFaces.map((face) => face.filename));
+  const baseManifest = selectedFamilies.size > 0
+    ? {
+        ...currentManifest,
+        files: currentManifest.files.filter((file) => retainedFiles.has(file.filename)),
+        faces: retainedFaces,
+      }
+    : currentManifest;
   await fs.rm(nextFontsDir, { recursive: true, force: true });
   const cache = await seedFrozenCache(manifestPath, fontsDir, nextFontsDir);
 
@@ -319,8 +362,8 @@ async function main() {
     const css = chunks.join("\n\n");
 
     const addedManifest = parseFontFaceManifest(css, cache);
-    const manifest = newFontsOnly
-      ? mergeManifests(currentManifest, addedManifest)
+    const manifest = newFontsOnly || selectedFamilies.size > 0
+      ? mergeManifests(baseManifest, addedManifest)
       : addedManifest;
     assertEveryFamilyFrozen(catalog, manifest);
     const referenced = new Set(manifest.files.map((file) => file.filename));

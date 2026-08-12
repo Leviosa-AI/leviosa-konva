@@ -407,11 +407,11 @@
       "source": {
         "type": "files",
         "files": [
-          { "weight": 300, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-aLt.woff2" },
-          { "weight": 400, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff2" },
-          { "weight": 700, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff2" },
-          { "weight": 800, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff2" },
-          { "weight": 900, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-eHv.woff2" }
+          { "weight": 300, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-aLt.woff2" },
+          { "weight": 400, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-bRg.woff2" },
+          { "weight": 700, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-cBd.woff2" },
+          { "weight": 800, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-dEb.woff2" },
+          { "weight": 900, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-eHv.woff2" }
         ]
       },
       "license": { "name": "NAVER Nanum Font License", "url": "https://campaign.naver.com/nanumsquare_neo/" },
@@ -427,10 +427,10 @@
       "source": {
         "type": "files",
         "files": [
-          { "weight": 300, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundL.woff2" },
-          { "weight": 400, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundR.woff2" },
-          { "weight": 700, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundB.woff2" },
-          { "weight": 800, "style": "normal", "url": "https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareRound/NanumSquareRoundEB.woff2" }
+          { "weight": 300, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundL.woff2" },
+          { "weight": 400, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundR.woff2" },
+          { "weight": 700, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundB.woff2" },
+          { "weight": 800, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundEB.woff2" }
         ]
       },
       "license": { "name": "NAVER Nanum Font License", "url": "https://campaign.naver.com/nanumsquare_neo/" },

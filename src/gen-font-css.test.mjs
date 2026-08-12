@@ -89,7 +89,6 @@ describe("what a cdn build still ships itself", () => {
       new Set([
         "Cafe24Decoline",
         "NanumSquareNeo",
-        "NanumSquareRound",
         "Paperozi",
         "Presentation",
         "SandollSamlipHobbangOutline",

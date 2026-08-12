@@ -2,7 +2,11 @@
 import { describe, expect, it } from "vitest";
 
 import { readManifest } from "../scripts/gen-font-css.mjs";
-import { statusFailure, upstreamGroup } from "../scripts/check-font-urls.mjs";
+import {
+  sourceIntegrity,
+  statusFailure,
+  upstreamGroup,
+} from "../scripts/check-font-urls.mjs";
 
 describe("failure classification", () => {
   // The check exists to catch a URL that rotted, and it is worthless if a throttled
@@ -13,6 +17,27 @@ describe("failure classification", () => {
     expect(statusFailure(403).kind).toBe("rot");
     expect(statusFailure(429).kind).toBe("transient");
     expect(statusFailure(503).kind).toBe("transient");
+  });
+});
+
+describe("source integrity", () => {
+  it("checks a converted source against its source bytes and hash", () => {
+    expect(
+      sourceIntegrity({
+        bytes: 319168,
+        sha256: "woff2-hash",
+        sourceBytes: 1377180,
+        sourceSha256: "ttf-hash",
+        conversion: "woff2",
+      }),
+    ).toEqual({ bytes: 1377180, sha256: "ttf-hash" });
+  });
+
+  it("checks an unconverted file against its bundled integrity", () => {
+    expect(sourceIntegrity({ bytes: 42, sha256: "same-hash" })).toEqual({
+      bytes: 42,
+      sha256: "same-hash",
+    });
   });
 });
 

@@ -18,6 +18,12 @@ Copyright NAVER Corp. The Nanum families are freely usable by individuals and co
 for commercial and non-commercial purposes. Font files may not be sold by themselves.
 Official distribution and license notice: https://campaign.naver.com/nanumsquare_neo/
 
+NanumSquare Neo bytes are pinned to a public commit and are byte-identical to the
+official NAVER webfont used by the editor. NanumSquareRound uses the versioned
+`@kfonts/nanum-square-round@0.2.0` webfont package; all four faces have identical
+character sets, vertical metrics, and glyph advance widths to the previous official
+NAVER webfont bytes.
+
 ## Cafe24 Decoline
 
 Copyright Cafe24 Corp. Licensed under the SIL Open Font License, Version 1.1.
