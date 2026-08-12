@@ -55,13 +55,14 @@ Consumers MUST NOT decide which font bytes to fetch. At build time they run
 leviosa-konva-fonts --prefix=/render-fonts/fonts/ --out=public/render-fonts    # editor
 leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist   # renderer
 
-# cdn — src points at the pinned manifest sourceUrl (~80MB less; six files still ship)
+# cdn — immutable sources use pinned URLs; mutable sources still ship with the package
 leviosa-konva-fonts --mode=cdn --prefix=/render-fonts/fonts/ --out=public/render-fonts
 ```
 
 `cdn` only delegates a file whose upstream cannot be repointed at other bytes — gstatic
-release paths and npm versions. Anything behind a third-party `gh/<user>/<repo>@<tag>` (a tag
-can be force-moved, a repo deleted) still ships as bytes: today six woff2, 1.26MB.
+release paths and npm versions. Anything behind a mutable third-party URL (for example, a
+`gh/<user>/<repo>@<tag>` that can be force-moved or a vendor URL without a versioned path)
+still ships as frozen bytes.
 
 The renderer still inlines the generated CSS + route-fulfills the bytes + blocks on
 `document.fonts.ready`; the editor still loads the families before render then awaits
@@ -93,32 +94,25 @@ npm run typecheck
 
 ## Publishing
 
-GitHub Packages (private, org-scoped `@leviosa-ai`). Publish by pushing a version tag —
-`.github/workflows/publish.yml` builds and publishes:
+The public `@leviosa-ai/konva` package is published to npm with Trusted Publishing (OIDC),
+so GitHub stores no npm token. Configure npm once with organization `Leviosa-AI`, repository
+`leviosa-konva`, workflow filename `publish.yml`, no environment, and the `npm publish`
+permission. Then publish by pushing a version tag:
 
 ```bash
-# bump version in package.json first, then:
-git tag v0.1.0 && git push origin v0.1.0
+# bump package.json and LEVIOSA_KONVA_VERSION first, then:
+VERSION=$(node -p "require('./package.json').version")
+git tag "v$VERSION" && git push origin "v$VERSION"
 ```
 
-## Consuming (GitHub Packages)
+## Consuming
 
-Both consumers add a scope→registry mapping and a read token, then depend on a pinned
-version:
+Both consumers depend on a pinned version from the public npm registry:
 
-```ini
-# leviosa-frontend/.npmrc and leviosa-rendering-server/.npmrc
-@leviosa-ai:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
-```
-
-```jsonc
-// package.json
-"dependencies": {
-  "@leviosa-ai/konva": "0.1.0"
+```json
+{
+  "dependencies": {
+    "@leviosa-ai/konva": "0.1.0"
+  }
 }
 ```
-
-`NODE_AUTH_TOKEN` = a GitHub token with `read:packages` (a classic PAT for local dev; in
-CI, a repo secret). The package must grant those consumer repos read access (Package
-settings → Manage Actions access).

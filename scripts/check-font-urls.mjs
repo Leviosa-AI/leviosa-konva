@@ -6,7 +6,8 @@
 // same as permanent: a jsdelivr `gh/<user>/<repo>@<tag>` path dies if the upstream repo
 // or tag is deleted, and that failure would only surface as a render error in prod.
 // This walks every unique sourceUrl and checks it still serves the exact byte count the
-// manifest froze, so a disappearing font is caught by CI instead of by a customer.
+// manifest froze. For a source converted during freezing, the manifest stores both source
+// and output integrity so the upstream TTF is checked against the TTF, not the WOFF2.
 //
 // Byte count, not sha256, on purpose: a full download of all files is ~81MB, while a
 // HEAD is a few hundred bytes. Content-Length disagreeing with the manifest already
@@ -86,6 +87,13 @@ export function statusFailure(status) {
   return transient(`HTTP ${status}`);
 }
 
+export function sourceIntegrity(file) {
+  return {
+    bytes: file.sourceBytes ?? file.bytes,
+    sha256: file.sourceSha256 ?? file.sha256,
+  };
+}
+
 async function checkHead(file) {
   const response = await fetchRetrying(file.sourceUrl, { method: "HEAD", redirect: "follow" });
   if (!response.ok) return statusFailure(response.status);
@@ -93,7 +101,8 @@ async function checkHead(file) {
   // A CDN that omits Content-Length (or answers a HEAD without one) is not a failure —
   // it just means this cheap check cannot prove the size. --full can.
   if (!Number.isFinite(length) || length === 0) return null;
-  if (length !== file.bytes) return rot(`size ${length} != manifest ${file.bytes}`);
+  const expected = sourceIntegrity(file);
+  if (length !== expected.bytes) return rot(`size ${length} != manifest ${expected.bytes}`);
   return null;
 }
 
@@ -101,10 +110,13 @@ async function checkFull(file) {
   const response = await fetchRetrying(file.sourceUrl, { redirect: "follow" });
   if (!response.ok) return statusFailure(response.status);
   const body = Buffer.from(await response.arrayBuffer());
-  if (body.length !== file.bytes) return rot(`size ${body.length} != manifest ${file.bytes}`);
+  const expected = sourceIntegrity(file);
+  if (body.length !== expected.bytes) {
+    return rot(`size ${body.length} != manifest ${expected.bytes}`);
+  }
   const sha256 = crypto.createHash("sha256").update(body).digest("hex");
-  if (sha256 !== file.sha256) {
-    return rot(`sha256 ${sha256.slice(0, 12)}… != manifest ${file.sha256.slice(0, 12)}…`);
+  if (sha256 !== expected.sha256) {
+    return rot(`sha256 ${sha256.slice(0, 12)}… != manifest ${expected.sha256.slice(0, 12)}…`);
   }
   return null;
 }

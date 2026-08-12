@@ -18,9 +18,9 @@
 //     `/npm/<pkg>@<version>/`). This is NOT the "each repo re-fetches from a CDN at build
 //     time" setup that caused the wrap-divergence postmortem in CLAUDE.md — the URL list is
 //     frozen and shared. Never resolve fonts.googleapis.com/css2 at build time to fill it in.
-//     Files served from anything weaker — today six woff2 behind third-party
-//     `gh/<user>/<repo>@<tag>` paths, where a tag can be force-moved and a repo deleted —
-//     still ship as bytes, so nothing outside our control can take a font away.
+//     Files served from anything weaker — for example third-party
+//     `gh/<user>/<repo>@<tag>` paths or unversioned vendor URLs — still ship as bytes,
+//     so nothing outside our control can take a font away.
 //
 // Usage:
 //   node gen-font-css.mjs --prefix=/render-fonts/fonts/ --out=/abs/path/render-fonts
@@ -249,7 +249,7 @@ async function main() {
     await copyDir(BUNDLE_FONTS_DIR, fontsOut);
   } else {
     // Rebuild rather than prune: bytes left by an earlier local build would keep serving
-    // files nothing points at, and would hide that this build is meant to carry only six.
+    // files nothing points at, and would hide the exact mutable-source subset for this build.
     await fs.rm(fontsOut, { recursive: true, force: true });
     if (bundled.size > 0) {
       await fs.mkdir(fontsOut, { recursive: true });

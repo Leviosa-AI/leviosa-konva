@@ -6,6 +6,8 @@
 // time from the manifest via gen-font-css.mjs, because only the URL prefix differs.
 //
 //   ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze
+//   FREEZE_NEW_FONTS_ONLY=1 ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze
+//   FREEZE_FAMILIES=NanumSquareNeo,NanumSquareRound ALLOW_FONT_MANIFEST_UPDATE=1 npm run fonts:freeze
 //
 // Three catalog source types:
 //   google — folded into one fonts.googleapis.com/css2 request (unicode-range slices)
@@ -16,6 +18,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import crypto from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { compress as compressWoff2 } from "woff2-encoder";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const BUNDLE_DIR = path.resolve(HERE, "..", "fonts");
@@ -61,29 +64,69 @@ async function fetchText(url) {
   return response.text();
 }
 
-async function fetchFontFile(url, cache, fontsDir) {
-  const cached = cache.get(url);
+async function fetchFontFile(url, cache, fontsDir, conversion) {
+  const cacheKey = conversion ? `${url}#${conversion}` : url;
+  const cached = cache.get(cacheKey);
   if (cached) return cached;
 
   const response = await fetchWithRetry(url);
   if (!response.ok) throw new Error(`Failed to fetch font ${url}: ${response.status}`);
-  const data = Buffer.from(await response.arrayBuffer());
+  const sourceData = Buffer.from(await response.arrayBuffer());
+  const sourceSha256 = crypto.createHash("sha256").update(sourceData).digest("hex");
+  const data = conversion === "woff2"
+    ? Buffer.from(await compressWoff2(sourceData))
+    : sourceData;
   const hash = crypto.createHash("sha1").update(url).digest("hex").slice(0, 16);
   const sha256 = crypto.createHash("sha256").update(data).digest("hex");
-  const filename = `${hash}${extensionForUrl(url)}`;
+  const filename = `${hash}${conversion === "woff2" ? ".woff2" : extensionForUrl(url)}`;
   await fs.writeFile(path.join(fontsDir, filename), data);
   const result = {
     filename,
     sourceUrl: url,
+    ...(conversion
+      ? { sourceSha256, sourceBytes: sourceData.length, conversion }
+      : {}),
     sha256,
     bytes: data.length,
     cssUrl: `/render-fonts/fonts/${filename}`,
   };
-  cache.set(url, result);
+  cache.set(cacheKey, result);
   return result;
 }
 
-async function localizeFontUrls(css, baseUrl, cache, fontsDir) {
+/**
+ * Reuse already-frozen bytes whose source URL is unchanged. A catalog-only addition
+ * should not re-download and rewrite the several-thousand-file Google bundle: besides
+ * being slow, deleting the live directory before all fetches finish leaves a broken
+ * checkout when the command is interrupted.
+ */
+async function seedFrozenCache(manifestPath, currentFontsDir, nextFontsDir) {
+  const cache = new Map();
+  const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  await fs.cp(currentFontsDir, nextFontsDir, { recursive: true });
+  for (const file of manifest.files ?? []) {
+    if (!file.sourceUrl || !file.filename) continue;
+    cache.set(file.sourceUrl, {
+      ...file,
+      cssUrl: `/render-fonts/fonts/${file.filename}`,
+    });
+  }
+  return cache;
+}
+
+async function replaceDirectory(currentDir, nextDir) {
+  const backupDir = `${currentDir}.previous-${process.pid}`;
+  await fs.rename(currentDir, backupDir);
+  try {
+    await fs.rename(nextDir, currentDir);
+    await fs.rm(backupDir, { recursive: true, force: true });
+  } catch (error) {
+    await fs.rename(backupDir, currentDir).catch(() => undefined);
+    throw error;
+  }
+}
+
+async function localizeFontUrls(css, baseUrl, cache, fontsDir, conversions) {
   const withoutLocalSources = css.replace(/\s*local\([^)]+\),?/g, "");
   const urlRegex = /url\(([^)]+)\)/g;
   let result = "";
@@ -95,7 +138,12 @@ async function localizeFontUrls(css, baseUrl, cache, fontsDir) {
       result += match[0];
     } else {
       const absoluteUrl = new URL(raw, baseUrl).toString();
-      const fontFile = await fetchFontFile(absoluteUrl, cache, fontsDir);
+      const fontFile = await fetchFontFile(
+        absoluteUrl,
+        cache,
+        fontsDir,
+        conversions.get(absoluteUrl),
+      );
       result += `url("${fontFile.cssUrl}")`;
     }
     lastIndex = match.index + match[0].length;
@@ -182,6 +230,7 @@ function parseFontFaceManifest(css, cache) {
       });
     }
   }
+  const referencedFiles = new Set(entries.map((entry) => entry.filename));
   return {
     version: 1,
     policy: {
@@ -190,10 +239,40 @@ function parseFontFaceManifest(css, cache) {
       updateEnv: "ALLOW_FONT_MANIFEST_UPDATE=1",
     },
     files: Array.from(filesByFilename.values())
-      .map(({ filename, sourceUrl, sha256, bytes }) => ({ filename, sourceUrl, sha256, bytes }))
+      .filter((file) => referencedFiles.has(file.filename))
+      .map(({
+        filename,
+        sourceUrl,
+        sha256,
+        bytes,
+        sourceSha256,
+        sourceBytes,
+        conversion,
+      }) => ({
+        filename,
+        sourceUrl,
+        sha256,
+        bytes,
+        ...(sourceSha256 ? { sourceSha256, sourceBytes, conversion } : {}),
+      }))
       .sort((a, b) => a.filename.localeCompare(b.filename)),
     faces: entries.sort((a, b) =>
       `${a.family}:${a.weight}:${a.style}:${a.filename}`.localeCompare(`${b.family}:${b.weight}:${b.style}:${b.filename}`),
+    ),
+  };
+}
+
+function mergeManifests(current, added) {
+  const files = new Map(current.files.map((file) => [file.filename, file]));
+  for (const file of added.files) files.set(file.filename, file);
+
+  return {
+    ...current,
+    files: Array.from(files.values()).sort((a, b) => a.filename.localeCompare(b.filename)),
+    faces: [...current.faces, ...added.faces].sort((a, b) =>
+      `${a.family}:${a.weight}:${a.style}:${a.filename}`.localeCompare(
+        `${b.family}:${b.weight}:${b.style}:${b.filename}`,
+      ),
     ),
   };
 }
@@ -229,29 +308,79 @@ function assertEveryFamilyFrozen(catalog, manifest) {
 
 async function main() {
   const catalog = JSON.parse(await fs.readFile(CATALOG_PATH, "utf8"));
-  const cache = new Map();
-  const fontsDir = path.join(BUNDLE_DIR, "fonts");
-
-  const sources = await collectSources(catalog);
-
-  await fs.rm(fontsDir, { recursive: true, force: true });
-  await fs.mkdir(fontsDir, { recursive: true });
-
-  const chunks = [];
-  for (const { css, baseUrl } of sources) {
-    chunks.push(await localizeFontUrls(css, baseUrl, cache, fontsDir));
-  }
-  const css = chunks.join("\n\n");
-
-  const manifest = parseFontFaceManifest(css, cache);
-  assertEveryFamilyFrozen(catalog, manifest);
-  await writePinnedManifest(path.join(BUNDLE_DIR, "font-manifest.json"), manifest);
-
-  const totalBytes = manifest.files.reduce((sum, file) => sum + file.bytes, 0);
-  console.log(
-    `[konva] froze ${catalog.fonts.length} families: ${manifest.files.length} files, ` +
-      `${manifest.faces.length} faces, ${Math.round(totalBytes / 1024 / 1024)} MiB -> ${fontsDir}`,
+  const conversions = new Map(
+    catalog.fonts.flatMap((font) =>
+      font.source.type === "files"
+        ? font.source.files
+            .filter((file) => file.convert)
+            .map((file) => [file.url, file.convert])
+        : [],
+    ),
   );
+  const fontsDir = path.join(BUNDLE_DIR, "fonts");
+  const nextFontsDir = path.join(BUNDLE_DIR, `.fonts-next-${process.pid}`);
+  const manifestPath = path.join(BUNDLE_DIR, "font-manifest.json");
+  const currentManifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
+  const newFontsOnly = process.env.FREEZE_NEW_FONTS_ONLY === "1";
+  const selectedFamilies = new Set(
+    (process.env.FREEZE_FAMILIES ?? "").split(",").map((family) => family.trim()).filter(Boolean),
+  );
+  const frozenFamilies = new Set(currentManifest.faces.map((face) => face.family));
+  const sourceCatalog = {
+    ...catalog,
+    fonts: selectedFamilies.size > 0
+      ? catalog.fonts.filter((font) => selectedFamilies.has(font.family))
+      : newFontsOnly
+        ? catalog.fonts.filter((font) => !frozenFamilies.has(font.family))
+        : catalog.fonts,
+  };
+  if (selectedFamilies.size > 0 && sourceCatalog.fonts.length !== selectedFamilies.size) {
+    const found = new Set(sourceCatalog.fonts.map((font) => font.family));
+    const missing = [...selectedFamilies].filter((family) => !found.has(family));
+    throw new Error(`Unknown FREEZE_FAMILIES: ${missing.join(", ")}`);
+  }
+  const retainedFaces = selectedFamilies.size > 0
+    ? currentManifest.faces.filter((face) => !selectedFamilies.has(face.family))
+    : currentManifest.faces;
+  const retainedFiles = new Set(retainedFaces.map((face) => face.filename));
+  const baseManifest = selectedFamilies.size > 0
+    ? {
+        ...currentManifest,
+        files: currentManifest.files.filter((file) => retainedFiles.has(file.filename)),
+        faces: retainedFaces,
+      }
+    : currentManifest;
+  await fs.rm(nextFontsDir, { recursive: true, force: true });
+  const cache = await seedFrozenCache(manifestPath, fontsDir, nextFontsDir);
+
+  try {
+    const sources = await collectSources(sourceCatalog);
+    const chunks = [];
+    for (const { css, baseUrl } of sources) {
+      chunks.push(await localizeFontUrls(css, baseUrl, cache, nextFontsDir, conversions));
+    }
+    const css = chunks.join("\n\n");
+
+    const addedManifest = parseFontFaceManifest(css, cache);
+    const manifest = newFontsOnly || selectedFamilies.size > 0
+      ? mergeManifests(baseManifest, addedManifest)
+      : addedManifest;
+    assertEveryFamilyFrozen(catalog, manifest);
+    const referenced = new Set(manifest.files.map((file) => file.filename));
+    for (const filename of await fs.readdir(nextFontsDir)) {
+      if (!referenced.has(filename)) await fs.rm(path.join(nextFontsDir, filename));
+    }
+    await writePinnedManifest(manifestPath, manifest);
+    await replaceDirectory(fontsDir, nextFontsDir);
+
+    const totalBytes = manifest.files.reduce((sum, file) => sum + file.bytes, 0);
+    console.log(
+      `[konva] froze ${catalog.fonts.length} families: ${manifest.files.length} files, ` +
+        `${manifest.faces.length} faces, ${Math.round(totalBytes / 1024 / 1024)} MiB -> ${fontsDir}`,
+    );
+  } finally {
+    await fs.rm(nextFontsDir, { recursive: true, force: true });
+  }
 }
 
 main().catch((error) => {

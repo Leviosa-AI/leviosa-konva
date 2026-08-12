@@ -372,6 +372,101 @@
       "source": { "type": "google" },
       "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.google.com/specimen/East+Sea+Dokdo/license" },
       "previewText": "동해독도 East Sea Dokdo"
+    },
+    {
+      "id": "suit",
+      "family": "Suit",
+      "label": "SUIT",
+      "category": "sans",
+      "traits": { "class": "gothic", "shape": "neutral" },
+      "weights": [100, 200, 300, 400, 500, 600, 700, 800, 900],
+      "source": {
+        "type": "files",
+        "files": [
+          { "weight": 100, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Thin.woff2" },
+          { "weight": 200, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraLight.woff2" },
+          { "weight": 300, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Light.woff2" },
+          { "weight": 400, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Regular.woff2" },
+          { "weight": 500, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Medium.woff2" },
+          { "weight": 600, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-SemiBold.woff2" },
+          { "weight": 700, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Bold.woff2" },
+          { "weight": 800, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-ExtraBold.woff2" },
+          { "weight": 900, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_suit@1.0/SUIT-Heavy.woff2" }
+        ]
+      },
+      "license": { "name": "SIL Open Font License 1.1", "url": "https://github.com/sun-typeface/SUIT/blob/main/LICENSE" },
+      "previewText": "수트 SUIT"
+    },
+    {
+      "id": "nanum-square-neo",
+      "family": "NanumSquareNeo",
+      "label": "나눔스퀘어 네오",
+      "category": "sans",
+      "traits": { "class": "gothic", "shape": "angular" },
+      "weights": [300, 400, 700, 800, 900],
+      "source": {
+        "type": "files",
+        "files": [
+          { "weight": 300, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-aLt.woff2" },
+          { "weight": 400, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-bRg.woff2" },
+          { "weight": 700, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-cBd.woff2" },
+          { "weight": 800, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-dEb.woff2" },
+          { "weight": 900, "style": "normal", "url": "https://raw.githubusercontent.com/eunchurn/NanumSquareNeo/7db97f46a9637d40a76ef08e5f8c9a7bcc1c0764/woff2/NanumSquareNeoTTF-eHv.woff2" }
+        ]
+      },
+      "license": { "name": "NAVER Nanum Font License", "url": "https://campaign.naver.com/nanumsquare_neo/" },
+      "previewText": "나눔스퀘어 네오 NanumSquare Neo"
+    },
+    {
+      "id": "nanum-square-round",
+      "family": "NanumSquareRound",
+      "label": "나눔스퀘어라운드",
+      "category": "sans",
+      "traits": { "class": "gothic", "shape": "round" },
+      "weights": [300, 400, 700, 800],
+      "source": {
+        "type": "files",
+        "files": [
+          { "weight": 300, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundL.woff2" },
+          { "weight": 400, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundR.woff2" },
+          { "weight": 700, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundB.woff2" },
+          { "weight": 800, "style": "normal", "url": "https://cdn.jsdelivr.net/npm/@kfonts/nanum-square-round@0.2.0/NanumSquareRoundEB.woff2" }
+        ]
+      },
+      "license": { "name": "NAVER Nanum Font License", "url": "https://campaign.naver.com/nanumsquare_neo/" },
+      "previewText": "나눔스퀘어라운드 NanumSquareRound"
+    },
+    {
+      "id": "cafe24-decoline",
+      "family": "Cafe24Decoline",
+      "label": "Cafe24 Decoline",
+      "category": "display",
+      "traits": { "class": "display", "shape": "angular" },
+      "weights": [400],
+      "source": {
+        "type": "files",
+        "files": [
+          { "weight": 400, "style": "normal", "url": "https://cdn.jsdelivr.net/gh/projectnoonnu/2405-3@1.1/Cafe24Decoline.woff2" }
+        ]
+      },
+      "license": { "name": "SIL Open Font License 1.1", "url": "https://fonts.cafe24.com/" },
+      "previewText": "Cafe24 Decoline 24"
+    },
+    {
+      "id": "samlip-hopang-outline",
+      "family": "SandollSamlipHobbangOutline",
+      "label": "삼립호빵체 아웃라인",
+      "category": "display",
+      "traits": { "class": "display", "shape": "round" },
+      "weights": [400],
+      "source": {
+        "type": "files",
+        "files": [
+          { "weight": 400, "style": "normal", "url": "https://raw.githubusercontent.com/fonts-archive/SDSamliphopangcheOutline/f2ba9b8ed062eee8342c10e61d31c18114c4421e/SDSamliphopangcheOutline.ttf", "convert": "woff2" }
+        ]
+      },
+      "license": { "name": "SIL Open Font License 1.1", "url": "https://spcsamlip.co.kr/sandoll-samlip-hopang/" },
+      "previewText": "삼립호빵체 아웃라인"
     }
   ]
 }
