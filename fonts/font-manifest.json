@@ -1225,6 +1225,12 @@
       "bytes": 20272
     },
     {
+      "filename": "08b3d7d4fc4c8450.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/parisienne/v14/E21i_d3kivvAkxhLEVZpQyZwD9Ku.woff2",
+      "sha256": "652fa5786f9ca3be5718cfeba62261ae745ef0ea5efdc264e2b727fafb3d2a11",
+      "bytes": 14232
+    },
+    {
       "filename": "08b818442cbf6a3b.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/gothica1/v18/CSR44z5ZnPydRjlCCwlC0OIKTZFstupOfBjNSl5zPnvB_dOjwqCu.60.woff2",
       "sha256": "d274d37be6705bb194ea2db5867913402787fd9787e06c2359906478c69d395e",
@@ -3628,6 +3634,12 @@
       "bytes": 2680
     },
     {
+      "filename": "1bb29fad8372f12c.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104
+    },
+    {
       "filename": "1bb693c7b992773b.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/dongle/v16/sJoG3Ltdjt6VPkqeActrZ12bz3SmUitvVvdIsVspkq6sHljt.28.woff2",
       "sha256": "f3847e8f96e4d0639bc08f3d4085735369d51370ca469af2897415002794d5bb",
@@ -5332,6 +5344,12 @@
       "bytes": 23824
     },
     {
+      "filename": "2970073f58048fe5.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYKF_i7y.woff2",
+      "sha256": "a69dfe4ff8ea7fd225bc3c1fe703866e9ec308024bbac1b27cd76cc63f5e3e54",
+      "bytes": 14332
+    },
+    {
       "filename": "2973a2426472533a.woff2",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Light.subset.81.woff2",
       "sha256": "b31f66cae9eca00c09287de882e664aa60649a00fe574a249cbb95dac03ea620",
@@ -5456,6 +5474,12 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-SemiBold.subset.50.woff2",
       "sha256": "9d1962aa3c0c2a5ce093b75b6bd906e9cf702f284cca9bbc836e899ef0caee88",
       "bytes": 12280
+    },
+    {
+      "filename": "2a9f71c0858254b1.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR5SDktYw.woff2",
+      "sha256": "3cd432d0dc2b756e69eea4325fd40f3515a31753445238f7fb5d349588192511",
+      "bytes": 11484
     },
     {
       "filename": "2aa3534ea64751c8.woff2",
@@ -6038,6 +6062,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/nanumgothic/v26/PN_3Rfi-oW3hYwmKDpxS7F_z-7rJxHVIsPV5MbNO2rV2_va-Nv6p.64.woff2",
       "sha256": "7715e888f6bb8fd2abcf27bf05d2bbbde8c28acb12061b48b87723dcdf476a3f",
       "bytes": 12980
+    },
+    {
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688
     },
     {
       "filename": "2fc1bee7b481f3b5.woff2",
@@ -6988,6 +7018,12 @@
       "bytes": 6776
     },
     {
+      "filename": "36ccc775c221e24d.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/bebasneue/v16/JTUSjIg69CK48gW7PXoo9Wlhyw.woff2",
+      "sha256": "a7c90c89240c134f7fdd33d40c000ec90b79d675ea53e8cc5a6d423c073de412",
+      "bytes": 13768
+    },
+    {
       "filename": "36d9db3fa75ba873.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/eastseadokdo/v26/xfuo0Wn2V2_KanASqXSZp22m05_fcb3aRCxcL4dOVHJm4ii0w2TJ0q8.5.woff2",
       "sha256": "765754746fafeb9ad587504bc1ed6b87e7f65814f4dd0a3fd33ea067b1aa0d0b",
@@ -7564,6 +7600,12 @@
       "bytes": 18840
     },
     {
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952
+    },
+    {
       "filename": "3b0ab97523568de3.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/nanummyeongjo/v31/9Bty3DZF0dXLMZlywRbVRNhxy2pLVFAxzeau69lCAWDrAgLCcAPYKgRK4K8.58.woff2",
       "sha256": "81c2e6c30ff64c5722ae7ef8fde5ec4a6f0a6a7ab12b269f580078d295630a3c",
@@ -7724,6 +7766,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/sunflower/v18/RWmPoKeF8fUjqIj7Vc-0-MDirOMQBm8AZSXxSxgIpkk0e8w0Fyad.118.woff2",
       "sha256": "79959f52555f9e28d926556097a79ee978ab0e917aa95beb389e4ffb3b3ac40b",
       "bytes": 9276
+    },
+    {
+      "filename": "3c5ecd69627058c5.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2",
+      "sha256": "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+      "bytes": 113928
     },
     {
       "filename": "3c61c338e5e898c2.woff2",
@@ -8410,6 +8458,12 @@
       "bytes": 47352
     },
     {
+      "filename": "4156c73755f5513e.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR4SDktYw.woff2",
+      "sha256": "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+      "bytes": 33948
+    },
+    {
       "filename": "416624ed36196654.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/himelody/v19/46ktlbP8Vnz0pJcqCTbEegdS3V8yduAsxfUg1BUTwBF4g3aW.32.woff2",
       "sha256": "cd7ee4326396958767dd6484d06290cd367ad49e3ad2f945e467307fc468a79a",
@@ -8888,6 +8942,12 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Medium.subset.23.woff2",
       "sha256": "cc5a2dee392617bcb09129e4cd3cf112baac07172ec09b0227d275e45c1a8e90",
       "bytes": 14504
+    },
+    {
+      "filename": "45f5d465bd2ef4cd.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF_g.woff2",
+      "sha256": "25f33e61cf995abd6be62931cf03bf427286259177b43618cc410ee0157cfd30",
+      "bytes": 18604
     },
     {
       "filename": "45f63cf4f63e261e.woff2",
@@ -9590,6 +9650,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gothica1/v18/CSR94z5ZnPydRjlCCwl6aaU4Qt0V05ZAcgT3T1VKO2vL6LbP.17.woff2",
       "sha256": "922294190332a94435dd37bcbe3a75b24553b1ae9a74423236877930aa9d5927",
       "bytes": 11196
+    },
+    {
+      "filename": "4b9949f86af29aca.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488
     },
     {
       "filename": "4baa5ae2264250f9.woff2",
@@ -10502,6 +10568,12 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Regular.subset.61.woff2",
       "sha256": "9c2a50a34be1d5040d05b29ec08d3272590b9c69e2abfa6b245ff6faa84170a6",
       "bytes": 13912
+    },
+    {
+      "filename": "52193417755c1731.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR2SDktYw.woff2",
+      "sha256": "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+      "bytes": 19868
     },
     {
       "filename": "523469df73c6d36b.woff2",
@@ -12472,6 +12544,12 @@
       "bytes": 14388
     },
     {
+      "filename": "61a963590a1177a4.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404
+    },
+    {
       "filename": "61ad564d6de3ad93.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/notoserifkr/v31/3Jn7SDn90Gmq2mr3blnHaTZXduUBwuF9Wxop-KlAZIoTrf6uFZh_9Q.32.woff2",
       "sha256": "c90a54a01f12b31c3768228e026a0c6472256d049d623e8f35d2c9fa0de38ba2",
@@ -12716,6 +12794,12 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff-dynamic-subset/Pretendard-ExtraLight.subset.83.woff",
       "sha256": "c7a59a76c4ec1bf3507ed9220c491d3ee4194abeea5ec9764d2bb526e6d77463",
       "bytes": 14240
+    },
+    {
+      "filename": "638ff05bfbeedd44.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152
     },
     {
       "filename": "6396d0dcb8fb4605.woff",
@@ -14548,6 +14632,12 @@
       "bytes": 12076
     },
     {
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576
+    },
+    {
       "filename": "70f54b600b36ebbb.woff2",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Medium.subset.82.woff2",
       "sha256": "ab900f81e3242a53ed41eb59893604343036a3365a6b2442c3c1a3fbcac05b84",
@@ -15742,6 +15832,12 @@
       "bytes": 18640
     },
     {
+      "filename": "7abb4519962ed77a.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR6SDktYw.woff2",
+      "sha256": "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+      "bytes": 10952
+    },
+    {
       "filename": "7ac66eb799d5d6dc.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/sunflower/v18/RWmPoKeF8fUjqIj7Vc-0-MDirOMQBm8AZSXxSxgIpkk0e8w0Fyad.32.woff2",
       "sha256": "f2d9df2c7ba4df95fe99bb1d1bc56d8ec2f3eabd1c7b7474e192e61d6eed3261",
@@ -16514,6 +16610,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gasoekone/v4/EJRTQgQ_UMUKvDgnlX80zr_XZSTxzqQylez08UjYeMCso9bURw.16.woff2",
       "sha256": "489b432db4feb3d038b33b865483867fc64acb011c707f420d3e4fc9ee876b2d",
       "bytes": 7100
+    },
+    {
+      "filename": "8114fa7804fe9ac5.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/parisienne/v14/E21i_d3kivvAkxhLEVZpQyhwDw.woff2",
+      "sha256": "cf3c285d1ec1ee935746c475ca71e20d9f1fc3b5d62166e2523acdd0737e239c",
+      "bytes": 22600
     },
     {
       "filename": "811573098c0e6737.woff2",
@@ -17426,6 +17528,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/bagelfatone/v2/hYkPPucsQOr5dy02WmQr5Zkd0BsOqP8SOt3xFR4E1Dx_grJqV0kMIQ.31.woff2",
       "sha256": "ce537de5f9e3230ad1cc3fef3eb4db54678aa0607dc0e656d07966f2071469d2",
       "bytes": 7048
+    },
+    {
+      "filename": "880f7bb202f435dd.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140
     },
     {
       "filename": "881bbf020e9c234e.woff2",
@@ -19150,6 +19258,12 @@
       "bytes": 16488
     },
     {
+      "filename": "9514cf6d61e9b22c.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3K9-C8QSw.woff2",
+      "sha256": "0d17b7880f389deeb6663a52fa4eadc6d9116bdda725f0aa1f3d404fbb7d3d59",
+      "bytes": 31356
+    },
+    {
       "filename": "9519b8daa41d70c7.woff",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff-dynamic-subset/Pretendard-Bold.subset.78.woff",
       "sha256": "3ff7c708e1e1e5252341fda195d35a2c9f53ed7ea7cfe572600f6fc0b77829e2",
@@ -19250,6 +19364,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/gowunbatang/v12/ijwSs5nhRMIjYsdSgcMa3wRhWdnoyO9eQVvLv7TGp0JLNitJCzbi.46.woff2",
       "sha256": "92eb01bbb6b12f3a7cf9d4b8be64a7f3f194eb31dcd9cc0f44d30b2c02e98289",
       "bytes": 20676
+    },
+    {
+      "filename": "9613d586ef3acf20.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404
     },
     {
       "filename": "961be495176dc807.woff2",
@@ -21184,6 +21304,12 @@
       "bytes": 12656
     },
     {
+      "filename": "a48f262dcea815c2.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3K8-C8QSw.woff2",
+      "sha256": "82cc85bd416dc825c05b4264a8a58e189e528fed8a05fbd471b5493e010d623b",
+      "bytes": 8680
+    },
+    {
       "filename": "a49c68d436b9019e.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/nanummyeongjo/v31/9Bty3DZF0dXLMZlywRbVRNhxy2pLVFAxzeau69lCAWDrAgLCcAPYKgRK4K8.53.woff2",
       "sha256": "110b8c7618a898391a32fbe120344ed3d7711e23474a58c9974b0b3962fcc8e3",
@@ -22858,6 +22984,12 @@
       "bytes": 22376
     },
     {
+      "filename": "b23708ecfbd3be88.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112
+    },
+    {
       "filename": "b23a83f20ace4792.woff2",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Light.subset.38.woff2",
       "sha256": "b14dbd35032cc7fbbc39cfac90267fedc193cc1ffa458736796d71e09089346f",
@@ -23378,6 +23510,12 @@
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff2-dynamic-subset/Pretendard-Medium.subset.20.woff2",
       "sha256": "9e1a6735cf7d06ffcb755eef18aa80247ac5498af0a87944943d9260d1f67ece",
       "bytes": 13236
+    },
+    {
+      "filename": "b58a5805e17f555e.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576
     },
     {
       "filename": "b59e4f2560cc2536.woff2",
@@ -26258,6 +26396,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/notoserifkr/v31/3Jn7SDn90Gmq2mr3blnHaTZXduUBwuF9Wxop-KlAZIoTrf6uFZh_9Q.87.woff2",
       "sha256": "9721ea2add6fe85321a603f2130c2332dfe14197293e43d447edd0f19b66c16c",
       "bytes": 62712
+    },
+    {
+      "filename": "ca7410285362337c.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140
     },
     {
       "filename": "ca806ae8aea05707.woff2",
@@ -30508,6 +30652,12 @@
       "bytes": 6028
     },
     {
+      "filename": "ea98c7d3947e8701.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/bebasneue/v16/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2",
+      "sha256": "16c95ce45a2922f52551d38d565d14c92cf257b8f219c89613407d81fdd21a39",
+      "bytes": 8928
+    },
+    {
       "filename": "ea9963a90857af65.woff",
       "sourceUrl": "https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/woff-dynamic-subset/Pretendard-SemiBold.subset.59.woff",
       "sha256": "140bab641fa5c8693060d58624e8326c507e49687c3a6f12c27172e73a5c1628",
@@ -30814,6 +30964,12 @@
       "bytes": 13488
     },
     {
+      "filename": "ed5505d5591e972b.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GRxSDktYw.woff2",
+      "sha256": "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+      "bytes": 26024
+    },
+    {
       "filename": "ed6d10f622cf550e.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/gothica1/v18/CSR44z5ZnPydRjlCCwlC6OAKTZFstupOfBjNSl5zPnvB_dOjwqCu.104.woff2",
       "sha256": "61eef1a54b9d9c484e4e3dd3e3098c2ba13b0b6509522fe0adb02c64b39ed43a",
@@ -31078,6 +31234,12 @@
       "bytes": 21404
     },
     {
+      "filename": "ef73a8c5497d3d8f.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2",
+      "sha256": "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+      "bytes": 44336
+    },
+    {
       "filename": "ef92de2e0329385b.woff2",
       "sourceUrl": "https://fonts.gstatic.com/s/yeonsung/v22/QldMNTpbohAGtsJvUn6xTDtMzKMFqIuVbfp5ryWEr_gQfipm.105.woff2",
       "sha256": "0cc679b5df56f288a18f679d6ba8dfcdc93f99ec8f8b6d30faf676a1a5c91968",
@@ -31160,6 +31322,12 @@
       "sourceUrl": "https://fonts.gstatic.com/s/ibmplexsanskr/v11/vEFN2-VJISZe3O_rc3ZVYh4aTwNOym6af7OEvsHaFtDGbzuTFhzdq3hW5qs5jg.32.woff2",
       "sha256": "d4fa6befeb3400b64b222f4cda4b6968b5466e883a25f12c3b19fd0884c36665",
       "bytes": 14332
+    },
+    {
+      "filename": "f043da41c28a588a.woff2",
+      "sourceUrl": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3Kz-C8.woff2",
+      "sha256": "d0fa07ff63dd60cbc0e2f58e29c802dca2a5ae0276c999f59c6111ab7bbaec3b",
+      "bytes": 18612
     },
     {
       "filename": "f0689ab774f339fc.woff2",
@@ -33132,6 +33300,56 @@
   ],
   "faces": [
     {
+      "family": "Anton",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "9514cf6d61e9b22c.woff2",
+      "sha256": "0d17b7880f389deeb6663a52fa4eadc6d9116bdda725f0aa1f3d404fbb7d3d59",
+      "bytes": 31356,
+      "sourceUrl": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3K9-C8QSw.woff2"
+    },
+    {
+      "family": "Anton",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "a48f262dcea815c2.woff2",
+      "sha256": "82cc85bd416dc825c05b4264a8a58e189e528fed8a05fbd471b5493e010d623b",
+      "bytes": 8680,
+      "sourceUrl": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3K8-C8QSw.woff2"
+    },
+    {
+      "family": "Anton",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "f043da41c28a588a.woff2",
+      "sha256": "d0fa07ff63dd60cbc0e2f58e29c802dca2a5ae0276c999f59c6111ab7bbaec3b",
+      "bytes": 18612,
+      "sourceUrl": "https://fonts.gstatic.com/s/anton/v27/1Ptgg87LROyAm3Kz-C8.woff2"
+    },
+    {
+      "family": "Archivo Black",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "2970073f58048fe5.woff2",
+      "sha256": "a69dfe4ff8ea7fd225bc3c1fe703866e9ec308024bbac1b27cd76cc63f5e3e54",
+      "bytes": 14332,
+      "sourceUrl": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYKF_i7y.woff2"
+    },
+    {
+      "family": "Archivo Black",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "45f5d465bd2ef4cd.woff2",
+      "sha256": "25f33e61cf995abd6be62931cf03bf427286259177b43618cc410ee0157cfd30",
+      "bytes": 18604,
+      "sourceUrl": "https://fonts.gstatic.com/s/archivoblack/v23/HTxqL289NzCGg4MzN6KJ7eW6CYyF_g.woff2"
+    },
+    {
       "family": "Bagel Fat One",
       "weight": "400",
       "style": "normal",
@@ -34050,6 +34268,26 @@
       "sha256": "ff453d51e1746d32f8452bb0a1776a3a9a8cbce3eb4dcd2d0f03623dd56afe10",
       "bytes": 8264,
       "sourceUrl": "https://fonts.gstatic.com/s/bagelfatone/v2/hYkPPucsQOr5dy02WmQr5Zkd0BsOqP8SOt3xFR4E1Dx_grJqV0kMIQ.54.woff2"
+    },
+    {
+      "family": "Bebas Neue",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "36ccc775c221e24d.woff2",
+      "sha256": "a7c90c89240c134f7fdd33d40c000ec90b79d675ea53e8cc5a6d423c073de412",
+      "bytes": 13768,
+      "sourceUrl": "https://fonts.gstatic.com/s/bebasneue/v16/JTUSjIg69CK48gW7PXoo9Wlhyw.woff2"
+    },
+    {
+      "family": "Bebas Neue",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ea98c7d3947e8701.woff2",
+      "sha256": "16c95ce45a2922f52551d38d565d14c92cf257b8f219c89613407d81fdd21a39",
+      "bytes": 8928,
+      "sourceUrl": "https://fonts.gstatic.com/s/bebasneue/v16/JTUSjIg69CK48gW7PXoo9Wdhyzbi.woff2"
     },
     {
       "family": "Black Han Sans",
@@ -40500,6 +40738,356 @@
       "sha256": "0f2d18c81b4e4d49565f84a3a0c1890e906d43bb1e3bd057b000381f563ba6dd",
       "bytes": 6172,
       "sourceUrl": "https://fonts.gstatic.com/s/eastseadokdo/v26/xfuo0Wn2V2_KanASqXSZp22m05_fcb3aRCxcL4dOVHJm4ii0w2TJ0q8.45.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+1F00-1FFF",
+      "filename": "2a9f71c0858254b1.woff2",
+      "sha256": "3cd432d0dc2b756e69eea4325fd40f3515a31753445238f7fb5d349588192511",
+      "bytes": 11484,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR5SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3c5ecd69627058c5.woff2",
+      "sha256": "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+      "bytes": 113928,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "4156c73755f5513e.woff2",
+      "sha256": "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+      "bytes": 33948,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR4SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF",
+      "filename": "52193417755c1731.woff2",
+      "sha256": "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+      "bytes": 19868,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR2SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "7abb4519962ed77a.woff2",
+      "sha256": "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+      "bytes": 10952,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR6SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "ed5505d5591e972b.woff2",
+      "sha256": "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+      "bytes": 26024,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GRxSDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "ef73a8c5497d3d8f.woff2",
+      "sha256": "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+      "bytes": 44336,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+1F00-1FFF",
+      "filename": "2a9f71c0858254b1.woff2",
+      "sha256": "3cd432d0dc2b756e69eea4325fd40f3515a31753445238f7fb5d349588192511",
+      "bytes": 11484,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR5SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3c5ecd69627058c5.woff2",
+      "sha256": "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+      "bytes": 113928,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "4156c73755f5513e.woff2",
+      "sha256": "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+      "bytes": 33948,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR4SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF",
+      "filename": "52193417755c1731.woff2",
+      "sha256": "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+      "bytes": 19868,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR2SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "7abb4519962ed77a.woff2",
+      "sha256": "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+      "bytes": 10952,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR6SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "ed5505d5591e972b.woff2",
+      "sha256": "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+      "bytes": 26024,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GRxSDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "ef73a8c5497d3d8f.woff2",
+      "sha256": "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+      "bytes": 44336,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+1F00-1FFF",
+      "filename": "2a9f71c0858254b1.woff2",
+      "sha256": "3cd432d0dc2b756e69eea4325fd40f3515a31753445238f7fb5d349588192511",
+      "bytes": 11484,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR5SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3c5ecd69627058c5.woff2",
+      "sha256": "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+      "bytes": 113928,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "4156c73755f5513e.woff2",
+      "sha256": "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+      "bytes": 33948,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR4SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF",
+      "filename": "52193417755c1731.woff2",
+      "sha256": "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+      "bytes": 19868,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR2SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "7abb4519962ed77a.woff2",
+      "sha256": "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+      "bytes": 10952,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR6SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "ed5505d5591e972b.woff2",
+      "sha256": "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+      "bytes": 26024,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GRxSDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "ef73a8c5497d3d8f.woff2",
+      "sha256": "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+      "bytes": 44336,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+1F00-1FFF",
+      "filename": "2a9f71c0858254b1.woff2",
+      "sha256": "3cd432d0dc2b756e69eea4325fd40f3515a31753445238f7fb5d349588192511",
+      "bytes": 11484,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR5SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3c5ecd69627058c5.woff2",
+      "sha256": "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+      "bytes": 113928,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "4156c73755f5513e.woff2",
+      "sha256": "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+      "bytes": 33948,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR4SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF",
+      "filename": "52193417755c1731.woff2",
+      "sha256": "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+      "bytes": 19868,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR2SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "7abb4519962ed77a.woff2",
+      "sha256": "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+      "bytes": 10952,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR6SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "ed5505d5591e972b.woff2",
+      "sha256": "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+      "bytes": 26024,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GRxSDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "ef73a8c5497d3d8f.woff2",
+      "sha256": "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+      "bytes": 44336,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+1F00-1FFF",
+      "filename": "2a9f71c0858254b1.woff2",
+      "sha256": "3cd432d0dc2b756e69eea4325fd40f3515a31753445238f7fb5d349588192511",
+      "bytes": 11484,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR5SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3c5ecd69627058c5.woff2",
+      "sha256": "f8d3fa06e20989a938972165406a1b731cdc7fe33ff2b0b6798c75aa63709901",
+      "bytes": 113928,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR7SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "4156c73755f5513e.woff2",
+      "sha256": "7738b6004721f3d23e4e284b1055120f0ac1fd96fd01e5786b58b3042998876c",
+      "bytes": 33948,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR4SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1, U+03A3-03FF",
+      "filename": "52193417755c1731.woff2",
+      "sha256": "f6475b2f7530f248b5d3a0237d97dc2e1987665153dcb888fbeea3b0f9019b56",
+      "bytes": 19868,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR2SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "7abb4519962ed77a.woff2",
+      "sha256": "af68d0b256558e0fecffabca6696d47c78902249db6bc7e1ac9964980a610a77",
+      "bytes": 10952,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR6SDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "ed5505d5591e972b.woff2",
+      "sha256": "197ed98b8524dd8664aefb5d5ef4ca515d2df1ef90d3f771e19cb0893b95cc2b",
+      "bytes": 26024,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GRxSDktYw.woff2"
+    },
+    {
+      "family": "EB Garamond",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "ef73a8c5497d3d8f.woff2",
+      "sha256": "88603384163d301aebd5bd769832a8bfe3c9004ec24178417b9817f0ad32c63b",
+      "bytes": 44336,
+      "sourceUrl": "https://fonts.gstatic.com/s/ebgaramond/v33/SlGUmQSNjdsmc35JDF1K5GR1SDk.woff2"
     },
     {
       "family": "Gaegu",
@@ -57280,6 +57868,276 @@
       "sha256": "858572c0f48b4ff1509cc7acc18f3fa0169dc3715a5bfcd257e1546a84758599",
       "bytes": 11108,
       "sourceUrl": "https://fonts.gstatic.com/s/ibmplexsanskr/v11/vEFN2-VJISZe3O_rc3ZVYh4aTwNOym6af7OEvsHaFtDGbzuTFhzdq3hW5qs5jg.53.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "100",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "100",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "100",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "1bb29fad8372f12c.woff2",
+      "sha256": "312ef2b80cefd8d6fd0e8553536862e7103f80be117a5aeba333dac68e4c0a6a",
+      "bytes": 17104,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73ord4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "880f7bb202f435dd.woff2",
+      "sha256": "732ac61fdb7b964d3edfe40fe4a96aba1d1e34c349aebf0353118f8bda4aabdb",
+      "bytes": 10140,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oDd4iYl.woff2"
+    },
+    {
+      "family": "Jost",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "b58a5805e17f555e.woff2",
+      "sha256": "7726a5cd6f3c0e876c028ea2a643d45f7aad4b0f164b70966c669f4a4668f4b9",
+      "bytes": 26576,
+      "sourceUrl": "https://fonts.gstatic.com/s/jost/v20/92zatBhPNqw73oTd4g.woff2"
     },
     {
       "family": "Jua",
@@ -86392,6 +87250,306 @@
       "sourceUrl": "https://fonts.gstatic.com/s/notoserifkr/v31/3Jn7SDn90Gmq2mr3blnHaTZXduUBwuF9Wxop-KlAZIoTrf6uFZh_9Q.42.woff2"
     },
     {
+      "family": "Oswald",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "4b9949f86af29aca.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "200",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "9613d586ef3acf20.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "4b9949f86af29aca.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "300",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "9613d586ef3acf20.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "4b9949f86af29aca.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "9613d586ef3acf20.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "4b9949f86af29aca.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "9613d586ef3acf20.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "4b9949f86af29aca.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "9613d586ef3acf20.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "2fbd02b31f31daf2.woff2",
+      "sha256": "9307b75d3508236a0bae4f29ee3d2ce9aee545120ec9ef29e2cd1187bf6b0e5b",
+      "bytes": 15688,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752HT8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "3afd3b5b9e990b69.woff2",
+      "sha256": "7989ccc7770f5aeffa67e088bcd3b294d42fae2f8b0eca3c3c51b953d1f735cc",
+      "bytes": 23952,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fz8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "4b9949f86af29aca.woff2",
+      "sha256": "bd73278ee0c50041b91b4c03d1229e35b501637f46b6409e7da2d3a758446ea5",
+      "bytes": 28488,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752GT8G.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "70f3c3fa1a679ff4.woff2",
+      "sha256": "ca8ab22d32ea765f3a8f7112b8bea5af717fa7f4b65fa3823ae4cf3d4a95189c",
+      "bytes": 7576,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752Fj8Ghe4.woff2"
+    },
+    {
+      "family": "Oswald",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F",
+      "filename": "9613d586ef3acf20.woff2",
+      "sha256": "ff62316167dc2f9cae9dea3707afcc4cf571b7f6744304ba45f2fbc40dd74179",
+      "bytes": 19404,
+      "sourceUrl": "https://fonts.gstatic.com/s/oswald/v57/TK3iWkUHHAIjg752FD8Ghe4.woff2"
+    },
+    {
       "family": "Paperozi",
       "weight": "400",
       "style": "normal",
@@ -86420,6 +87578,266 @@
       "sha256": "ec848b871330702aa83006e8b6223eb776632f13a8c87b07a4022843d8df6797",
       "bytes": 164128,
       "sourceUrl": "https://cdn.jsdelivr.net/gh/projectnoonnu/2408-3@1.0/Paperlogy-9Black.woff2"
+    },
+    {
+      "family": "Parisienne",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "08b3d7d4fc4c8450.woff2",
+      "sha256": "652fa5786f9ca3be5718cfeba62261ae745ef0ea5efdc264e2b727fafb3d2a11",
+      "bytes": 14232,
+      "sourceUrl": "https://fonts.gstatic.com/s/parisienne/v14/E21i_d3kivvAkxhLEVZpQyZwD9Ku.woff2"
+    },
+    {
+      "family": "Parisienne",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "8114fa7804fe9ac5.woff2",
+      "sha256": "cf3c285d1ec1ee935746c475ca71e20d9f1fc3b5d62166e2523acdd0737e239c",
+      "bytes": 22600,
+      "sourceUrl": "https://fonts.gstatic.com/s/parisienne/v14/E21i_d3kivvAkxhLEVZpQyhwDw.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "61a963590a1177a4.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "638ff05bfbeedd44.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "b23708ecfbd3be88.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "400",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ca7410285362337c.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "61a963590a1177a4.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "638ff05bfbeedd44.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "b23708ecfbd3be88.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "500",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ca7410285362337c.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "61a963590a1177a4.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "638ff05bfbeedd44.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "b23708ecfbd3be88.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "600",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ca7410285362337c.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "61a963590a1177a4.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "638ff05bfbeedd44.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "b23708ecfbd3be88.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "700",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ca7410285362337c.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "61a963590a1177a4.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "638ff05bfbeedd44.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "b23708ecfbd3be88.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "800",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ca7410285362337c.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+      "filename": "61a963590a1177a4.woff2",
+      "sha256": "e0c764a8e9e1cce92163c55bac4b2ad6cd4cf8c696ce2289ab5c41565e65b7e2",
+      "bytes": 38404,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTzYgA.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116",
+      "filename": "638ff05bfbeedd44.woff2",
+      "sha256": "c108681cba6a9820bff52f4a1a4a1d9edf356b347bd79b7c61e916028e8a8b54",
+      "bytes": 21152,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTjYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB",
+      "filename": "b23708ecfbd3be88.woff2",
+      "sha256": "ef6446229b59773e671021650ef3882cf35806dae723ce047de87c0a6633039a",
+      "bytes": 9112,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTPYgFE_.woff2"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "900",
+      "style": "normal",
+      "unicodeRange": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF",
+      "filename": "ca7410285362337c.woff2",
+      "sha256": "42898ad49a6b23f32b109243e1df596edf831015ed685f429e4dafbb181d599d",
+      "bytes": 21140,
+      "sourceUrl": "https://fonts.gstatic.com/s/playfairdisplay/v40/nuFiD-vYSZviVYUb_rj3ij__anPXDTLYgFE_.woff2"
     },
     {
       "family": "Presentation",
