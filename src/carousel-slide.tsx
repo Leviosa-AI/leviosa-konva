@@ -38,7 +38,11 @@ import {
   normalizeKonvaFontStyle,
 } from "./konva-render-helpers.js";
 import { iconToDataUri } from "./lucide-icons.js";
-import { resolveFontFamily, shouldUseEmojiFontForChar, textRequiresEmojiFont } from "./font-coverage.js";
+import {
+  resolveFontFamily,
+  shouldUseEmojiFontForChar,
+  textRequiresEmojiFont,
+} from "@leviosa-ai/canvas/fonts";
 import { buildSegmentedLines, splitGraphemes } from "./segmented-text.js";
 
 export type AnyBlock = Omit<Block, "type" | "content"> & { type: string; content: Record<string, any> };

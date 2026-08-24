@@ -13,7 +13,7 @@ import {
   TEXT_SHADOW_OPACITY,
   normalizeKonvaFontStyle,
 } from "./konva-render-helpers.js";
-import { resolveFontFamily } from "./font-coverage.js";
+import { resolveFontFamily } from "@leviosa-ai/canvas/fonts";
 import { isBrandLogoToken } from "./carousel-template-vars.js";
 
 export function sortBlocksByZ(blocks: Block[]): Block[] {

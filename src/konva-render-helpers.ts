@@ -1,4 +1,4 @@
-import { catalogFont } from "./font-catalog.js";
+import { catalogFont } from "@leviosa-ai/canvas/fonts";
 
 export const TEXT_SHADOW_BLUR = 5;
 export const TEXT_SHADOW_OPACITY = 0.65;

@@ -33,11 +33,9 @@ export * from "./carousel-template-vars.js";
 export * from "./konva-render-helpers.js";
 
 // font family resolution + coverage (names only; consumer supplies font bytes)
-export * from "./font-coverage.js";
+export * from "@leviosa-ai/canvas/fonts";
 
 // 폰트 목록 SSOT (fonts/catalog.json) — 피커/커버리지/굵기표가 전부 여기서 파생
-export * from "./font-catalog.js";
-
 // lucide icon → data-URI
 export * from "./lucide-icons.js";
 
@@ -47,8 +45,4 @@ export * from "./segmented-text.js";
 // image filter presets (editor preview == publish render)
 export * from "./image-presets.js";
 
-// Canonical font bundle lives in this package at ./fonts (woff2 bytes + font-manifest.json).
-// Consumers copy the bytes and generate CSS with scripts/gen-font-css.mjs (bin: leviosa-konva-fonts).
-// They MUST NOT fetch fonts from a CDN — that is what made the editor and renderer wrap text
-// differently (same wrap logic, different font bytes -> different measureText -> different lines).
 export const LEVIOSA_KONVA_VERSION = "0.8.0";

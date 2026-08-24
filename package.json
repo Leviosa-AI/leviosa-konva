@@ -1,7 +1,7 @@
 {
   "name": "@leviosa-ai/konva",
   "version": "0.8.0",
-  "description": "Shared carousel block→react-konva render core AND the canonical font bundle. Single source of truth for the editor (leviosa-frontend) and the headless renderer (leviosa-rendering-server) so the editor is pixel-identical to published output. Consumers MUST NOT resolve font URLs independently — they generate CSS via scripts/gen-font-css.mjs, serving either the bundled woff2 bytes (--mode=local) or the pinned CDN URLs the manifest froze (--mode=cdn).",
+  "description": "Shared carousel block→react-konva render core.",
   "type": "module",
   "license": "UNLICENSED",
   "repository": {
@@ -20,26 +20,19 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "bin": {
-    "leviosa-konva-fonts": "scripts/gen-font-css.mjs",
-    "leviosa-konva-check-fonts": "scripts/check-font-urls.mjs"
-  },
   "files": [
     "dist",
-    "src",
-    "fonts",
-    "scripts/gen-font-css.mjs",
-    "scripts/check-font-urls.mjs"
+    "src"
   ],
   "sideEffects": false,
   "scripts": {
     "build": "tsup",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "prepare": "tsup",
-    "fonts:freeze": "node scripts/freeze-fonts.mjs",
-    "fonts:gen": "node scripts/gen-font-css.mjs",
-    "fonts:check-urls": "node scripts/check-font-urls.mjs"
+    "prepare": "tsup"
+  },
+  "dependencies": {
+    "@leviosa-ai/canvas": "0.2.0"
   },
   "peerDependencies": {
     "konva": "^9.3.0 || ^10.0.0",
@@ -57,7 +50,6 @@
     "react-konva": "19.2.3",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3",
-    "vitest": "^2.1.9",
-    "woff2-encoder": "^2.0.0"
+    "vitest": "^2.1.9"
   }
 }
