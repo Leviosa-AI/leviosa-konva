@@ -1,54 +1,47 @@
 # leviosa-konva
 
-Shared **carousel block → react-konva render core**. The single source of truth for
-how a carousel slide is drawn, imported by both:
+Shared carousel-slide render core and canonical font bundle, published as `@leviosa-ai/konva`.
 
-- **leviosa-frontend** — the editor renders `<CarouselSlide>` and layers a selection/
-  transform/drag overlay (keyed on `block.id`) on top.
-- **leviosa-rendering-server** — the headless service renders `<CarouselSlide>` and
-  exports it to PNG.
+## Overview
+- **Service:** Leviosa platform (leviosa.ai.kr) carousel / card-news rendering.
+- **Role:** Single source of truth for how a carousel slide is drawn (block → react-konva mapping, text wrapping, crop math, image presets) and for the exact font bytes used to measure and draw text.
+- **Integration:** Imported by `leviosa-frontend` (carousel editor canvas) and `leviosa-rendering-server` (headless PNG renderer) so the editor matches the published image; `agency-fe` pins the same tarball. Not a runtime dependency of `@leviosa-ai/canvas` (see Related Repositories).
+- **Runtime:** TypeScript library built with tsup (ESM + `.d.ts`); peer dependencies `react`/`react-dom` 19.2, `react-konva` 19.2, `konva` ^9.3 or ^10. Ships `fonts/` (woff2 + `font-manifest.json`) and the `leviosa-konva-fonts` CLI.
+- **Deployment:** Per CI config, pushing a `v<version>` tag publishes to the **public npm registry** via npm Trusted Publishing (OIDC, no stored token); `ci.yml` runs typecheck/tests on PRs plus a weekly font-URL check.
 
-**Why this exists:** the editor and the published renderer used to be two independent
-react-konva implementations, so the editor canvas drifted from the published image
-(text color, font size, spacing slightly off). Unifying on one renderer makes the
-editor pixel-identical to the output by construction.
+## Documentation
+| Category | Document | Description |
+| --- | --- | --- |
+| Handbook | [AGENTS.md](AGENTS.md) | Agent quick reference: commands and release rule (bump `package.json` and `LEVIOSA_KONVA_VERSION` together). |
+| Architecture | [CLAUDE.md](CLAUDE.md) | Full rendering-SSOT contract: why fonts live here (postmortem), `local` vs `cdn` font modes, font catalog, regenerating the bundle. |
+| Reference | [src/carousel-types.ts](src/carousel-types.ts) | Data contract (`CarouselSlideRenderInput`, block types) shared by both consumers. |
+| Reference | [fonts/THIRD_PARTY_FONT_NOTICES.md](fonts/THIRD_PARTY_FONT_NOTICES.md) | Licenses for the bundled fonts. |
+| Reference | [.github/workflows/publish.yml](.github/workflows/publish.yml) | Tag-driven npm publish. |
 
-Stack contract (must match both consumers): React `19.2.x`, react-dom `19.2.x`,
-react-konva `19.2.x`, konva `9.3.x`. These are **peer dependencies** — consumers
-provide them.
+## Related Repositories
+- [leviosa-frontend](https://github.com/Leviosa-AI/leviosa-frontend) — consumer: the carousel editor renders `<CarouselSlide>` and layers the selection/transform overlay on top.
+- [leviosa-rendering-server](https://github.com/Leviosa-AI/leviosa-rendering-server) — consumer: renders `<CarouselSlide>` in Playwright/Chromium and exports PNGs; keeps the headless harness (font wait, PNG export) itself.
+- [agency-fe](https://github.com/Leviosa-AI/agency-fe) — pins the `0.8.0` npm tarball alongside the private `@leviosa-ai/canvas` packages.
+- [leviosa-canvas](https://github.com/Leviosa-AI/leviosa-canvas) — separate editor engine (`@leviosa-ai/canvas`, private GitHub Packages). It carries its own copy of this font-bundle tooling (same `leviosa-konva-fonts` bin name, its own manifest) and does not import this package at runtime.
+- [Service registry](https://github.com/Leviosa-AI/leviosa-standards/blob/main/services/README.md) — all Leviosa repos and how they connect
 
-## Status
+---
 
-Scaffold. The data contract (`src/carousel-types.ts`) is in place. The render core
-is being extracted from `leviosa-rendering-server` — see below.
+## Why this exists
 
-## Extraction plan (from leviosa-rendering-server/src)
+The editor and the published renderer used to be two independent react-konva implementations, so the
+editor canvas drifted from the published image (text color, size, spacing). Text wrapping is
+`canvas.measureText()` against the loaded font, so a rendered slide depends on two inputs that must be
+identical in both consumers: the render logic (`src/` → `dist/`) and the font bytes (`fonts/`). The
+render core was extracted from `leviosa-rendering-server/src`; the headless harness (`waitForFonts`,
+PNG export, ready orchestration) stays there.
 
-Pure render closure — ~1,030 LOC, browser-safe (no Node/FS deps, verified):
+## Fonts (consumer contract)
 
-| Source file (rendering-server) | Action | Notes |
-|---|---|---|
-| `carousel-types.ts` | ✅ moved | data contract / SSOT |
-| `carousel-content-to-konva.ts` | move | block.content → konva props |
-| `carousel-template-vars.ts` | move | `{{theme/asset}}` + `slide.number` resolution |
-| `konva-render-helpers.ts` | move | crop math, font-style normalize, emoji data-URI |
-| `font-coverage.ts` | move | family resolution (names only, no FS) |
-| `lucide-icons.ts` | move | icon → data-URI |
-| `carousel-renderer-entry.tsx` (component slice) | split | extract `<CarouselSlide>` + per-block components; the headless harness (`waitForFonts`, PNG export, `window.*` global, ready-orchestration) STAYS in rendering-server |
-
-`SUPPORTED_FONT_FAMILIES` + `FONT_WEIGHT_OPTIONS` are the SSOT here.
-
-### Fonts (consumer contract) — the manifest is the SSOT
-This package ships `fonts/font-manifest.json` — per file, the version-pinned URL it was
-frozen from and its sha256 — plus the woff2 bytes themselves at `fonts/fonts/`. This is
-deliberate: text wrapping is `canvas.measureText()` against the loaded font, so identical
-bytes are as load-bearing as identical wrap logic. When the two consumers each resolved their
-own unpinned CDN URLs at their own build times they got different bytes → different metrics
-→ different line counts.
-
-Consumers MUST NOT decide which font bytes to fetch. At build time they run
-`leviosa-konva-fonts` (`scripts/gen-font-css.mjs`, exposed as the package `bin`), which emits
-`@font-face` CSS from the manifest. Two delivery modes differ **only in the `src` URL**:
+`fonts/font-manifest.json` records, per file, the version-pinned URL it was frozen from and its sha256;
+the woff2 bytes ship in `fonts/fonts/`. Consumers must not resolve font URLs themselves. At build time
+they run `leviosa-konva-fonts` (`scripts/gen-font-css.mjs`), which emits `@font-face` CSS from the
+manifest. The two modes differ only in the `src` URL:
 
 ```bash
 # local (default) — copy the bytes, serve them yourself, zero network at render time
@@ -59,60 +52,48 @@ leviosa-konva-fonts --prefix=http://leviosa-renderer.local/fonts/ --out=dist   #
 leviosa-konva-fonts --mode=cdn --prefix=/render-fonts/fonts/ --out=public/render-fonts
 ```
 
-`cdn` only delegates a file whose upstream cannot be repointed at other bytes — gstatic
-release paths and npm versions. Anything behind a mutable third-party URL (for example, a
-`gh/<user>/<repo>@<tag>` that can be force-moved or a vendor URL without a versioned path)
-still ships as frozen bytes.
+`cdn` only delegates files whose upstream cannot be repointed (gstatic release paths, npm versions).
+`npm run fonts:check-urls` verifies every pinned URL is still live. See [CLAUDE.md](CLAUDE.md) for
+which mode belongs where and the `fonts:freeze` regeneration procedure.
 
-The renderer still inlines the generated CSS + route-fulfills the bytes + blocks on
-`document.fonts.ready`; the editor still loads the families before render then awaits
-`document.fonts.ready`. Both measure against the same bytes either way — the manifest pins
-them. `npm run fonts:check-urls` verifies every pinned URL is still live and unchanged.
-See `CLAUDE.md` for which mode belongs where, the full contract, and the regen procedure
-(`fonts:freeze`).
+Assets: the caller resolves `brand_config` + `asset_map` onto `CarouselSlideRenderInput`; the core only
+does `{{...}}` substitution. Fetching, proxying and caching bytes stays in the consumer.
 
-### Assets (consumer contract)
-The caller resolves `brand_config` + `asset_map` and puts them on
-`CarouselSlideRenderInput`; the core only does `{{...}}` substitution. Byte fetching /
-CDN proxying / caching stays in the consumer.
+## Model notes (carried over from the extraction; not re-verified)
 
-## Model gaps being fixed here
-- `MediaContent.image_preset` — editor wrote it but block.content had no field (lost on
-  save). Added; **TODO mirror in db-schema + frontend types.**
-- Numbering badges are identified by `block.name === "content_number"` (NOT
-  `content.role/source`). Detector must key on `name`.
-- segments lossless, rect `alpha`/transparency polarity, label `color`/`background`
-  swap, slide-field binding — reconcile during extraction.
+- `MediaContent.image_preset` was added here; mirroring it in the db schema and frontend types was an open TODO.
+- Numbering badges are identified by `block.name === "content_number"` (not `content.role/source`).
+- Segments losslessness, rect `alpha` polarity, label `color`/`background` swap, and slide-field binding were flagged for reconciliation during extraction.
 
-## Build
+## Build and test
 
 ```bash
 npm install
 npm run build      # tsup → dist/ (ESM + .d.ts)
 npm run typecheck
+npm test
 ```
 
 ## Publishing
 
-The public `@leviosa-ai/konva` package is published to npm with Trusted Publishing (OIDC),
-so GitHub stores no npm token. Configure npm once with organization `Leviosa-AI`, repository
-`leviosa-konva`, workflow filename `publish.yml`, no environment, and the `npm publish`
-permission. Then publish by pushing a version tag:
+Published to public npm with Trusted Publishing (OIDC): npm is configured for organization
+`Leviosa-AI`, repository `leviosa-konva`, workflow `publish.yml`. Bump `package.json` and
+`LEVIOSA_KONVA_VERSION` (`src/index.ts`) together, then push the tag; the workflow fails if the tag and
+`package.json` version differ.
 
 ```bash
-# bump package.json and LEVIOSA_KONVA_VERSION first, then:
 VERSION=$(node -p "require('./package.json').version")
 git tag "v$VERSION" && git push origin "v$VERSION"
 ```
 
 ## Consuming
 
-Both consumers depend on a pinned version from the public npm registry:
+Consumers pin an exact version from the public registry (current: `0.8.0`):
 
 ```json
-{
-  "dependencies": {
-    "@leviosa-ai/konva": "0.1.0"
-  }
-}
+{ "dependencies": { "@leviosa-ai/konva": "0.8.0" } }
 ```
+
+A consumer whose `.npmrc` maps the whole `@leviosa-ai` scope to GitHub Packages (for the private
+`@leviosa-ai/canvas` packages) cannot resolve this package by name; pin the npm tarball URL instead,
+as `agency-fe` does: `"@leviosa-ai/konva": "https://registry.npmjs.org/@leviosa-ai/konva/-/konva-0.8.0.tgz"`.
